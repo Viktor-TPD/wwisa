@@ -4,6 +4,7 @@ import Login from "./components/Login";
 import FileUpload from "./components/FileUpload";
 import EventList from "./components/EventList";
 import "./App.css";
+import AudioInitButton from "./components/AudioInitButton";
 
 function AppContent() {
   const { user, loading, logout } = useAuth();
@@ -43,6 +44,7 @@ function AppContent() {
 
   return (
     <div className="app">
+      <AudioInitButton />
       <header className="app-header">
         <h1>🎵 Wwisa</h1>
         <div className="user-info">

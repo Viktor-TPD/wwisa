@@ -24,6 +24,10 @@ class WwiseService {
       script.onload = async () => {
         try {
           this.module = await window.WwiseModule();
+
+          window.Module = this.module;
+          window.__wwiseService = this;
+
           console.log("✓ Wwise WASM module loaded");
           resolve(this.module);
         } catch (error) {
@@ -54,75 +58,87 @@ class WwiseService {
           this.module.FS.mkdir("/bnk");
           this.module.FS.mkdir("/wem");
           console.log("✓ Created directories");
-        } catch (e) {
-          console.log("Directories exist");
-        }
+        } catch (e) {}
       }
 
-      console.log("Initializing Wwise Sound Engine...");
+      console.log("Initializing Wwise...");
 
-      // Initialize Memory Manager with settings
-      try {
-        const memResult = this.module.MemoryMgr_Init();
-        console.log("  MemoryMgr result:", memResult);
-      } catch (e) {
-        console.error("MemoryMgr failed:", e);
+      // 1. Memory Manager
+      const memResult = this.module.MemoryMgr_Init();
+      console.log(
+        "  MemoryMgr:",
+        memResult.value === 1 ? "✓" : `✗ (${memResult.value})`
+      );
+
+      // 2. Stream Manager
+      const stmResult = this.module.StreamMgr_Create();
+      console.log("  StreamMgr:", stmResult === 1 ? "✓" : `✗ (${stmResult})`);
+
+      // 3. Music Engine
+      const musicResult = this.module.MusicEngine_Init();
+      console.log(
+        "  MusicEngine:",
+        musicResult.value === 1 ? "✓" : `✗ (${musicResult.value})`
+      );
+
+      // 4. Sound Engine
+      const seResult = this.module.SoundEngine_Init();
+      console.log(
+        "  SoundEngine:",
+        seResult.value === 1 ? "✅ SUCCESS!" : `✗ (${seResult.value})`
+      );
+
+      if (seResult.value !== 1) {
+        throw new Error(`SoundEngine_Init failed: ${seResult.value}`);
       }
 
-      // Initialize Music Engine with settings
-      try {
-        const musicResult = this.module.MusicEngine_Init();
-        console.log("  MusicEngine result:", musicResult);
-      } catch (e) {
-        console.error("MusicEngine failed:", e);
-      }
-
-      // Initialize Sound Engine with AkAudioSettings
-      try {
-        const seResult = this.module.SoundEngine_Init();
-        console.log("  SoundEngine_Init result:", seResult);
-
-        if (seResult && seResult.value === 1) {
-          console.log("✓ Sound Engine initialized successfully!");
-        } else if (seResult && seResult.value) {
-          console.warn(`  ⚠️ Init returned: ${seResult.value}`);
-        }
-      } catch (e) {
-        console.error("SoundEngine_Init error:", e);
-        throw e;
-      }
-
-      // Register game object
+      // 5. Register game object
       try {
         const gameObjIDBigInt = BigInt(this.gameObjectID);
-        const regResult = this.module.SoundEngine_RegisterGameObj(
-          gameObjIDBigInt,
-          "Player"
-        );
-        console.log("  RegisterGameObj result:", regResult);
-        console.log("✓ Game object registered");
+        this.module.SoundEngine_RegisterGameObj(gameObjIDBigInt, "Player");
+        console.log("  ✓ Game object registered");
       } catch (e) {
-        console.warn("RegisterGameObj failed:", e.message);
+        console.warn("  RegisterGameObj failed:", e.message);
       }
 
-      this.startAudioRendering();
+      // DON'T START RENDERING YET!
+      // this.startAudioRendering();
 
       this.initialized = true;
-      console.log("✅ Wwise fully initialized!");
+      console.log(
+        "🎵 WWISE INITIALIZED! (Audio rendering will start after user gesture)"
+      );
     } catch (error) {
-      console.error("❌ Initialization failed:", error);
+      console.error("❌ Init failed:", error);
       throw error;
     }
   }
 
   startAudioRendering() {
+    let frameCount = 0;
     this.renderInterval = setInterval(() => {
       try {
         if (this.module && this.module.SoundEngine_RenderAudio) {
-          this.module.SoundEngine_RenderAudio(false);
+          this.module.SoundEngine_RenderAudio();
+          frameCount++;
+
+          // NEW: Check if we're actually producing audio
+          if (frameCount % 60 === 0) {
+            console.log("🎵 Rendered", frameCount, "audio frames");
+
+            // Check the Wwise audio contexts
+            if (this.module.Wwise?.AudioContexts) {
+              console.log(
+                "  Audio contexts exist!",
+                Object.keys(this.module.Wwise.AudioContexts)
+              );
+            }
+          }
         }
-      } catch (e) {}
-    }, 16);
+      } catch (e) {
+        console.error("RenderAudio error:", e);
+      }
+    }, 10);
   }
 
   stopAudioRendering() {
