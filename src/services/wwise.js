@@ -8,7 +8,7 @@ class WwiseService {
     this.events = [];
     this.gameObjectID = 100;
     this.renderInterval = null;
-    this.basePath = "/wem"; // Base path for Wwise to look for audio files
+    this.basePath = "/wem";
   }
 
   async loadModule() {
@@ -19,27 +19,41 @@ class WwiseService {
       }
 
       const script = document.createElement("script");
-      script.src = "/wwise/wwise.profile.js";
+      script.src = "/wwise/IntegrationDemo.js";
       script.async = true;
 
-      script.onload = async () => {
-        try {
-          this.module = await window.WwiseModule();
+      script.onload = () => {
+        console.log("✓ Script loaded, waiting for module initialization...");
 
-          // CRITICAL: Call organizeNamespaces to properly structure the API
-          if (this.module.organizeNamespaces) {
-            this.module.organizeNamespaces();
-            console.log("✓ Organized Wwise API namespaces");
+        // IntegrationDemo.js doesn't use WwiseModule export
+        // Instead it sets up the module globally or via Module object
+        const checkModule = setInterval(() => {
+          // Check for Module object (Emscripten default)
+          if (window.Module && typeof window.Module === "object") {
+            clearInterval(checkModule);
+
+            this.module = window.Module;
+            console.log("✓ Found Emscripten Module object");
+
+            // Wait for WASM to be ready
+            if (this.module.calledRun) {
+              this.setupModule();
+              resolve(this.module);
+            } else {
+              this.module.onRuntimeInitialized = () => {
+                console.log("✓ WASM runtime initialized");
+                this.setupModule();
+                resolve(this.module);
+              };
+            }
           }
+        }, 100);
 
-          window.Module = this.module;
-          window.__wwiseService = this;
-
-          console.log("✓ Wwise WASM module loaded");
-          resolve(this.module);
-        } catch (error) {
-          reject(error);
-        }
+        // Timeout after 10 seconds
+        setTimeout(() => {
+          clearInterval(checkModule);
+          reject(new Error("Module initialization timeout"));
+        }, 10000);
       };
 
       script.onerror = () => {
@@ -48,6 +62,25 @@ class WwiseService {
 
       document.body.appendChild(script);
     });
+  }
+
+  setupModule() {
+    // The IntegrationDemo might already have namespaces organized
+    // Check if we need to call organizeNamespaces
+    if (
+      this.module.organizeNamespaces &&
+      typeof this.module.organizeNamespaces === "function"
+    ) {
+      this.module.organizeNamespaces();
+      console.log("✓ Organized Wwise API namespaces");
+    } else if (this.module.SoundEngine && this.module.MemoryMgr) {
+      console.log("✓ Namespaces already organized");
+    } else {
+      console.warn("⚠️ Wwise API structure unclear, attempting to continue...");
+    }
+
+    window.Module = this.module;
+    window.__wwiseService = this;
   }
 
   async initialize() {
@@ -66,222 +99,107 @@ class WwiseService {
           this.module.FS.mkdir("/wem");
           console.log("✓ Created /bnk and /wem directories");
         } catch (e) {
-          // Directories might already exist
+          console.log("ℹ️ Directories may already exist");
         }
       }
 
-      console.log("Initializing Wwise...");
+      console.log("Initializing Wwise subsystems...");
+
+      // Access the API - try both namespaced and flat approaches
+      const MemoryMgr = this.module.MemoryMgr || this.module;
+      const StreamMgr = this.module.StreamMgr || this.module;
+      const MusicEngine = this.module.MusicEngine || this.module;
+      const SoundEngine = this.module.SoundEngine || this.module;
 
       // 1. Memory Manager
-      const memResult = this.module.MemoryMgr.Init();
-      console.log(
-        "  MemoryMgr:",
-        memResult.value === 1 ? "✓" : `✗ (${memResult.value})`
-      );
-
-      // 2. Stream Manager - CRITICAL: Set base path for audio files
-      const stmResult = this.module.StreamMgr.Create();
-      const stmSuccess =
-        (typeof stmResult === "object" && stmResult.value === 1) ||
-        stmResult === 1;
-      console.log(
-        "  StreamMgr:",
-        stmSuccess ? "✓" : `✗ (${JSON.stringify(stmResult)})`
-      );
-
-      // CRITICAL: For embedded audio (Location="Memory"), set base path to empty
-      // This tells Wwise to look inside the .bnk files, not in external filesystem
-      if (this.module.StreamMgr.SetCurrentLanguage) {
-        try {
-          this.module.StreamMgr.SetCurrentLanguage("SFX");
-          console.log(`  ✓ Language set to: SFX`);
-        } catch (e) {
-          console.warn("  ⚠️ Failed to set language:", e);
-        }
+      const memInit = MemoryMgr.Init || MemoryMgr.MemoryMgr_Init;
+      if (memInit) {
+        const memResult = memInit.call(MemoryMgr);
+        console.log(
+          "  MemoryMgr:",
+          memResult?.value === 1 ? "✓" : `✗ (${memResult})`
+        );
       }
 
-      // Try setting base path to empty or current directory
-      if (this.module.StreamMgr.SetBasePath) {
-        try {
-          // Empty string tells Wwise to look in the .bnk files
-          this.module.StreamMgr.SetBasePath("");
-          console.log(`  ✓ Base path set to empty (embedded audio mode)`);
-        } catch (e) {
-          console.warn("  ⚠️ Failed to set base path:", e);
+      // 2. Stream Manager
+      const stmCreate = StreamMgr.Create || StreamMgr.StreamMgr_Create;
+      if (stmCreate) {
+        const stmResult = stmCreate.call(StreamMgr);
+        console.log(
+          "  StreamMgr:",
+          stmResult?.value === 1 || stmResult === 1 ? "✓" : `✗ (${stmResult})`
+        );
+
+        // Set language
+        const setLang =
+          StreamMgr.SetCurrentLanguage ||
+          StreamMgr.StreamMgr_SetCurrentLanguage;
+        if (setLang) {
+          try {
+            setLang.call(StreamMgr, "SFX");
+            console.log("  ✓ Language set to: SFX");
+          } catch (e) {
+            console.warn("  ⚠️ Failed to set language:", e);
+          }
+        }
+
+        // Set base path
+        const setBase =
+          StreamMgr.SetBasePath || StreamMgr.StreamMgr_SetBasePath;
+        if (setBase) {
+          try {
+            setBase.call(StreamMgr, "");
+            console.log("  ✓ Base path set (embedded audio mode)");
+          } catch (e) {
+            console.warn("  ⚠️ Failed to set base path:", e);
+          }
         }
       }
-
-      console.log(`  ℹ️ Audio should be embedded in .bnk files`);
 
       // 3. Music Engine
-      const musicResult = this.module.MusicEngine.Init();
-      console.log(
-        "  MusicEngine:",
-        musicResult.value === 1 ? "✓" : `✗ (${musicResult.value})`
-      );
+      const musicInit = MusicEngine.Init || MusicEngine.MusicEngine_Init;
+      if (musicInit) {
+        const musicResult = musicInit.call(MusicEngine);
+        console.log(
+          "  MusicEngine:",
+          musicResult?.value === 1 ? "✓" : `✗ (${musicResult})`
+        );
+      }
 
       // 4. Sound Engine
-      const seResult = this.module.SoundEngine.Init();
-      console.log(
-        "  SoundEngine:",
-        seResult.value === 1 ? "✅ SUCCESS!" : `✗ (${seResult.value})`
-      );
+      const seInit = SoundEngine.Init || SoundEngine.SoundEngine_Init;
+      if (seInit) {
+        const seResult = seInit.call(SoundEngine);
+        console.log(
+          "  SoundEngine:",
+          seResult?.value === 1 ? "✅" : `✗ (${seResult})`
+        );
 
-      if (seResult.value !== 1) {
-        throw new Error(`SoundEngine_Init failed: ${seResult.value}`);
+        if (seResult?.value !== 1 && seResult !== 1) {
+          throw new Error(`SoundEngine_Init failed: ${seResult}`);
+        }
       }
 
       // 5. Register game object
-      try {
-        const gameObjIDBigInt = BigInt(this.gameObjectID);
-        this.module.SoundEngine.RegisterGameObj(gameObjIDBigInt, "Player");
-        console.log("  ✓ Game object registered (ID: 100)");
-      } catch (e) {
-        console.warn("  RegisterGameObj failed:", e.message);
+      const regObj =
+        SoundEngine.RegisterGameObj || SoundEngine.SoundEngine_RegisterGameObj;
+      if (regObj) {
+        try {
+          const gameObjIDBigInt = BigInt(this.gameObjectID);
+          regObj.call(SoundEngine, gameObjIDBigInt, "Player");
+          console.log("  ✓ Game object registered (ID: 100)");
+        } catch (e) {
+          console.warn("  RegisterGameObj failed:", e.message);
+        }
       }
 
       this.initialized = true;
-      console.log(
-        "🎵 WWISE INITIALIZED! (Audio rendering will start after user gesture)"
-      );
+      console.log("🎵 WWISE INITIALIZED!");
 
-      // CRITICAL: Initialize the AudioWorklet after Wwise is ready
-      // Wait a bit for worklet to be created, then send init message
-      setTimeout(() => {
-        this.initializeAudioWorklet();
-      }, 500);
+      return true;
     } catch (error) {
-      console.error("❌ Init failed:", error);
+      console.error("Failed to initialize Wwise:", error);
       throw error;
-    }
-  }
-
-  initializeAudioWorklet() {
-    try {
-      // Get the first (and should be only) audio context
-      const contextIds = Object.keys(this.module.Wwise.AudioContexts);
-      if (contextIds.length === 0) {
-        console.warn("⚠️ No Wwise AudioContexts found yet");
-        return;
-      }
-
-      const ctxId = contextIds[0];
-      const ctx = this.module.Wwise.AudioContexts[ctxId];
-
-      if (!ctx.AudioWorkletNode) {
-        console.warn("⚠️ AudioWorkletNode not created yet, will retry...");
-        // Retry after another delay
-        setTimeout(() => this.initializeAudioWorklet(), 500);
-        return;
-      }
-
-      // Send initialization message to worklet
-      const opts = {
-        buffer: ctx.buffer,
-        state: ctx.state,
-        bufferlen: ctx.bufferLen,
-        numbuffers: ctx.numBuffers,
-        channelcount: ctx.channelCount,
-        fields: this.module.Wwise.Fields,
-      };
-
-      console.log("📤 Initializing AudioWorklet with options:", opts);
-      ctx.AudioWorkletNode.port.postMessage(opts);
-
-      // Set up error handler
-      ctx.AudioWorkletNode.onprocessorerror = (event) => {
-        console.error("❌ AudioWorklet processor error:", event);
-      };
-
-      console.log("✅ AudioWorklet initialized and ready!");
-    } catch (error) {
-      console.error("❌ Failed to initialize AudioWorklet:", error);
-    }
-  }
-
-  startAudioRendering() {
-    if (this.renderInterval) {
-      console.log("Audio rendering already started");
-      return;
-    }
-
-    let frameCount = 0;
-    this.renderInterval = setInterval(() => {
-      try {
-        if (
-          this.module &&
-          this.module.SoundEngine &&
-          this.module.SoundEngine.RenderAudio
-        ) {
-          this.module.SoundEngine.RenderAudio();
-          frameCount++;
-
-          // Log every 5 seconds (at ~100fps = 500 frames)
-          if (frameCount % 500 === 0) {
-            console.log(`🎵 Rendered ${frameCount} audio frames`);
-
-            // Check the Wwise audio contexts
-            if (this.module.Wwise?.AudioContexts) {
-              const contexts = Object.keys(this.module.Wwise.AudioContexts);
-              console.log(`  Active audio contexts: ${contexts.length}`);
-
-              // Check AudioContext state
-              contexts.forEach((id) => {
-                const ctx = this.module.Wwise.AudioContexts[id];
-                if (ctx.WebAudioContext) {
-                  console.log(
-                    `  Context ${id} state: ${ctx.WebAudioContext.state}`
-                  );
-                }
-              });
-            }
-          }
-        }
-      } catch (e) {
-        console.error("RenderAudio error:", e);
-      }
-    }, 10); // 10ms = ~100fps audio rendering
-
-    console.log("🎵 Audio rendering loop started!");
-  }
-
-  stopAudioRendering() {
-    if (this.renderInterval) {
-      clearInterval(this.renderInterval);
-      this.renderInterval = null;
-      console.log("⏹ Audio rendering stopped");
-    }
-  }
-
-  listFiles() {
-    if (!this.module || !this.module.FS) return;
-
-    console.log("=== Virtual Filesystem ===");
-    try {
-      const bnkFiles = this.module.FS.readdir("/bnk");
-      console.log(
-        "📁 /bnk:",
-        bnkFiles.filter((f) => f !== "." && f !== "..")
-      );
-
-      const wemFiles = this.module.FS.readdir("/wem");
-      console.log(
-        "📁 /wem:",
-        wemFiles.filter((f) => f !== "." && f !== "..")
-      );
-
-      // Check inside subdirectories
-      try {
-        const sfxFiles = this.module.FS.readdir("/wem/SFX");
-        console.log(
-          "📁 /wem/SFX:",
-          sfxFiles.filter((f) => f !== "." && f !== "..")
-        );
-      } catch (e) {
-        // SFX folder doesn't exist yet
-      }
-    } catch (e) {
-      console.error("Failed to list files:", e);
     }
   }
 
@@ -290,7 +208,6 @@ class WwiseService {
       throw new Error("Wwise not initialized");
     }
 
-    // Check if bank is already loaded
     if (this.soundBanks.has(filename)) {
       console.log(`  ℹ️ Bank "${filename}" already loaded, skipping`);
       return { success: true, filename, alreadyLoaded: true };
@@ -302,7 +219,6 @@ class WwiseService {
 
       console.log(`📁 Loading bank: ${filename}`);
 
-      // Check if file already exists in filesystem
       try {
         const exists = this.module.FS.analyzePath(path).exists;
         if (exists) {
@@ -310,106 +226,43 @@ class WwiseService {
           this.module.FS.unlink(path);
         }
       } catch (e) {
-        // File doesn't exist, which is fine
+        // File doesn't exist
       }
 
       this.module.FS.writeFile(path, uint8Array);
       console.log(`  ✓ Written to ${path} (${uint8Array.length} bytes)`);
 
-      // Verify file was written
-      const written = this.module.FS.readFile(path);
-      console.log(`  ✓ Verified: ${written.length} bytes in filesystem`);
+      // Load the bank - try both API styles
+      const SoundEngine = this.module.SoundEngine || this.module;
+      const loadBank = SoundEngine.LoadBank || SoundEngine.SoundEngine_LoadBank;
 
-      // Try loading the bank - use namespaced API (after organizeNamespaces)
       let result;
-      try {
-        if (this.module.SoundEngine && this.module.SoundEngine.LoadBank) {
-          result = this.module.SoundEngine.LoadBank(path);
-        } else {
-          // Fallback to flat API
-          result = this.module.SoundEngine_LoadBank(path);
-        }
+      if (loadBank) {
+        result = loadBank.call(SoundEngine, path);
         console.log(`  LoadBank result:`, result);
-        console.log(`  LoadBank result type:`, typeof result);
-        console.log(`  LoadBank result value:`, result?.value);
-      } catch (loadError) {
-        console.error(`  ❌ LoadBank threw error:`, loadError);
-        throw loadError;
+      } else {
+        throw new Error("LoadBank function not found");
       }
 
-      // Handle different return types
-      if (result === 1 || (result && result.value === 1)) {
+      const success = result === 1 || result?.value === 1;
+      if (success) {
         console.log(`  ✅ Bank loaded successfully!`);
         this.soundBanks.set(filename, path);
-
-        // After loading a bank, list files to verify
-        this.listFiles();
-
         return { success: true, filename };
       } else {
         const errorCodes = {
-          69: "AK_FileNotFound - Audio files referenced by bank not found",
-          50: "AK_InvalidFile - Invalid or corrupted bank file",
-          2: "AK_Fail - General failure",
-          52: "AK_InvalidParameter - Invalid parameter",
+          69: "AK_FileNotFound",
+          50: "AK_InvalidFile",
+          2: "AK_Fail",
+          52: "AK_InvalidParameter",
         };
-        const errorValue =
-          typeof result === "object" && result.value ? result.value : result;
+        const errorValue = typeof result === "object" ? result.value : result;
         const errorMsg =
-          errorCodes[errorValue] || `Unknown error code: ${errorValue}`;
-        console.error(`  ❌ LoadBank failed: ${errorMsg}`);
+          errorCodes[errorValue] || `Unknown error: ${errorValue}`;
         throw new Error(`LoadBank failed: ${errorMsg}`);
       }
-
-      this.soundBanks.set(filename, path);
-      return { success: true, filename };
     } catch (error) {
       console.error("Failed to load sound bank:", error);
-      throw error;
-    }
-  }
-
-  // DEPRECATED: .wem files are embedded in .bnk files
-  // This method is kept for backwards compatibility but should not be used
-  async loadWemFile(filename, fileData) {
-    console.warn(
-      "⚠️ loadWemFile is deprecated - .wem files are embedded in .bnk files"
-    );
-    console.warn(
-      "   If you're seeing this, remove the .wem upload functionality"
-    );
-
-    // Still implement it in case someone has old code calling it
-    if (!this.initialized) {
-      throw new Error("Wwise not initialized");
-    }
-
-    try {
-      const uint8Array = new Uint8Array(fileData);
-      const path = `/wem/${filename}`;
-
-      // Create subdirectories if needed
-      const parts = filename.split("/");
-      if (parts.length > 1) {
-        let currentPath = "/wem";
-        for (let i = 0; i < parts.length - 1; i++) {
-          currentPath += "/" + parts[i];
-          try {
-            this.module.FS.mkdir(currentPath);
-            console.log(`  ✓ Created: ${currentPath}`);
-          } catch (e) {
-            // Directory already exists
-          }
-        }
-      }
-
-      console.log(`📁 Loading .wem: ${filename}`);
-      this.module.FS.writeFile(path, uint8Array);
-      console.log(`  ✓ Written to ${path}`);
-
-      return { success: true, filename };
-    } catch (error) {
-      console.error("Failed to load .wem:", error);
       throw error;
     }
   }
@@ -434,14 +287,16 @@ class WwiseService {
     try {
       console.log(`▶ Posting event: "${eventName}"`);
 
-      // Show filesystem state before posting
-      this.listFiles();
+      const SoundEngine = this.module.SoundEngine || this.module;
+      const postEvent =
+        SoundEngine.PostEvent || SoundEngine.SoundEngine_PostEvent;
+
+      if (!postEvent) {
+        throw new Error("PostEvent function not found");
+      }
 
       const gameObjIDBigInt = BigInt(this.gameObjectID);
-      const playingID = this.module.SoundEngine.PostEvent(
-        eventName,
-        gameObjIDBigInt
-      );
+      const playingID = postEvent.call(SoundEngine, eventName, gameObjIDBigInt);
 
       console.log(`  Playing ID returned: ${playingID}`);
 
@@ -449,78 +304,18 @@ class WwiseService {
         console.log(`🔊 Event posted successfully! Playing ID: ${playingID}`);
         return { success: true, eventName, playingID };
       } else {
-        console.warn(`⚠️ Playing ID is 0 or negative`);
-        console.warn(`   This usually means:`);
-        console.warn(`   1. Event name not found in loaded banks`);
-        console.warn(`   2. Banks not loaded properly`);
-        console.warn(`   3. Audio files missing`);
-        return { success: false, eventName };
+        console.warn(`⚠️ Playing ID is 0 - event may not have triggered`);
+        return {
+          success: false,
+          eventName,
+          playingID,
+          error: "Event not triggered",
+        };
       }
     } catch (error) {
-      console.error("PostEvent error:", error);
+      console.error("Failed to post event:", error);
       throw error;
     }
-  }
-
-  stopAll() {
-    if (!this.initialized) return;
-
-    try {
-      const gameObjIDBigInt = BigInt(this.gameObjectID);
-      this.module.SoundEngine.StopAll(gameObjIDBigInt);
-      console.log("⏹ Stopped all audio");
-    } catch (error) {
-      console.error("Stop error:", error);
-    }
-  }
-
-  clearAll() {
-    this.stopAll();
-    this.soundBanks.clear();
-    this.events = [];
-
-    if (
-      this.module &&
-      this.module.SoundEngine &&
-      this.module.SoundEngine.ClearBanks
-    ) {
-      try {
-        this.module.SoundEngine.ClearBanks();
-        console.log("✓ Cleared all banks");
-      } catch (e) {
-        console.error("Error clearing banks:", e);
-      }
-    }
-  }
-
-  terminate() {
-    this.stopAudioRendering();
-
-    if (this.initialized && this.module) {
-      try {
-        const gameObjIDBigInt = BigInt(this.gameObjectID);
-        if (
-          this.module.SoundEngine &&
-          this.module.SoundEngine.UnregisterGameObj
-        ) {
-          this.module.SoundEngine.UnregisterGameObj(gameObjIDBigInt);
-        }
-        if (this.module.SoundEngine && this.module.SoundEngine.Term) {
-          this.module.SoundEngine.Term();
-        }
-        if (this.module.MusicEngine && this.module.MusicEngine.Term) {
-          this.module.MusicEngine.Term();
-        }
-        if (this.module.MemoryMgr && this.module.MemoryMgr.Term) {
-          this.module.MemoryMgr.Term();
-        }
-        console.log("✓ Wwise terminated");
-      } catch (e) {
-        console.error("Error during termination:", e);
-      }
-    }
-
-    this.initialized = false;
   }
 }
 
