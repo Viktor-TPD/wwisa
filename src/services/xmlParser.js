@@ -98,4 +98,5 @@ class XMLParser {
   }
 }
 
-export default new XMLParser();
+const xmlParser = new XMLParser();
+export default xmlParser;

@@ -14,6 +14,7 @@ function FileUpload({ onFilesLoaded }) {
 
   useEffect(() => {
     autoLoadExistingFiles();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const autoLoadExistingFiles = async () => {
