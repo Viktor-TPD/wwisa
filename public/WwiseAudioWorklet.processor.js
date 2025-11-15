@@ -4,12 +4,18 @@ class WwiseAudioWorkletProcessor extends AudioWorkletProcessor {
 
     this._initialized = false;
     this.port.onmessage = this._onmessage.bind(this);
+    console.log("🎵 WwiseAudioWorkletProcessor constructor called");
   }
 
   _onmessage(event) {
     const evtdata = event.data;
+    console.log("🔧 Worklet received init message:", evtdata);
+
     if (!this.validate(evtdata)) {
-      console.error("Invalid data sent to initialize WwiseWorkletProcessor!");
+      console.error(
+        "❌ Invalid data sent to initialize WwiseWorkletProcessor!"
+      );
+      console.error("  Data received:", evtdata);
       return;
     }
 
@@ -22,20 +28,43 @@ class WwiseAudioWorkletProcessor extends AudioWorkletProcessor {
     this._frameIndex = 0; // Read index within frame; buffer length is expected to be a multiple of 128.
 
     this._initialized = true;
+    console.log("✅ Worklet initialized successfully!");
+    console.log("  Buffer length:", this._bufferLength);
+    console.log("  Num buffers:", this._numBuffers);
+    console.log("  Channels:", this._channelCount);
   }
 
   validate(data) {
-    if (!data.buffer) return false;
-    if (!data.state) return false;
-    if (!data.bufferlen || data.bufferlen < 0) return false;
-    if (!data.numbuffers || data.numbuffers < 0) return false;
-    if (!data.channelcount || data.channelCount <= 0) return false;
+    if (!data.buffer) {
+      console.error("Validation failed: missing buffer");
+      return false;
+    }
+    if (!data.state) {
+      console.error("Validation failed: missing state");
+      return false;
+    }
+    if (!data.bufferlen || data.bufferlen < 0) {
+      console.error("Validation failed: invalid bufferlen", data.bufferlen);
+      return false;
+    }
+    if (!data.numbuffers || data.numbuffers < 0) {
+      console.error("Validation failed: invalid numbuffers", data.numbuffers);
+      return false;
+    }
+    if (!data.channelcount || data.channelcount <= 0) {
+      console.error(
+        "Validation failed: invalid channelcount",
+        data.channelcount
+      );
+      return false;
+    }
 
     return true;
   }
 
   process(inputs, outputs) {
     if (!this._initialized) {
+      // Silent until initialized
       return true;
     }
 
