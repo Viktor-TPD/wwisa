@@ -9,46 +9,45 @@
       name="description"
       content="Web site created using create-react-app"
     />
-   <script>
-// Intercept AudioContext creation and keep reference
-(function () {
-  const OriginalAudioContext =
-    window.AudioContext || window.webkitAudioContext;
+    <script>
+      // Intercept AudioContext creation and keep reference
+      (function () {
+        const OriginalAudioContext =
+          window.AudioContext || window.webkitAudioContext;
 
-  window.AudioContext = function (...args) {
-    const ctx = new OriginalAudioContext(...args);
-    console.log("🎵 AudioContext created! State:", ctx.state);
+        window.AudioContext = function (...args) {
+          const ctx = new OriginalAudioContext(...args);
+          console.log("🎵 AudioContext created! State:", ctx.state);
 
-    // Store Wwise's context
-    if (!window.WwiseAudioContext) {
-      window.WwiseAudioContext = ctx;
-      console.log("✓ Stored Wwise AudioContext");
-    }
+          // Store Wwise's context
+          if (!window.WwiseAudioContext) {
+            window.WwiseAudioContext = ctx;
+            console.log("✓ Stored Wwise AudioContext");
+          }
 
-    // PREVENT CLOSING!
-    const originalClose = ctx.close.bind(ctx);
-    ctx.close = function() {
-      console.warn("⚠️ Blocked AudioContext.close() - keeping it alive!");
-      return Promise.resolve(); // Pretend we closed it
-    };
+          // PREVENT CLOSING!
+          const originalClose = ctx.close.bind(ctx);
+          ctx.close = function () {
+            console.warn("⚠️ Blocked AudioContext.close() - keeping it alive!");
+            return Promise.resolve(); // Pretend we closed it
+          };
 
-    // Auto-resume if suspended
-    const checkAndResume = () => {
-      if (ctx.state === "suspended") {
-        console.log("⚠️ AudioContext suspended, resuming...");
-        ctx.resume().then(() => {
-          console.log("✓ AudioContext resumed! State:", ctx.state);
-        });
-      }
-    };
+          // Auto-resume if suspended
+          const checkAndResume = () => {
+            if (ctx.state === "suspended") {
+              console.log("⚠️ AudioContext suspended, resuming...");
+              ctx.resume().then(() => {
+                console.log("✓ AudioContext resumed! State:", ctx.state);
+              });
+            }
+          };
 
-    // Check periodically
-    setInterval(checkAndResume, 100);
+          // Check periodically
+          setInterval(checkAndResume, 100);
 
-    return ctx;
-  };
-})();
-</script> 
+          return ctx;
+        };
+      })();
     </script>
     <link rel="apple-touch-icon" href="/logo192.png" />
 

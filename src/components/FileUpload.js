@@ -40,6 +40,8 @@ function FileUpload({ onFilesLoaded }) {
         // Initialize Wwise
         if (!wwiseService.initialized) {
           await wwiseService.initialize();
+          wwiseService.startAudioRendering();
+          console.log("🎵 Started audio rendering loop");
         }
 
         // Load banks
@@ -76,6 +78,8 @@ function FileUpload({ onFilesLoaded }) {
 
     if (!wwiseService.initialized) {
       await wwiseService.initialize();
+      wwiseService.startAudioRendering();
+      console.log("🎵 Started audio rendering loop");
     }
 
     if (fileMetadata.fileType === ".bnk") {
@@ -121,6 +125,8 @@ function FileUpload({ onFilesLoaded }) {
       // Initialize Wwise if needed
       if (!wwiseService.initialized) {
         await wwiseService.initialize();
+        wwiseService.startAudioRendering();
+        console.log("🎵 Started audio rendering loop");
       }
 
       // Load files

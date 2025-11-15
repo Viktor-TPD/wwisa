@@ -159,14 +159,31 @@ class WwiseService {
       return;
     }
 
-    // Start the render loop
-    this.renderInterval = setInterval(() => {
-      if (this.module && this.module.SoundEngine) {
+    // Define the render loop function
+    const renderLoop = () => {
+      if (this.module && this.module.SoundEngine && this.module.StreamMgr) {
+        // CRITICAL: Call PerformIO BEFORE RenderAudio
+        this.module.StreamMgr.PerformIO();
+
+        // Then render audio
         this.module.SoundEngine.RenderAudio();
       }
-    }, 16); // ~60fps
 
-    console.log("✓ Audio rendering started");
+      // Schedule next frame
+      this.renderInterval = requestAnimationFrame(renderLoop);
+    };
+
+    // Start the loop
+    this.renderInterval = requestAnimationFrame(renderLoop);
+    console.log("✓ Audio rendering started with requestAnimationFrame");
+  }
+
+  stopAudioRendering() {
+    if (this.renderInterval) {
+      cancelAnimationFrame(this.renderInterval);
+      this.renderInterval = null;
+      console.log("✓ Audio rendering stopped");
+    }
   }
 
   stopAll() {

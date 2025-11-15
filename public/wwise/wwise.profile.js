@@ -7849,7 +7849,7 @@ unexportedRuntimeFunction('funcWrappers', false);
 unexportedRuntimeFunction('getFuncWrapper', false);
 unexportedRuntimeFunction('setMainLoop', false);
 unexportedRuntimeFunction('wget', false);
-unexportedRuntimeFunction('FS', false);
+Module["FS"] = FS;
 unexportedRuntimeFunction('MEMFS', false);
 unexportedRuntimeFunction('TTY', false);
 unexportedRuntimeFunction('PIPEFS', false);
