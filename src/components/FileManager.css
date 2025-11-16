@@ -1,0 +1,196 @@
+/* FileManager Component Styles */
+
+.file-manager-card {
+  animation-delay: 0.1s;
+}
+
+.no-files-message {
+  padding: var(--spacing-xl);
+  text-align: center;
+  border: var(--border-width) dashed var(--border-color);
+  background: var(--bg-primary);
+  border-radius: var(--border-radius);
+}
+
+/* File Selector Grid */
+.file-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.file-selector {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.file-selector-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.label-text {
+  font-weight: 600;
+}
+
+.file-count {
+  background: var(--bg-primary);
+  padding: 2px var(--spacing-sm);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 10px;
+  color: var(--accent-green);
+}
+
+/* Selector Row (Dropdown + Delete) */
+.selector-row {
+  display: flex;
+  gap: var(--spacing-xs);
+  align-items: stretch;
+}
+
+.file-dropdown {
+  flex: 1;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--bg-primary);
+  border: var(--border-width) solid var(--border-color);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 12px;
+  transition: all var(--transition-normal);
+  cursor: pointer;
+}
+
+.file-dropdown:hover:not(:disabled) {
+  border-color: var(--accent-green);
+}
+
+.file-dropdown:focus {
+  outline: none;
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 1px var(--accent-green-dim);
+}
+
+.file-dropdown:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.file-dropdown option {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Delete File Button */
+.delete-file-button {
+  width: 32px;
+  padding: 0;
+  background: var(--bg-primary);
+  border: var(--border-width) solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-file-button:hover {
+  background: var(--accent-red);
+  border-color: var(--accent-red);
+  color: var(--bg-primary);
+  transform: rotate(90deg);
+}
+
+/* File Actions */
+.file-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: var(--border-width) solid var(--border-color);
+}
+
+.load-button {
+  flex: 1;
+  padding: var(--spacing-md);
+  font-size: 12px;
+}
+
+.nuclear-button {
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.nuclear-button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: var(--accent-red-dim);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease;
+}
+
+.nuclear-button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.nuclear-button:hover {
+  animation: pulse 0.5s ease infinite;
+}
+
+/* Status Message */
+.status-message {
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin-top: var(--spacing-md);
+  border: var(--border-width) solid var(--border-color);
+  font-size: 12px;
+  text-align: center;
+  animation: slideUp 0.3s ease;
+}
+
+.status-message.success {
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+  background: var(--accent-green-dim);
+}
+
+.status-message.error {
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+  background: var(--accent-red-dim);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .file-selector-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .file-actions {
+    flex-direction: column;
+  }
+
+  .nuclear-button {
+    order: 2;
+  }
+
+  .load-button {
+    order: 1;
+  }
+}

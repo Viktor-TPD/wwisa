@@ -1,14 +1,23 @@
-/* global BigInt */
-
 import React, { useState } from "react";
 import wwiseService from "../services/wwise";
 import "./ActionSlot.css";
 
-function ActionSlot({ id, onRemove, availableEvents, availableRTPCs }) {
-  const [actionType, setActionType] = useState(null); // null, 'event', 'rtpc'
-  const [selectedItem, setSelectedItem] = useState(null);
+function ActionSlot({
+  id,
+  onRemove,
+  availableEvents,
+  availableRTPCs,
+  availableSwitches,
+  availableStates,
+  initialType = null,
+  initialItem = null,
+}) {
+  const [actionType, setActionType] = useState(initialType); // null, 'event', 'rtpc', 'switch', 'state'
+  const [selectedItem, setSelectedItem] = useState(initialItem);
   const [rtpcValue, setRtpcValue] = useState(50);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [selectedSwitchValue, setSelectedSwitchValue] = useState(null);
+  const [selectedStateValue, setSelectedStateValue] = useState(null);
 
   const handleTypeSelect = (type) => {
     setActionType(type);
@@ -43,6 +52,38 @@ function ActionSlot({ id, onRemove, availableEvents, availableRTPCs }) {
     }
   };
 
+  const handleSwitchChange = (switchValue) => {
+    setSelectedSwitchValue(switchValue);
+    if (!selectedItem) return;
+
+    try {
+      const gameObjID = BigInt(wwiseService.gameObjectID);
+      wwiseService.module.SoundEngine.SetSwitch(
+        selectedItem.name, // Switch group name
+        switchValue.name, // Switch value name
+        gameObjID
+      );
+      console.log(`🔀 Switch set: ${selectedItem.name} → ${switchValue.name}`);
+    } catch (error) {
+      console.error("Failed to set switch:", error);
+    }
+  };
+
+  const handleStateChange = (stateValue) => {
+    setSelectedStateValue(stateValue);
+    if (!selectedItem) return;
+
+    try {
+      wwiseService.module.SoundEngine.SetState(
+        selectedItem.name, // State group name
+        stateValue.name // State value name
+      );
+      console.log(`◉ State set: ${selectedItem.name} → ${stateValue.name}`);
+    } catch (error) {
+      console.error("Failed to set state:", error);
+    }
+  };
+
   const handleRemove = () => {
     setActionType(null);
     setSelectedItem(null);
@@ -70,6 +111,22 @@ function ActionSlot({ id, onRemove, availableEvents, availableRTPCs }) {
             <span className="type-icon">⚙</span>
             <span>RTPC</span>
           </button>
+          <button
+            onClick={() => handleTypeSelect("switch")}
+            className="type-button"
+            disabled={!availableSwitches || availableSwitches.length === 0}
+          >
+            <span className="type-icon">⇄</span>
+            <span>SWITCH</span>
+          </button>
+          <button
+            onClick={() => handleTypeSelect("state")}
+            className="type-button"
+            disabled={!availableStates || availableStates.length === 0}
+          >
+            <span className="type-icon">◉</span>
+            <span>STATE</span>
+          </button>
         </div>
       </div>
     );
@@ -77,7 +134,11 @@ function ActionSlot({ id, onRemove, availableEvents, availableRTPCs }) {
 
   // Type selected but no item - show item selector
   if (actionType && !selectedItem) {
-    const items = actionType === "event" ? availableEvents : availableRTPCs;
+    let items = [];
+    if (actionType === "event") items = availableEvents;
+    else if (actionType === "rtpc") items = availableRTPCs;
+    else if (actionType === "switch") items = availableSwitches;
+    else if (actionType === "state") items = availableStates;
 
     return (
       <div className="action-slot selecting">
@@ -91,8 +152,16 @@ function ActionSlot({ id, onRemove, availableEvents, availableRTPCs }) {
           onChange={(e) => {
             const item = items.find((i) => i.name === e.target.value);
             setSelectedItem(item);
+            // Initialize switch/state with first value
+            if (actionType === "switch" && item?.values?.[0]) {
+              setSelectedSwitchValue(item.values[0]);
+            }
+            if (actionType === "state" && item?.values?.[0]) {
+              setSelectedStateValue(item.values[0]);
+            }
           }}
           className="item-selector"
+          value={selectedItem?.name || ""}
         >
           <option value="">Choose...</option>
           {items.map((item) => (
@@ -147,6 +216,64 @@ function ActionSlot({ id, onRemove, availableEvents, availableRTPCs }) {
               className="rtpc-slider"
             />
             <div className="rtpc-value">{rtpcValue.toFixed(1)}</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (actionType === "switch") {
+    return (
+      <div className="action-slot switch">
+        <div className="action-slot-header">
+          <span className="action-type-badge">SWITCH</span>
+          <button onClick={handleRemove} className="close-button">
+            ×
+          </button>
+        </div>
+        <div className="action-content">
+          <div className="action-name">{selectedItem.name}</div>
+          <div className="switch-control">
+            {selectedItem.values?.map((value) => (
+              <button
+                key={value.name}
+                onClick={() => handleSwitchChange(value)}
+                className={`switch-button ${
+                  selectedSwitchValue?.name === value.name ? "active" : ""
+                }`}
+              >
+                {value.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (actionType === "state") {
+    return (
+      <div className="action-slot state">
+        <div className="action-slot-header">
+          <span className="action-type-badge">STATE</span>
+          <button onClick={handleRemove} className="close-button">
+            ×
+          </button>
+        </div>
+        <div className="action-content">
+          <div className="action-name">{selectedItem.name}</div>
+          <div className="state-control">
+            {selectedItem.values?.map((value) => (
+              <button
+                key={value.name}
+                onClick={() => handleStateChange(value)}
+                className={`state-button ${
+                  selectedStateValue?.name === value.name ? "active" : ""
+                }`}
+              >
+                {value.name}
+              </button>
+            ))}
           </div>
         </div>
       </div>

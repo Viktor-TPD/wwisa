@@ -14,6 +14,7 @@
   border-color: var(--accent-green);
 }
 
+/* Empty Slot */
 .action-slot.empty {
   background: var(--bg-primary);
   border-style: dashed;
@@ -22,7 +23,8 @@
 }
 
 .action-type-selector {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: var(--spacing-sm);
   width: 100%;
 }
@@ -53,6 +55,7 @@
   transform: scale(1.1);
 }
 
+/* Slot Header */
 .action-slot-header {
   display: flex;
   justify-content: space-between;
@@ -86,6 +89,7 @@
   transform: rotate(90deg);
 }
 
+/* Item Selector */
 .item-selector {
   width: 100%;
   padding: var(--spacing-sm);
@@ -101,6 +105,7 @@
   border-color: var(--accent-green);
 }
 
+/* Action Content */
 .action-content {
   flex: 1;
   display: flex;
@@ -117,6 +122,7 @@
   white-space: nowrap;
 }
 
+/* Event Action */
 .action-slot.event.playing {
   border-color: var(--accent-green);
   background: var(--accent-green-dim);
@@ -140,6 +146,7 @@
   color: var(--bg-primary);
 }
 
+/* RTPC Action */
 .rtpc-control {
   display: flex;
   flex-direction: column;
@@ -195,6 +202,67 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Switch Action */
+.switch-control {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.switch-button {
+  width: 100%;
+  padding: var(--spacing-sm);
+  background: var(--bg-primary);
+  border: var(--border-width) solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 11px;
+  text-align: left;
+  transition: all var(--transition-fast);
+}
+
+.switch-button:hover {
+  border-color: var(--accent-green);
+  background: var(--accent-green-dim);
+}
+
+.switch-button.active {
+  background: var(--accent-green);
+  border-color: var(--accent-green);
+  color: var(--bg-primary);
+  font-weight: 600;
+}
+
+/* State Action */
+.state-control {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.state-button {
+  width: 100%;
+  padding: var(--spacing-sm);
+  background: var(--bg-primary);
+  border: var(--border-width) solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 11px;
+  text-align: left;
+  transition: all var(--transition-fast);
+}
+
+.state-button:hover {
+  border-color: var(--accent-green);
+  background: var(--accent-green-dim);
+}
+
+.state-button.active {
+  background: var(--accent-green);
+  border-color: var(--accent-green);
+  color: var(--bg-primary);
+  font-weight: 600;
+}
+
+/* Animations */
 @keyframes eventPulse {
   0%,
   100% {

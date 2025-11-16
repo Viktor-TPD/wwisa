@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "./context/AuthContext";
 import Login from "./components/Login";
+import FileManager from "./components/FileManager";
 import FileUpload from "./components/FileUpload";
 import ActionSlot from "./components/ActionSlot";
 import WaveformVisualizer from "./components/WaveformVisualizer";
@@ -15,9 +16,15 @@ function App() {
   const [loadedFiles, setLoadedFiles] = useState(null);
   const [actionSlots, setActionSlots] = useState([]);
   const [nextSlotId, setNextSlotId] = useState(1);
+  const [fileManagerKey, setFileManagerKey] = useState(0); // For forcing FileManager refresh
 
   const handleFilesLoaded = (filesData) => {
     setLoadedFiles(filesData);
+  };
+
+  const handleUploadComplete = () => {
+    // Refresh FileManager by changing key
+    setFileManagerKey((prev) => prev + 1);
   };
 
   const handleLogout = async () => {
@@ -53,15 +60,59 @@ function App() {
   };
 
   const handleAutoPopulate = () => {
-    if (!loadedFiles || !loadedFiles.events) return;
+    if (!loadedFiles) return;
 
-    // Create slots for all events
-    const newSlots = loadedFiles.events.map((event, index) => ({
-      id: nextSlotId + index,
-    }));
+    const newSlots = [];
+    let currentId = nextSlotId;
+
+    // Add all events
+    if (loadedFiles.events && loadedFiles.events.length > 0) {
+      loadedFiles.events.forEach((event) => {
+        newSlots.push({
+          id: currentId++,
+          type: "event",
+          item: event,
+        });
+      });
+    }
+
+    // Add all RTPCs
+    if (loadedFiles.rtpcs && loadedFiles.rtpcs.length > 0) {
+      loadedFiles.rtpcs.forEach((rtpc) => {
+        newSlots.push({
+          id: currentId++,
+          type: "rtpc",
+          item: rtpc,
+        });
+      });
+    }
+
+    // Add all Switches
+    if (loadedFiles.switches && loadedFiles.switches.length > 0) {
+      loadedFiles.switches.forEach((switchItem) => {
+        newSlots.push({
+          id: currentId++,
+          type: "switch",
+          item: switchItem,
+        });
+      });
+    }
+
+    // Add all States
+    if (loadedFiles.states && loadedFiles.states.length > 0) {
+      loadedFiles.states.forEach((state) => {
+        newSlots.push({
+          id: currentId++,
+          type: "state",
+          item: state,
+        });
+      });
+    }
 
     setActionSlots(newSlots);
-    setNextSlotId(nextSlotId + newSlots.length);
+    setNextSlotId(currentId);
+
+    console.log(`✓ Auto-populated ${newSlots.length} actions`);
   };
 
   // Show loading spinner while checking auth
@@ -106,7 +157,8 @@ function App() {
       <div className="grid grid-2">
         <div>
           <AudioInitButton />
-          <FileUpload onFilesLoaded={handleFilesLoaded} />
+          <FileManager key={fileManagerKey} onFilesLoaded={handleFilesLoaded} />
+          <FileUpload onUploadComplete={handleUploadComplete} />
         </div>
 
         <div>{loadedFiles && <WaveformVisualizer />}</div>
@@ -125,7 +177,10 @@ function App() {
                   onClick={handleAutoPopulate}
                   className="auto-populate-button"
                   disabled={
-                    !loadedFiles.events || loadedFiles.events.length === 0
+                    !loadedFiles.events?.length &&
+                    !loadedFiles.rtpcs?.length &&
+                    !loadedFiles.switches?.length &&
+                    !loadedFiles.states?.length
                   }
                 >
                   AUTO-POPULATE
@@ -148,6 +203,10 @@ function App() {
                     onRemove={handleRemoveSlot}
                     availableEvents={loadedFiles.events || []}
                     availableRTPCs={loadedFiles.rtpcs || []}
+                    availableSwitches={loadedFiles.switches || []}
+                    availableStates={loadedFiles.states || []}
+                    initialType={slot.type || null}
+                    initialItem={slot.item || null}
                   />
                 ))
               )}
