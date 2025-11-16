@@ -134,6 +134,21 @@ class WwiseService {
         const gameObjIDBigInt = BigInt(this.gameObjectID);
         this.module.SoundEngine.RegisterGameObj(gameObjIDBigInt, "Player");
         console.log("  ✓ Game object registered (ID: 100)");
+
+        const listenerArray = new BigUint64Array([gameObjIDBigInt]);
+        this.module.SoundEngine.SetDefaultListeners(listenerArray, 1);
+        console.log("  ✓ Set as default listener");
+
+        const position = {
+          Position: { X: 0, Y: 0, Z: 0 },
+          Orientation: {
+            OrientationFront: { X: 0, Y: 1, Z: 0 },
+            OrientationTop: { X: 0, Y: 0, Z: 1 },
+          },
+        };
+
+        this.module.SoundEngine.SetPosition(gameObjIDBigInt, position);
+        console.log("  ✓ Set game object position at origin");
       } catch (e) {
         console.warn("  RegisterGameObj failed:", e.message);
       }
@@ -161,11 +176,17 @@ class WwiseService {
 
     // Define the render loop function
     const renderLoop = () => {
-      if (this.module && this.module.SoundEngine && this.module.StreamMgr) {
-        // CRITICAL: Call PerformIO BEFORE RenderAudio
-        this.module.StreamMgr.PerformIO();
+      if (this.module && this.module.SoundEngine) {
+        // OPTIONAL: Call PerformIO if it exists (for streaming audio)
+        // For embedded audio (Location="Memory"), this isn't needed
+        if (
+          this.module.StreamMgr &&
+          typeof this.module.StreamMgr.PerformIO === "function"
+        ) {
+          this.module.StreamMgr.PerformIO();
+        }
 
-        // Then render audio
+        // Always render audio
         this.module.SoundEngine.RenderAudio();
       }
 
@@ -296,35 +317,23 @@ class WwiseService {
 
   postEvent(eventName) {
     if (!this.initialized) {
-      throw new Error("Wwise not initialized");
+      console.error("Cannot post event - Wwise not initialized");
+      return;
     }
 
     try {
-      console.log(`▶ Posting event: "${eventName}"`);
+      const gameObjID = BigInt(this.gameObjectID);
 
-      // Show filesystem state before posting
+      console.log(`▶ Posting event: "${eventName}"`);
       this.listFiles();
 
-      const gameObjIDBigInt = BigInt(this.gameObjectID);
-      const playingID = this.module.SoundEngine.PostEvent(
-        eventName,
-        gameObjIDBigInt
-      );
+      // PostEvent accepts the string name directly
+      const playingID = this.module.SoundEngine.PostEvent(eventName, gameObjID);
 
-      console.log(`  Playing ID returned: ${playingID}`);
+      console.log("  Playing ID returned:", playingID);
+      console.log("🔊 Event posted successfully! Playing ID:", playingID);
 
-      if (playingID > 0) {
-        console.log(`🔊 Event posted successfully! Playing ID: ${playingID}`);
-        return { success: true, eventName, playingID };
-      } else {
-        console.warn(`⚠️ Playing ID is 0 - event may not have triggered`);
-        return {
-          success: false,
-          eventName,
-          playingID,
-          error: "Event not triggered",
-        };
-      }
+      return playingID;
     } catch (error) {
       console.error("Failed to post event:", error);
       throw error;

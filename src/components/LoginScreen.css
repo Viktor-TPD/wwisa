@@ -1,0 +1,215 @@
+/* LoginScreen Component Styles */
+
+.login-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+  position: relative;
+  padding: var(--spacing-xl);
+}
+
+.login-container {
+  max-width: 600px;
+  width: 100%;
+  animation: fadeIn 0.8s ease;
+}
+
+/* Header */
+.login-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.login-title {
+  font-size: 48px;
+  margin-bottom: var(--spacing-md);
+  letter-spacing: 4px;
+  animation: glitchTitle 3s infinite;
+}
+
+.login-subtitle {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.subtitle-line {
+  display: block;
+  animation: fadeIn 1s ease;
+}
+
+.subtitle-line:nth-child(1) {
+  animation-delay: 0.3s;
+}
+
+.subtitle-line:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+/* Login Card */
+.login-card {
+  background: var(--bg-secondary);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-xl);
+  animation: slideUp 0.6s ease 0.2s both;
+}
+
+/* Feature List */
+.feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-lg);
+  background: var(--bg-primary);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  font-size: 13px;
+  color: var(--text-primary);
+  padding: var(--spacing-sm) 0;
+  border-bottom: var(--border-width) solid var(--border-color);
+  animation: slideIn 0.4s ease both;
+}
+
+.feature-item:last-child {
+  border-bottom: none;
+}
+
+.feature-item:nth-child(1) {
+  animation-delay: 0.4s;
+}
+.feature-item:nth-child(2) {
+  animation-delay: 0.5s;
+}
+.feature-item:nth-child(3) {
+  animation-delay: 0.6s;
+}
+.feature-item:nth-child(4) {
+  animation-delay: 0.7s;
+}
+
+.feature-icon {
+  font-size: 16px;
+  opacity: 0.7;
+  min-width: 24px;
+}
+
+/* Login Button */
+.login-button {
+  width: 100%;
+  padding: var(--spacing-lg);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-button .arrow {
+  font-size: 16px;
+  transition: transform var(--transition-fast);
+}
+
+.login-button:hover .arrow {
+  transform: translateX(4px);
+}
+
+.login-button:disabled {
+  opacity: 0.7;
+}
+
+/* Login Info */
+.login-info {
+  text-align: center;
+  font-size: 11px;
+}
+
+/* Footer */
+.login-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-xl);
+  animation: fadeIn 1s ease 0.8s both;
+}
+
+/* Pulse Animation for Status Dot */
+.status-dot.pulse {
+  background: var(--accent-green);
+  box-shadow: 0 0 8px var(--accent-green);
+  animation: pulse 2s ease infinite;
+}
+
+/* Title Glitch Effect (subtle) */
+@keyframes glitchTitle {
+  0%,
+  96%,
+  100% {
+    text-shadow: none;
+  }
+  97% {
+    text-shadow: 2px 0 var(--accent-green), -2px 0 var(--accent-red);
+  }
+  98% {
+    text-shadow: -2px 0 var(--accent-green), 2px 0 var(--accent-red);
+  }
+  99% {
+    text-shadow: none;
+  }
+}
+
+/* Slide In Animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .login-title {
+    font-size: 32px;
+  }
+
+  .login-card {
+    padding: var(--spacing-lg);
+  }
+
+  .feature-list {
+    padding: var(--spacing-md);
+  }
+
+  .feature-item {
+    font-size: 12px;
+  }
+}
+
+/* Loading State */
+.login-button .spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border-color);
+  border-top-color: var(--accent-green);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}

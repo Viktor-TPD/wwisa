@@ -1,0 +1,56 @@
+/* DebugTools Component Styles */
+
+.debug-tools-card {
+  margin-top: var(--spacing-xl);
+  animation-delay: 0.4s;
+}
+
+.debug-tools-content {
+  animation: slideDown 0.3s ease;
+}
+
+.debug-button-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.debug-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: var(--bg-primary);
+  font-size: 11px;
+}
+
+.debug-icon {
+  font-size: 20px;
+  opacity: 0.7;
+  transition: all var(--transition-fast);
+}
+
+.debug-button:hover .debug-icon {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.debug-info {
+  padding: var(--spacing-md);
+  background: var(--bg-primary);
+  border-left: 2px solid var(--border-color);
+  font-size: 11px;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 500px;
+  }
+}

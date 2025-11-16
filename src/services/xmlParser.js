@@ -1,102 +1,203 @@
-class XMLParser {
-  parseSoundBanksInfo(xmlString) {
+const xmlParser = {
+  /**
+   * Parse SoundbanksInfo.xml and extract all data
+   */
+  parseSoundBanksInfo(xmlText) {
     const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+    const xmlDoc = parser.parseFromString(xmlText, "text/xml");
 
-    // Check for parse errors
-    const parseError = xmlDoc.querySelector("parsererror");
-    if (parseError) {
-      throw new Error("Failed to parse XML: " + parseError.textContent);
+    // Check for parsing errors
+    const parserError = xmlDoc.querySelector("parsererror");
+    if (parserError) {
+      throw new Error("Failed to parse XML: " + parserError.textContent);
     }
 
-    const soundBanks = [];
-    const allEvents = [];
-    const allMedia = [];
+    const banks = this.extractBanks(xmlDoc);
+    const events = this.extractEvents(xmlDoc);
+    const media = this.extractMedia(xmlDoc);
+    const rtpcs = this.extractRTPCs(xmlDoc);
+    const switches = this.extractSwitches(xmlDoc);
+    const states = this.extractStates(xmlDoc);
 
-    // Get all SoundBank elements
-    const soundBankElements = xmlDoc.querySelectorAll("SoundBank");
+    console.log("📋 Parsed SoundbanksInfo.xml:");
+    console.log(`  - ${banks.length} bank(s)`);
+    console.log(`  - ${events.length} event(s)`);
+    console.log(`  - ${media.length} media file(s)`);
+    console.log(`  - ${rtpcs.length} RTPC(s)`);
+    console.log(`  - ${switches.length} switch(es)`);
+    console.log(`  - ${states.length} state(s)`);
 
-    soundBankElements.forEach((sbElement) => {
-      const bankId = sbElement.getAttribute("Id");
-      const bankType = sbElement.getAttribute("Type");
-      const shortName = sbElement.querySelector("ShortName")?.textContent;
-      const path = sbElement.querySelector("Path")?.textContent;
+    return {
+      banks,
+      events,
+      media,
+      rtpcs,
+      switches,
+      states,
+    };
+  },
 
-      // Parse Events
-      const events = [];
-      const eventElements = sbElement.querySelectorAll("Events > Event");
-      eventElements.forEach((eventEl) => {
-        const event = {
-          id: eventEl.getAttribute("Id"),
-          name: eventEl.getAttribute("Name"),
-          mediaRefs: [],
-        };
+  /**
+   * Extract soundbank information
+   */
+  extractBanks(xmlDoc) {
+    const banks = [];
+    const bankNodes = xmlDoc.querySelectorAll("SoundBank");
 
-        // Get media references
-        const mediaRefEls = eventEl.querySelectorAll("MediaRefs > MediaRef");
-        mediaRefEls.forEach((refEl) => {
-          event.mediaRefs.push(refEl.getAttribute("Id"));
-        });
-
-        events.push(event);
-        allEvents.push(event);
-      });
-
-      // Parse Media files
-      const media = [];
-      const mediaElements = sbElement.querySelectorAll("Media > File");
-      mediaElements.forEach((mediaEl) => {
-        const mediaFile = {
-          id: mediaEl.getAttribute("Id"),
-          language: mediaEl.getAttribute("Language"),
-          streaming: mediaEl.getAttribute("Streaming") === "true",
-          location: mediaEl.getAttribute("Location"),
-          shortName: mediaEl.querySelector("ShortName")?.textContent,
-          cachePath: mediaEl.querySelector("CachePath")?.textContent,
-        };
-
-        media.push(mediaFile);
-        allMedia.push(mediaFile);
-      });
-
-      soundBanks.push({
-        id: bankId,
-        type: bankType,
-        name: shortName,
-        path: path,
-        events: events,
-        media: media,
+    bankNodes.forEach((node) => {
+      banks.push({
+        id: node.getAttribute("Id"),
+        name: node.querySelector("ShortName")?.textContent || "",
+        path: node.querySelector("Path")?.textContent || "",
+        type: node.getAttribute("Type"),
+        language: node.getAttribute("Language"),
       });
     });
 
-    console.log("📋 Parsed SoundbanksInfo.xml:");
-    console.log(`  - ${soundBanks.length} bank(s)`);
-    console.log(`  - ${allEvents.length} event(s)`);
-    console.log(`  - ${allMedia.length} media file(s)`);
+    return banks;
+  },
 
-    return {
-      soundBanks,
-      events: allEvents,
-      media: allMedia,
-    };
-  }
+  /**
+   * Extract events
+   */
+  extractEvents(xmlDoc) {
+    const events = [];
+    const eventNodes = xmlDoc.querySelectorAll("Event");
 
-  // Get just the event names for display
+    eventNodes.forEach((node) => {
+      events.push({
+        id: node.getAttribute("Id"),
+        name: node.getAttribute("Name"),
+      });
+    });
+
+    return events;
+  },
+
+  /**
+   * Extract media files
+   */
+  extractMedia(xmlDoc) {
+    const media = [];
+    const fileNodes = xmlDoc.querySelectorAll("File");
+
+    fileNodes.forEach((node) => {
+      media.push({
+        id: node.getAttribute("Id"),
+        shortName: node.querySelector("ShortName")?.textContent || "",
+        cachePath: node.querySelector("CachePath")?.textContent || "",
+        language: node.getAttribute("Language"),
+        streaming: node.getAttribute("Streaming") === "true",
+        location: node.getAttribute("Location"),
+      });
+    });
+
+    return media;
+  },
+
+  /**
+   * Extract RTPCs (Game Parameters)
+   */
+  extractRTPCs(xmlDoc) {
+    const rtpcs = [];
+    const rtpcNodes = xmlDoc.querySelectorAll("GameParameter");
+
+    rtpcNodes.forEach((node) => {
+      const rtpc = {
+        id: node.getAttribute("Id"),
+        name: node.getAttribute("Name"),
+        min: parseFloat(node.getAttribute("Min") || 0),
+        max: parseFloat(node.getAttribute("Max") || 100),
+        defaultValue: parseFloat(node.getAttribute("Default") || 50),
+      };
+
+      // Filter out factory acoustic textures (optional)
+      if (!rtpc.name.includes("Factory Acoustic Textures")) {
+        rtpcs.push(rtpc);
+      }
+    });
+
+    return rtpcs;
+  },
+
+  /**
+   * Extract Switches
+   */
+  extractSwitches(xmlDoc) {
+    const switches = [];
+    const switchNodes = xmlDoc.querySelectorAll("SwitchGroup");
+
+    switchNodes.forEach((groupNode) => {
+      const groupName = groupNode.getAttribute("Name");
+      const values = [];
+
+      groupNode.querySelectorAll("SwitchValue").forEach((valueNode) => {
+        values.push({
+          id: valueNode.getAttribute("Id"),
+          name: valueNode.getAttribute("Name"),
+        });
+      });
+
+      switches.push({
+        id: groupNode.getAttribute("Id"),
+        name: groupName,
+        values,
+      });
+    });
+
+    return switches;
+  },
+
+  /**
+   * Extract States
+   */
+  extractStates(xmlDoc) {
+    const states = [];
+    const stateNodes = xmlDoc.querySelectorAll("StateGroup");
+
+    stateNodes.forEach((groupNode) => {
+      const groupName = groupNode.getAttribute("Name");
+      const values = [];
+
+      groupNode.querySelectorAll("StateValue").forEach((valueNode) => {
+        values.push({
+          id: valueNode.getAttribute("Id"),
+          name: valueNode.getAttribute("Name"),
+        });
+      });
+
+      states.push({
+        id: groupNode.getAttribute("Id"),
+        name: groupName,
+        values,
+      });
+    });
+
+    return states;
+  },
+
+  /**
+   * Get event names as simple array
+   */
   getEventNames(parsedData) {
-    return parsedData.events.map((e) => ({
-      name: e.name,
-      id: e.id,
+    return parsedData.events.map((event) => ({
+      name: event.name,
+      id: event.id,
     }));
-  }
+  },
 
-  // Get required .wem files
-  getRequiredWemFiles(parsedData) {
-    return parsedData.media.map((m) => ({
-      filename: m.cachePath,
-      id: m.id,
+  /**
+   * Get RTPC names as simple array
+   */
+  getRTPCNames(parsedData) {
+    return parsedData.rtpcs.map((rtpc) => ({
+      name: rtpc.name,
+      id: rtpc.id,
+      min: rtpc.min,
+      max: rtpc.max,
+      defaultValue: rtpc.defaultValue,
     }));
-  }
-}
+  },
+};
 
-const xmlParser = new XMLParser();
 export default xmlParser;

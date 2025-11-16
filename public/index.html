@@ -10,42 +10,54 @@
       content="Web site created using create-react-app"
     />
     <script>
-      // Intercept AudioContext creation and keep reference
+      // Intercept AudioContext creation and REUSE the same instance
       (function () {
         const OriginalAudioContext =
           window.AudioContext || window.webkitAudioContext;
 
-        window.AudioContext = function (...args) {
-          const ctx = new OriginalAudioContext(...args);
-          console.log("🎵 AudioContext created! State:", ctx.state);
+        let wwiseContext = null;
 
-          // Store Wwise's context
-          if (!window.WwiseAudioContext) {
-            window.WwiseAudioContext = ctx;
-            console.log("✓ Stored Wwise AudioContext");
+        window.AudioContext = function (...args) {
+          // Return existing context if it exists and is usable
+          if (wwiseContext && wwiseContext.state !== "closed") {
+            console.log(
+              "♻️ Reusing existing AudioContext (state:",
+              wwiseContext.state + ")"
+            );
+            return wwiseContext;
           }
 
-          // PREVENT CLOSING!
-          const originalClose = ctx.close.bind(ctx);
-          ctx.close = function () {
+          // Create new context
+          console.log("🎵 Creating NEW AudioContext...");
+          wwiseContext = new OriginalAudioContext(...args);
+          console.log("🎵 AudioContext created! State:", wwiseContext.state);
+
+          // Store reference
+          window.WwiseAudioContext = wwiseContext;
+
+          // BLOCK close() but allow everything else
+          const originalClose = wwiseContext.close.bind(wwiseContext);
+          wwiseContext.close = function () {
             console.warn("⚠️ Blocked AudioContext.close() - keeping it alive!");
-            return Promise.resolve(); // Pretend we closed it
+            return Promise.resolve();
           };
 
           // Auto-resume if suspended
           const checkAndResume = () => {
-            if (ctx.state === "suspended") {
+            if (wwiseContext.state === "suspended") {
               console.log("⚠️ AudioContext suspended, resuming...");
-              ctx.resume().then(() => {
-                console.log("✓ AudioContext resumed! State:", ctx.state);
+              wwiseContext.resume().then(() => {
+                console.log(
+                  "✓ AudioContext resumed! State:",
+                  wwiseContext.state
+                );
               });
             }
           };
 
-          // Check periodically
           setInterval(checkAndResume, 100);
 
-          return ctx;
+          return wwiseContext;
         };
       })();
     </script>

@@ -1,0 +1,206 @@
+.action-slot {
+  background: var(--bg-secondary);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-normal);
+  animation: slideUp 0.3s ease;
+}
+
+.action-slot:hover {
+  border-color: var(--accent-green);
+}
+
+.action-slot.empty {
+  background: var(--bg-primary);
+  border-style: dashed;
+  justify-content: center;
+  align-items: center;
+}
+
+.action-type-selector {
+  display: flex;
+  gap: var(--spacing-sm);
+  width: 100%;
+}
+
+.type-button {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-lg);
+  background: var(--bg-secondary);
+  font-size: 11px;
+}
+
+.type-button:hover:not(:disabled) {
+  background: var(--accent-green-dim);
+  border-color: var(--accent-green);
+}
+
+.type-icon {
+  font-size: 24px;
+  opacity: 0.7;
+}
+
+.type-button:hover:not(:disabled) .type-icon {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.action-slot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: var(--border-width) solid var(--border-color);
+}
+
+.action-type-badge {
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 20px;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.close-button:hover {
+  color: var(--accent-red);
+  transform: rotate(90deg);
+}
+
+.item-selector {
+  width: 100%;
+  padding: var(--spacing-sm);
+  background: var(--bg-primary);
+  border: var(--border-width) solid var(--border-color);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.item-selector:focus {
+  outline: none;
+  border-color: var(--accent-green);
+}
+
+.action-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.action-name {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.action-slot.event.playing {
+  border-color: var(--accent-green);
+  background: var(--accent-green-dim);
+  animation: eventPulse 0.5s ease;
+}
+
+.action-trigger-btn {
+  width: 100%;
+  padding: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  background: var(--bg-primary);
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+}
+
+.action-trigger-btn:hover {
+  background: var(--accent-green);
+  color: var(--bg-primary);
+}
+
+.rtpc-control {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.rtpc-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: var(--bg-primary);
+  outline: none;
+  border-radius: 2px;
+}
+
+.rtpc-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--accent-green);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all var(--transition-fast);
+}
+
+.rtpc-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: var(--accent-green);
+  cursor: pointer;
+  border-radius: 2px;
+  border: none;
+  transition: all var(--transition-fast);
+}
+
+.rtpc-slider:hover::-webkit-slider-thumb {
+  transform: scale(1.2);
+  box-shadow: 0 0 8px var(--accent-green);
+}
+
+.rtpc-slider:hover::-moz-range-thumb {
+  transform: scale(1.2);
+  box-shadow: 0 0 8px var(--accent-green);
+}
+
+.rtpc-value {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--accent-green);
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes eventPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}

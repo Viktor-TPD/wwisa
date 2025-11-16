@@ -1,0 +1,32 @@
+/* AudioInitButton Component Styles */
+
+.audio-init-card {
+  margin-bottom: var(--spacing-lg);
+  animation-delay: 0s;
+}
+
+.audio-init-button {
+  width: 100%;
+  padding: var(--spacing-lg);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.audio-init-icon {
+  font-size: 24px;
+  animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}

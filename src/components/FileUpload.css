@@ -1,0 +1,73 @@
+.file-upload-card {
+  animation-delay: 0.1s;
+}
+
+.upload-zone {
+  position: relative;
+  margin-bottom: var(--spacing-md);
+}
+
+.file-input-hidden {
+  display: none;
+}
+
+.file-input-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  border: 2px dashed var(--border-color);
+  background: var(--bg-primary);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  min-height: 180px;
+}
+
+.file-input-label:hover {
+  border-color: var(--accent-green);
+  background: var(--accent-green-dim);
+}
+
+.upload-icon {
+  font-size: 48px;
+  color: var(--border-color);
+  margin-bottom: var(--spacing-md);
+  transition: all var(--transition-normal);
+}
+
+.file-input-label:hover .upload-icon {
+  color: var(--accent-green);
+  transform: translateY(-4px);
+}
+
+.upload-text {
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.upload-text > div:first-child {
+  font-weight: 600;
+  margin-bottom: var(--spacing-xs);
+}
+
+.upload-status {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: var(--border-width) solid var(--border-color);
+  font-size: 12px;
+  text-align: center;
+  animation: slideUp 0.3s ease;
+}
+
+.upload-status.success {
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+  background: var(--accent-green-dim);
+}
+
+.upload-status.error {
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+  background: var(--accent-red-dim);
+}

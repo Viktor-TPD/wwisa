@@ -1,78 +1,161 @@
 import React, { useState } from "react";
-import { AuthProvider, useAuth } from "./context/AuthContext";
-import Login from "./components/Login";
+import LoginScreen from "./components/LoginScreen";
 import FileUpload from "./components/FileUpload";
-import EventList from "./components/EventList";
-import "./App.css";
+import ActionSlot from "./components/ActionSlot";
+import WaveformVisualizer from "./components/WaveformVisualizer";
 import AudioInitButton from "./components/AudioInitButton";
+import DebugTools from "./components/DebugTools";
+import wwiseService from "./services/wwise";
+import { files as filesAPI } from "./services/api";
+import "./App.css";
 
-function AppContent() {
-  const { user, loading, logout } = useAuth();
-  const [events, setEvents] = useState([]);
-  const [status, setStatus] = useState("");
+function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loadedFiles, setLoadedFiles] = useState(null);
+  const [actionSlots, setActionSlots] = useState([]);
+  const [nextSlotId, setNextSlotId] = useState(1);
 
-  if (loading) {
-    return (
-      <div className="loading-container">
-        <div className="spinner"></div>
-        <p>Loading...</p>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return <Login />;
-  }
-
-  const handleFilesLoaded = (fileData) => {
-    console.log("Files loaded:", fileData);
-
-    // Events are already parsed from XML and set in Wwise service
-    if (fileData.events && fileData.events.length > 0) {
-      setEvents(fileData.events);
-      setStatus(
-        `✓ Found ${fileData.events.length} event(s): ${fileData.events
-          .map((e) => e.name)
-          .join(", ")}`
-      );
-    } else {
-      setStatus("⚠️ No events found in SoundBank");
-    }
-
-    setTimeout(() => setStatus(""), 5000);
+  const handleLogin = () => {
+    setIsLoggedIn(true);
   };
 
+  const handleFilesLoaded = (files) => {
+    setLoadedFiles(files);
+  };
+
+  const handleLogout = async () => {
+    // Clear backend files
+    try {
+      const response = await filesAPI.list();
+      const files = response.files || [];
+      for (const file of files) {
+        await filesAPI.delete(file.id);
+      }
+    } catch (err) {
+      console.error("Error clearing files:", err);
+    }
+
+    // Reset state
+    setIsLoggedIn(false);
+    setLoadedFiles(null);
+    setActionSlots([]);
+
+    // Stop Wwise
+    if (wwiseService.initialized) {
+      wwiseService.stopAudioRendering();
+    }
+
+    // Reload page to clean everything
+    window.location.reload();
+  };
+
+  const handleAddSlot = () => {
+    setActionSlots([...actionSlots, { id: nextSlotId }]);
+    setNextSlotId(nextSlotId + 1);
+  };
+
+  const handleRemoveSlot = (id) => {
+    setActionSlots(actionSlots.filter((slot) => slot.id !== id));
+  };
+
+  const handleAutoPopulate = () => {
+    if (!loadedFiles || !loadedFiles.events) return;
+
+    // Create slots for all events
+    const newSlots = loadedFiles.events.map((event, index) => ({
+      id: nextSlotId + index,
+    }));
+
+    setActionSlots(newSlots);
+    setNextSlotId(nextSlotId + newSlots.length);
+
+    // Give UI a moment to render, then populate
+    setTimeout(() => {
+      // This is a simplified auto-populate
+      // In practice, you'd need to trigger the selection in ActionSlot
+      console.log("Auto-populate triggered - slots created");
+    }, 100);
+  };
+
+  // Show login screen if not logged in
+  if (!isLoggedIn) {
+    return <LoginScreen onLogin={handleLogin} />;
+  }
+
   return (
-    <div className="app">
-      <AudioInitButton />
+    <div className="App">
+      <div className="scanline-overlay"></div>
+
       <header className="app-header">
-        <h1>🎵 Wwisa</h1>
-        <div className="user-info">
-          <span>Welcome, {user.username}!</span>
-          <button onClick={logout}>Logout</button>
+        <h1>WWISE // WEB</h1>
+        <div className="header-controls">
+          <div className="status-indicator">
+            <span
+              className={`status-dot ${loadedFiles ? "active" : ""}`}
+            ></span>
+            <span>{loadedFiles ? "SYSTEM READY" : "AWAITING INIT"}</span>
+          </div>
+          <button onClick={handleLogout} className="btn-danger logout-button">
+            LOGOUT
+          </button>
         </div>
       </header>
 
-      <main className="app-main">
-        <section className="upload-section">
-          <h2>Upload Wwise Files</h2>
+      <div className="grid grid-2">
+        <div>
+          <AudioInitButton />
           <FileUpload onFilesLoaded={handleFilesLoaded} />
-          {status && <div className="status-banner">{status}</div>}
-        </section>
+        </div>
 
-        <section className="events-section">
-          <EventList events={events} />
-        </section>
-      </main>
+        <div>{loadedFiles && <WaveformVisualizer />}</div>
+      </div>
+
+      {loadedFiles && (
+        <>
+          <div className="card action-controls-card">
+            <div className="card-header">
+              <h2>ACTIONS</h2>
+              <div className="action-controls">
+                <button onClick={handleAddSlot} className="btn-primary">
+                  + ADD ACTION
+                </button>
+                <button
+                  onClick={handleAutoPopulate}
+                  className="auto-populate-button"
+                  disabled={
+                    !loadedFiles.events || loadedFiles.events.length === 0
+                  }
+                >
+                  AUTO-POPULATE
+                </button>
+              </div>
+            </div>
+
+            <div className="action-grid">
+              {actionSlots.length === 0 ? (
+                <div className="empty-state">
+                  <p className="text-muted">
+                    No actions yet. Click "+ ADD ACTION" to get started.
+                  </p>
+                </div>
+              ) : (
+                actionSlots.map((slot) => (
+                  <ActionSlot
+                    key={slot.id}
+                    id={slot.id}
+                    onRemove={handleRemoveSlot}
+                    availableEvents={loadedFiles.events || []}
+                    availableRTPCs={loadedFiles.rtpcs || []}
+                  />
+                ))
+              )}
+            </div>
+          </div>
+        </>
+      )}
+
+      <DebugTools />
     </div>
-  );
-}
-
-function App() {
-  return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
   );
 }
 

@@ -1,53 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import wwiseService from "../services/wwise";
-import "../styles/EventList.css";
+import "./EventList.css";
 
 function EventList({ events }) {
+  const [playingEvents, setPlayingEvents] = useState(new Set());
+
   const handlePlayEvent = (eventName) => {
     try {
       wwiseService.postEvent(eventName);
-      console.log(`▶ Playing: ${eventName}`);
+
+      // Visual feedback
+      setPlayingEvents((prev) => new Set(prev).add(eventName));
+
+      // Remove after animation
+      setTimeout(() => {
+        setPlayingEvents((prev) => {
+          const next = new Set(prev);
+          next.delete(eventName);
+          return next;
+        });
+      }, 1000);
     } catch (error) {
       console.error("Failed to play event:", error);
     }
   };
 
-  const handleStopAll = () => {
-    wwiseService.stopAll();
-  };
-
   if (!events || events.length === 0) {
-    return (
-      <div className="event-list-container">
-        <div className="no-events">
-          <p>📭 No events loaded yet</p>
-          <p className="hint">
-            Upload a SoundBank (.bnk) file to see available events
-          </p>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   return (
-    <div className="event-list-container">
-      <div className="events-header">
-        <h3>Available Events ({events.length})</h3>
-        <button className="stop-all-button" onClick={handleStopAll}>
-          ⏹ Stop All
-        </button>
+    <div className="card event-list-card">
+      <div className="card-header">
+        <h2>EVENTS</h2>
+        <span className="text-muted">{events.length} AVAILABLE</span>
       </div>
 
-      <div className="events-grid">
-        {events.map((event, index) => (
-          <div
-            key={index}
-            className="event-item"
+      <div className="event-grid">
+        {events.map((event) => (
+          <button
+            key={event.name}
             onClick={() => handlePlayEvent(event.name)}
+            className={`event-button ${
+              playingEvents.has(event.name) ? "playing" : ""
+            }`}
           >
-            <div className="event-icon">▶️</div>
-            <div className="event-name">{event.name}</div>
-          </div>
+            <span className="event-play-icon">▶</span>
+            <span className="event-name">{event.name}</span>
+          </button>
         ))}
       </div>
     </div>

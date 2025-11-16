@@ -1,0 +1,91 @@
+/* EventList Component Styles */
+
+.event-list-card {
+  animation-delay: 0.2s;
+}
+
+.event-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--spacing-sm);
+}
+
+.event-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  text-align: left;
+  background: var(--bg-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.event-button::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: var(--accent-green);
+  transform: scaleY(0);
+  transition: transform var(--transition-normal);
+}
+
+.event-button:hover::after {
+  transform: scaleY(1);
+}
+
+.event-play-icon {
+  font-size: 10px;
+  opacity: 0.5;
+  transition: all var(--transition-fast);
+}
+
+.event-button:hover .event-play-icon {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.event-button.playing {
+  border-color: var(--accent-green);
+  background: var(--accent-green-dim);
+  animation: eventPulse 0.5s ease;
+}
+
+.event-button.playing .event-play-icon {
+  color: var(--accent-green);
+  animation: playIcon 0.5s ease;
+}
+
+.event-name {
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@keyframes eventPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+@keyframes playIcon {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5) rotate(90deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}

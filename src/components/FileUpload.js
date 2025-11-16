@@ -1,55 +1,50 @@
 import React, { useState, useEffect } from "react";
 import wwiseService from "../services/wwise";
-import { files as filesAPI } from "../services/api";
 import xmlParser from "../services/xmlParser";
-import "../styles/FileUpload.css";
+import { files as filesAPI } from "../services/api";
+import "./FileUpload.css";
 
 function FileUpload({ onFilesLoaded }) {
-  const [initBank, setInitBank] = useState(null);
-  const [soundBank, setSoundBank] = useState(null);
-  const [xmlFile, setXmlFile] = useState(null);
-  const [error, setError] = useState("");
+  const [uploadStatus, setUploadStatus] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const allFilesLoaded = initBank && soundBank && xmlFile;
-
+  // Auto-load existing files on mount
   useEffect(() => {
     autoLoadExistingFiles();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const autoLoadExistingFiles = async () => {
     try {
       const response = await filesAPI.list();
-      const files = response.files || []; // API returns { files: [...] }
+      const files = response.files || [];
+
+      if (files.length === 0) {
+        return;
+      }
 
       const recentInit = files.find(
         (f) => f.originalName === "Init.bnk" && f.fileType === ".bnk"
       );
       const recentBank = files.find(
-        (f) => f.originalName !== "Init.bnk" && f.fileType === ".bnk"
+        (f) => f.originalName === "TestBank.bnk" && f.fileType === ".bnk"
       );
       const recentXml = files.find((f) => f.fileType === ".xml");
 
       if (recentInit && recentBank && recentXml) {
-        console.log("🔄 Auto-loading existing files...");
-
-        // Load and parse XML first
+        setIsLoading(true);
         const xmlText = await loadXmlFromBackend(recentXml);
         const parsedData = xmlParser.parseSoundBanksInfo(xmlText);
 
-        // Initialize Wwise
         if (!wwiseService.initialized) {
           await wwiseService.initialize();
           wwiseService.startAudioRendering();
-          console.log("🎵 Started audio rendering loop");
         }
 
-        // Load banks
         await loadFileFromBackend(recentInit);
         await loadFileFromBackend(recentBank);
 
-        // Get events from XML
         const events = xmlParser.getEventNames(parsedData);
+        const rtpcs = xmlParser.getRTPCNames(parsedData);
         wwiseService.setEvents(events);
 
         if (onFilesLoaded) {
@@ -58,249 +53,126 @@ function FileUpload({ onFilesLoaded }) {
             soundBank: recentBank,
             xmlFile: recentXml,
             events,
+            rtpcs,
           });
         }
 
-        console.log("✅ Auto-loaded existing files");
-        console.log(
-          "📋 Events available:",
-          events.map((e) => e.name)
-        );
+        setUploadStatus("Files loaded from session");
+        setIsLoading(false);
       }
     } catch (err) {
-      console.error("Auto-load failed:", err);
+      setIsLoading(false);
+      // Silent fail on auto-load
     }
+  };
+
+  const loadXmlFromBackend = async (xmlFile) => {
+    const blob = await filesAPI.download(xmlFile.id);
+    return await blob.text();
   };
 
   const loadFileFromBackend = async (fileMetadata) => {
     const blob = await filesAPI.download(fileMetadata.id);
     const arrayBuffer = await blob.arrayBuffer();
-
-    if (!wwiseService.initialized) {
-      await wwiseService.initialize();
-      wwiseService.startAudioRendering();
-      console.log("🎵 Started audio rendering loop");
-    }
-
-    if (fileMetadata.fileType === ".bnk") {
-      await wwiseService.loadSoundBank(fileMetadata.originalName, arrayBuffer);
-
-      if (fileMetadata.originalName === "Init.bnk") {
-        setInitBank(fileMetadata);
-      } else {
-        setSoundBank(fileMetadata);
-      }
-    }
+    await wwiseService.loadSoundBank(fileMetadata.originalName, arrayBuffer);
   };
 
-  const loadXmlFromBackend = async (fileMetadata) => {
-    const blob = await filesAPI.download(fileMetadata.id);
-    const text = await blob.text();
-    setXmlFile(fileMetadata);
-    return text;
-  };
-
-  const handleFileUpload = async (files, type) => {
-    setError("");
+  const handleFileUpload = async (event) => {
+    const files = Array.from(event.target.files);
+    setIsLoading(true);
+    setUploadStatus("Processing files...");
 
     try {
-      const fileArray = Array.from(files);
-
-      // Validate file types
-      if (type === "init" || type === "bank") {
-        if (!fileArray[0].name.endsWith(".bnk")) {
-          setError("Please upload a .bnk file");
-          return;
-        }
-      } else if (type === "xml") {
-        if (!fileArray[0].name.endsWith(".xml")) {
-          setError("Please upload SoundbanksInfo.xml");
-          return;
-        }
+      // Find XML file first
+      const xmlFile = files.find((f) => f.name.endsWith(".xml"));
+      if (!xmlFile) {
+        throw new Error("SoundbanksInfo.xml not found");
       }
 
-      // Upload to backend
-      await filesAPI.upload(fileArray);
+      // Parse XML
+      const xmlText = await xmlFile.text();
+      const parsedData = xmlParser.parseSoundBanksInfo(xmlText);
 
-      // Initialize Wwise if needed
+      // Initialize Wwise if not already done
       if (!wwiseService.initialized) {
         await wwiseService.initialize();
         wwiseService.startAudioRendering();
-        console.log("🎵 Started audio rendering loop");
       }
 
-      // Load files
-      for (const file of fileArray) {
-        const arrayBuffer = await file.arrayBuffer();
-
-        if (file.name.endsWith(".bnk")) {
-          await wwiseService.loadSoundBank(file.name, arrayBuffer);
-
-          if (type === "init") {
-            setInitBank({ originalName: file.name, size: file.size });
-          } else {
-            setSoundBank({ originalName: file.name, size: file.size });
-          }
-        } else if (file.name.endsWith(".xml")) {
-          const text = await file.text();
-          const parsedData = xmlParser.parseSoundBanksInfo(text);
-          const events = xmlParser.getEventNames(parsedData);
-
-          wwiseService.setEvents(events);
-          setXmlFile({ originalName: file.name, size: file.size });
-
-          console.log("📋 Parsed events from XML:", events);
-
-          if (onFilesLoaded && initBank && soundBank) {
-            onFilesLoaded({
-              initBank,
-              soundBank,
-              xmlFile: { originalName: file.name },
-              events,
-            });
-          }
-        }
+      // Load banks
+      const bankFiles = files.filter((f) => f.name.endsWith(".bnk"));
+      for (const bankFile of bankFiles) {
+        const arrayBuffer = await bankFile.arrayBuffer();
+        await wwiseService.loadSoundBank(bankFile.name, arrayBuffer);
       }
-    } catch (err) {
-      console.error("Upload error:", err);
-      setError(err.message || "Upload failed");
-    }
-  };
 
-  const handleClearAll = async () => {
-    try {
-      wwiseService.clearAll();
-      await filesAPI.deleteAll();
+      // Get events and RTPCs from XML
+      const events = xmlParser.getEventNames(parsedData);
+      const rtpcs = xmlParser.getRTPCNames(parsedData);
+      wwiseService.setEvents(events);
 
-      setInitBank(null);
-      setSoundBank(null);
-      setXmlFile(null);
-      setError("");
+      // Upload to backend
+      const formData = new FormData();
+      files.forEach((file) => {
+        formData.append("files", file);
+      });
+
+      await filesAPI.upload(formData);
 
       if (onFilesLoaded) {
         onFilesLoaded({
-          initBank: null,
-          soundBank: null,
-          xmlFile: null,
-          events: [],
+          initBank: bankFiles[0],
+          soundBank: bankFiles[1],
+          xmlFile: xmlFile,
+          events,
+          rtpcs,
         });
       }
 
-      console.log("✓ Cleared all files");
-    } catch (err) {
-      console.error("Clear error:", err);
-      setError("Failed to clear files");
+      setUploadStatus("✓ All files loaded successfully");
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Upload error:", error);
+      setUploadStatus(`✗ Error: ${error.message}`);
+      setIsLoading(false);
     }
   };
 
-  const FileSection = ({
-    title,
-    description,
-    type,
-    file,
-    accept,
-    multiple = false,
-  }) => (
-    <div className={`file-section ${file ? "uploaded" : ""}`}>
-      <div className="file-header">
-        <h4>{title}</h4>
-        <p className="file-description">{description}</p>
-      </div>
-
-      {file ? (
-        <div className="file-info">
-          <span className="check-icon">✓</span>
-          <span className="file-name">{file.originalName}</span>
-          <span className="file-size">
-            ({(file.size / 1024).toFixed(1)} KB)
-          </span>
-        </div>
-      ) : (
-        <label className="file-input-label">
-          <input
-            type="file"
-            accept={accept}
-            multiple={multiple}
-            onChange={(e) => handleFileUpload(e.target.files, type)}
-            className="file-input"
-          />
-          <span className="upload-button">
-            Choose File{multiple ? "s" : ""}
-          </span>
-        </label>
-      )}
-    </div>
-  );
-
   return (
-    <div className="file-upload-container">
-      <div className="upload-header">
-        <h2>📁 Upload Wwise Files</h2>
-        <p className="upload-subtitle">
-          Upload your soundbanks and metadata to play audio
-        </p>
+    <div className="card file-upload-card">
+      <div className="card-header">
+        <h2>AUDIO BANKS</h2>
+        {isLoading && <div className="spinner"></div>}
       </div>
 
-      <div className="file-sections">
-        <FileSection
-          title="1. Init.bnk"
-          description="Required initialization bank"
-          type="init"
-          file={initBank}
-          accept=".bnk"
+      <div className="upload-zone">
+        <input
+          type="file"
+          multiple
+          accept=".bnk,.xml"
+          onChange={handleFileUpload}
+          id="file-input"
+          className="file-input-hidden"
         />
-
-        <FileSection
-          title="2. SoundBank (.bnk)"
-          description="Your main sound bank with events and embedded audio"
-          type="bank"
-          file={soundBank}
-          accept=".bnk"
-        />
-
-        <FileSection
-          title="3. SoundbanksInfo.xml"
-          description="Event metadata (lists available events)"
-          type="xml"
-          file={xmlFile}
-          accept=".xml"
-        />
-      </div>
-
-      <div className="info-box">
-        <h4>ℹ️ About Wwise Files</h4>
-        <ul>
-          <li>
-            <strong>Init.bnk:</strong> Required initialization soundbank
-          </li>
-          <li>
-            <strong>Your soundbank (.bnk):</strong> Contains events AND audio
-            (.wem files are embedded inside)
-          </li>
-          <li>
-            <strong>SoundbanksInfo.xml:</strong> Lists available events for the
-            UI
-          </li>
-        </ul>
-        <p className="note">
-          💡 <strong>Note:</strong> You do NOT need to upload .wem files
-          separately - they're embedded in the .bnk file!
-        </p>
-      </div>
-
-      {error && <div className="error-message">⚠️ {error}</div>}
-
-      {allFilesLoaded && (
-        <>
-          <div className="status-message success">
-            ✅ All files loaded! Ready to play audio.
+        <label htmlFor="file-input" className="file-input-label">
+          <div className="upload-icon">↑</div>
+          <div className="upload-text">
+            <div>DROP FILES OR CLICK TO SELECT</div>
+            <div className="text-muted">
+              Init.bnk + SoundBank.bnk + SoundbanksInfo.xml
+            </div>
           </div>
-          <div className="action-buttons">
-            <button className="clear-button" onClick={handleClearAll}>
-              Clear All
-            </button>
-          </div>
-        </>
+        </label>
+      </div>
+
+      {uploadStatus && (
+        <div
+          className={`upload-status ${
+            uploadStatus.includes("✗") ? "error" : "success"
+          }`}
+        >
+          {uploadStatus}
+        </div>
       )}
     </div>
   );
