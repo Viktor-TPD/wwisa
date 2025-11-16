@@ -4,7 +4,7 @@ const API_BASE_URL = "http://localhost:3001/api";
 const apiCall = async (endpoint, options = {}) => {
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     ...options,
-    credentials: "include", // Include cookies
+    credentials: "include", // Include cookies for auth
     headers: {
       "Content-Type": "application/json",
       ...options.headers,
@@ -51,13 +51,19 @@ export const auth = {
 export const files = {
   upload: async (fileList) => {
     const formData = new FormData();
-    for (let i = 0; i < fileList.length; i++) {
-      formData.append("files", fileList[i]);
+
+    // Support both FileList and File[]
+    if (fileList instanceof FileList) {
+      for (let i = 0; i < fileList.length; i++) {
+        formData.append("files", fileList[i]);
+      }
+    } else {
+      fileList.forEach((file) => formData.append("files", file));
     }
 
     const response = await fetch(`${API_BASE_URL}/files/upload`, {
       method: "POST",
-      credentials: "include",
+      credentials: "include", // Include auth cookie
       body: formData, // Don't set Content-Type, browser will set it with boundary
     });
 
@@ -96,3 +102,7 @@ export const files = {
     });
   },
 };
+
+// Keep old export for backward compatibility
+const filesAPI = files;
+export default filesAPI;

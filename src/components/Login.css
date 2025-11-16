@@ -1,4 +1,4 @@
-/* LoginScreen Component Styles */
+/* Login Component Styles */
 
 .login-screen {
   min-height: 100vh;
@@ -11,7 +11,7 @@
 }
 
 .login-container {
-  max-width: 600px;
+  max-width: 500px;
   width: 100%;
   animation: fadeIn 0.8s ease;
 }
@@ -61,83 +61,99 @@
   animation: slideUp 0.6s ease 0.2s both;
 }
 
-/* Feature List */
-.feature-list {
+/* Tabs */
+.login-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-lg);
+}
+
+.tab {
+  padding: var(--spacing-md);
+  background: var(--bg-primary);
+  border: var(--border-width) solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 11px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.tab:hover {
+  border-color: var(--accent-green);
+  color: var(--text-primary);
+}
+
+.tab.active {
+  background: var(--accent-green-dim);
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+}
+
+/* Form */
+.login-form {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
-  margin-bottom: var(--spacing-xl);
-  padding: var(--spacing-lg);
+}
+
+.form-group {
+  position: relative;
+}
+
+.form-group input {
+  width: 100%;
+  padding: var(--spacing-md);
   background: var(--bg-primary);
   border: var(--border-width) solid var(--border-color);
-  border-radius: var(--border-radius);
-}
-
-.feature-item {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
-  font-size: 13px;
   color: var(--text-primary);
-  padding: var(--spacing-sm) 0;
-  border-bottom: var(--border-width) solid var(--border-color);
-  animation: slideIn 0.4s ease both;
+  font-family: inherit;
+  font-size: 13px;
+  transition: all var(--transition-normal);
 }
 
-.feature-item:last-child {
-  border-bottom: none;
+.form-group input:focus {
+  outline: none;
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 1px var(--accent-green-dim);
 }
 
-.feature-item:nth-child(1) {
-  animation-delay: 0.4s;
-}
-.feature-item:nth-child(2) {
-  animation-delay: 0.5s;
-}
-.feature-item:nth-child(3) {
-  animation-delay: 0.6s;
-}
-.feature-item:nth-child(4) {
-  animation-delay: 0.7s;
+.form-group input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-.feature-icon {
-  font-size: 16px;
-  opacity: 0.7;
-  min-width: 24px;
+/* Error Message */
+.error-message {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--accent-red-dim);
+  border: var(--border-width) solid var(--accent-red);
+  color: var(--accent-red);
+  font-size: 12px;
+  text-align: center;
+  animation: shake 0.3s ease;
 }
 
-/* Login Button */
-.login-button {
+/* Submit Button */
+.submit-button {
   width: 100%;
   padding: var(--spacing-lg);
-  font-size: 14px;
+  font-size: 13px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-md);
-  position: relative;
-  overflow: hidden;
-}
-
-.login-button .arrow {
-  font-size: 16px;
-  transition: transform var(--transition-fast);
-}
-
-.login-button:hover .arrow {
-  transform: translateX(4px);
-}
-
-.login-button:disabled {
-  opacity: 0.7;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
 }
 
 /* Login Info */
 .login-info {
   text-align: center;
   font-size: 11px;
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: var(--border-width) solid var(--border-color);
 }
 
 /* Footer */
@@ -173,15 +189,17 @@
   }
 }
 
-/* Slide In Animation */
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
+/* Shake Animation for Errors */
+@keyframes shake {
+  0%,
+  100% {
     transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
   }
 }
 
@@ -194,18 +212,10 @@
   .login-card {
     padding: var(--spacing-lg);
   }
-
-  .feature-list {
-    padding: var(--spacing-md);
-  }
-
-  .feature-item {
-    font-size: 12px;
-  }
 }
 
 /* Loading State */
-.login-button .spinner {
+.submit-button .spinner {
   width: 16px;
   height: 16px;
   border: 2px solid var(--border-color);

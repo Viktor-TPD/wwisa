@@ -1,52 +1,46 @@
 import React, { useState } from "react";
-import LoginScreen from "./components/LoginScreen";
+import { useAuth } from "./context/AuthContext";
+import Login from "./components/Login";
 import FileUpload from "./components/FileUpload";
 import ActionSlot from "./components/ActionSlot";
 import WaveformVisualizer from "./components/WaveformVisualizer";
 import AudioInitButton from "./components/AudioInitButton";
 import DebugTools from "./components/DebugTools";
 import wwiseService from "./services/wwise";
-import { files as filesAPI } from "./services/api";
+import { files } from "./services/api";
 import "./App.css";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user, loading, logout } = useAuth();
   const [loadedFiles, setLoadedFiles] = useState(null);
   const [actionSlots, setActionSlots] = useState([]);
   const [nextSlotId, setNextSlotId] = useState(1);
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
-
-  const handleFilesLoaded = (files) => {
-    setLoadedFiles(files);
+  const handleFilesLoaded = (filesData) => {
+    setLoadedFiles(filesData);
   };
 
   const handleLogout = async () => {
-    // Clear backend files
     try {
-      const response = await filesAPI.list();
-      const files = response.files || [];
-      for (const file of files) {
-        await filesAPI.delete(file.id);
+      // Clear backend files
+      await files.deleteAll();
+
+      // Stop Wwise
+      if (wwiseService.initialized) {
+        wwiseService.stopAudioRendering();
       }
+
+      // Reset state
+      setLoadedFiles(null);
+      setActionSlots([]);
+
+      // Logout
+      await logout();
     } catch (err) {
-      console.error("Error clearing files:", err);
+      console.error("Logout error:", err);
+      // Still logout even if file deletion fails
+      await logout();
     }
-
-    // Reset state
-    setIsLoggedIn(false);
-    setLoadedFiles(null);
-    setActionSlots([]);
-
-    // Stop Wwise
-    if (wwiseService.initialized) {
-      wwiseService.stopAudioRendering();
-    }
-
-    // Reload page to clean everything
-    window.location.reload();
   };
 
   const handleAddSlot = () => {
@@ -68,20 +62,24 @@ function App() {
 
     setActionSlots(newSlots);
     setNextSlotId(nextSlotId + newSlots.length);
-
-    // Give UI a moment to render, then populate
-    setTimeout(() => {
-      // This is a simplified auto-populate
-      // In practice, you'd need to trigger the selection in ActionSlot
-      console.log("Auto-populate triggered - slots created");
-    }, 100);
   };
 
-  // Show login screen if not logged in
-  if (!isLoggedIn) {
-    return <LoginScreen onLogin={handleLogin} />;
+  // Show loading spinner while checking auth
+  if (loading) {
+    return (
+      <div className="App loading-screen">
+        <div className="spinner-large"></div>
+        <p className="text-muted">INITIALIZING...</p>
+      </div>
+    );
   }
 
+  // Show login screen if not authenticated
+  if (!user) {
+    return <Login />;
+  }
+
+  // Main app - user is authenticated
   return (
     <div className="App">
       <div className="scanline-overlay"></div>
@@ -94,6 +92,10 @@ function App() {
               className={`status-dot ${loadedFiles ? "active" : ""}`}
             ></span>
             <span>{loadedFiles ? "SYSTEM READY" : "AWAITING INIT"}</span>
+          </div>
+          <div className="user-info">
+            <span className="text-muted">USER:</span>
+            <span className="username">{user.username}</span>
           </div>
           <button onClick={handleLogout} className="btn-danger logout-button">
             LOGOUT

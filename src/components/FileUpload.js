@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import wwiseService from "../services/wwise";
-import xmlParser from "../services/xmlParser";
-import { files as filesAPI } from "../services/api";
+import xmlParser from "../services/xmlParser.js";
+import { files } from "../services/api";
 import "./FileUpload.css";
 
 function FileUpload({ onFilesLoaded }) {
@@ -15,20 +15,20 @@ function FileUpload({ onFilesLoaded }) {
 
   const autoLoadExistingFiles = async () => {
     try {
-      const response = await filesAPI.list();
-      const files = response.files || [];
+      const response = await files.list();
+      const filesList = response.files || [];
 
-      if (files.length === 0) {
+      if (filesList.length === 0) {
         return;
       }
 
-      const recentInit = files.find(
+      const recentInit = filesList.find(
         (f) => f.originalName === "Init.bnk" && f.fileType === ".bnk"
       );
-      const recentBank = files.find(
+      const recentBank = filesList.find(
         (f) => f.originalName === "TestBank.bnk" && f.fileType === ".bnk"
       );
-      const recentXml = files.find((f) => f.fileType === ".xml");
+      const recentXml = filesList.find((f) => f.fileType === ".xml");
 
       if (recentInit && recentBank && recentXml) {
         setIsLoading(true);
@@ -67,24 +67,24 @@ function FileUpload({ onFilesLoaded }) {
   };
 
   const loadXmlFromBackend = async (xmlFile) => {
-    const blob = await filesAPI.download(xmlFile.id);
+    const blob = await files.download(xmlFile.id);
     return await blob.text();
   };
 
   const loadFileFromBackend = async (fileMetadata) => {
-    const blob = await filesAPI.download(fileMetadata.id);
+    const blob = await files.download(fileMetadata.id);
     const arrayBuffer = await blob.arrayBuffer();
     await wwiseService.loadSoundBank(fileMetadata.originalName, arrayBuffer);
   };
 
   const handleFileUpload = async (event) => {
-    const files = Array.from(event.target.files);
+    const uploadedFiles = Array.from(event.target.files);
     setIsLoading(true);
     setUploadStatus("Processing files...");
 
     try {
       // Find XML file first
-      const xmlFile = files.find((f) => f.name.endsWith(".xml"));
+      const xmlFile = uploadedFiles.find((f) => f.name.endsWith(".xml"));
       if (!xmlFile) {
         throw new Error("SoundbanksInfo.xml not found");
       }
@@ -100,7 +100,7 @@ function FileUpload({ onFilesLoaded }) {
       }
 
       // Load banks
-      const bankFiles = files.filter((f) => f.name.endsWith(".bnk"));
+      const bankFiles = uploadedFiles.filter((f) => f.name.endsWith(".bnk"));
       for (const bankFile of bankFiles) {
         const arrayBuffer = await bankFile.arrayBuffer();
         await wwiseService.loadSoundBank(bankFile.name, arrayBuffer);
@@ -111,13 +111,8 @@ function FileUpload({ onFilesLoaded }) {
       const rtpcs = xmlParser.getRTPCNames(parsedData);
       wwiseService.setEvents(events);
 
-      // Upload to backend
-      const formData = new FormData();
-      files.forEach((file) => {
-        formData.append("files", file);
-      });
-
-      await filesAPI.upload(formData);
+      // Upload to backend - pass the files array directly
+      await files.upload(uploadedFiles);
 
       if (onFilesLoaded) {
         onFilesLoaded({
