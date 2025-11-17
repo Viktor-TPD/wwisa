@@ -3,16 +3,13 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const config = require("./config");
 
-// Import database
 require("./database");
 
-// Import routes
 const authRoutes = require("./routes/auth");
 const fileRoutes = require("./routes/files");
 
 const app = express();
 
-// Middleware
 app.use(
   cors({
     origin: config.frontendUrl,
@@ -22,7 +19,6 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-// Routes
 app.get("/api/health", (req, res) => {
   res.json({
     status: "OK",
@@ -35,7 +31,6 @@ app.get("/api/health", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/files", fileRoutes);
 
-// Error handling
 app.use((err, req, res, next) => {
   console.error("Error:", err);
   res.status(500).json({
@@ -45,7 +40,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start server
 app.listen(config.port, () => {
   console.log("");
   console.log("Wwisa Backend Server");

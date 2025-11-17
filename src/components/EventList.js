@@ -9,10 +9,8 @@ function EventList({ events }) {
     try {
       wwiseService.postEvent(eventName);
 
-      // Visual feedback
       setPlayingEvents((prev) => new Set(prev).add(eventName));
 
-      // Remove after animation
       setTimeout(() => {
         setPlayingEvents((prev) => {
           const next = new Set(prev);

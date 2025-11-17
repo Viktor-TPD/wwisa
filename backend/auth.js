@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 const config = require("./config");
 
-// Generate JWT token
 const generateToken = (user) => {
   return jwt.sign(
     {
@@ -14,9 +13,7 @@ const generateToken = (user) => {
   );
 };
 
-// Verify JWT token middleware
 const authenticateToken = (req, res, next) => {
-  // Get token from Authorization header or cookie
   const authHeader = req.headers["authorization"];
   const token = (authHeader && authHeader.split(" ")[1]) || req.cookies.token;
 
@@ -29,7 +26,7 @@ const authenticateToken = (req, res, next) => {
 
   try {
     const verified = jwt.verify(token, config.jwtSecret);
-    req.user = verified; // Add user info to request
+    req.user = verified;
     next();
   } catch (error) {
     res.status(403).json({

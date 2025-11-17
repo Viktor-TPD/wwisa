@@ -1,3 +1,5 @@
+/* global BigInt */
+
 import React, { useState } from "react";
 import { useAuth } from "./context/AuthContext";
 import Login from "./components/Login";
@@ -70,7 +72,6 @@ function App() {
     setActionSlots([]);
     console.log("✓ Cleared all actions");
   };
-
   const handleStopAll = () => {
     if (!wwiseService.initialized) {
       console.warn("Wwise not initialized");
@@ -78,7 +79,18 @@ function App() {
     }
 
     try {
-      wwiseService.module.SoundEngine.StopAll();
+      // Try to get the constant from the module first
+      let AK_INVALID_GAME_OBJECT;
+
+      // Check if the constant is defined in the module
+      if (typeof wwiseService.module.AK_INVALID_GAME_OBJECT !== "undefined") {
+        AK_INVALID_GAME_OBJECT = wwiseService.module.AK_INVALID_GAME_OBJECT;
+      } else {
+        // Use BigInt -1 which should be equivalent to all bits set in uint64
+        AK_INVALID_GAME_OBJECT = BigInt("18446744073709551615"); // Max uint64 value
+      }
+
+      wwiseService.module.SoundEngine.StopAll(AK_INVALID_GAME_OBJECT);
       console.log("⏹ Stopped all audio");
     } catch (error) {
       console.error("Failed to stop all audio:", error);
@@ -156,7 +168,7 @@ function App() {
       <div className="scanline-overlay"></div>
 
       <header className="app-header">
-        <h1>WWISE // WEB</h1>
+        <h1>WWISA</h1>
         <div className="header-controls">
           {/* ✅ Enable Audio Button in header */}
           <button

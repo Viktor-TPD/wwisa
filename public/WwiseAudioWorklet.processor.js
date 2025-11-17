@@ -88,12 +88,9 @@ class WwiseAudioWorkletProcessor extends AudioWorkletProcessor {
           channelOffset + outlen
         );
 
-        // Copy audio data to output
         outputChannelData.set(inputChannelData);
 
-        // Log audio data every 100 frames
         if (this._frameCount % 100 === 0 && c === 0) {
-          // Check if there's actual audio (non-zero values)
           const hasAudio = inputChannelData.some((v) => Math.abs(v) > 0.001);
           const maxValue = Math.max(...inputChannelData.map(Math.abs));
           console.log(
@@ -113,7 +110,6 @@ class WwiseAudioWorkletProcessor extends AudioWorkletProcessor {
         this._frameIndex = 0;
       }
     } else {
-      // Signal starvation
       Atomics.compareExchange(
         ringBufferState,
         this._options.fields.STARVING,

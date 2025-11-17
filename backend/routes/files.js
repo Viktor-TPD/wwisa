@@ -39,8 +39,7 @@ const upload = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
     const ext = path.extname(file.originalname).toLowerCase();
-    if (ext === ".bnk" || ext === ".wem" || ext === ".xml") {
-      // Added .xml
+    if (ext === ".bnk" || ext === ".wem" || ext === ".xml" || ext === ".wwu") {
       cb(null, true);
     } else {
       cb(new Error("Only .bnk, .wem, and .xml files are allowed!"), false);

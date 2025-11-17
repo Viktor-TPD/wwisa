@@ -39,7 +39,7 @@ function Login() {
 
       <div className="login-container">
         <div className="login-header">
-          <h1 className="login-title">WWISE // WEB</h1>
+          <h1 className="login-title">WWISA</h1>
           <div className="login-subtitle">
             <span className="subtitle-line">
               BROWSER-BASED AUDIO MIDDLEWARE

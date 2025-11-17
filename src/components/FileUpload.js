@@ -5,7 +5,7 @@ import "./FileUpload.css";
 function FileUpload({ onUploadComplete }) {
   const [uploadStatus, setUploadStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(true); // ✅ Add fold state
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const handleFileUpload = async (event) => {
     const uploadedFiles = Array.from(event.target.files);
@@ -13,13 +13,11 @@ function FileUpload({ onUploadComplete }) {
     setUploadStatus("Uploading files...");
 
     try {
-      // Upload to backend
       await files.upload(uploadedFiles);
 
       setUploadStatus(`✓ Uploaded ${uploadedFiles.length} file(s)`);
       setIsLoading(false);
 
-      // Notify parent
       if (onUploadComplete) {
         onUploadComplete();
       }
@@ -32,7 +30,6 @@ function FileUpload({ onUploadComplete }) {
 
   return (
     <div className="card file-upload-card">
-      {/* ✅ Clickable header for fold in/out */}
       <div
         className="card-header"
         onClick={() => setIsExpanded(!isExpanded)}
@@ -51,14 +48,13 @@ function FileUpload({ onUploadComplete }) {
         </div>
       </div>
 
-      {/* ✅ Content only shows when expanded */}
       {isExpanded && (
         <div className="file-upload-content">
           <div className="upload-zone">
             <input
               type="file"
               multiple
-              accept=".bnk,.xml"
+              accept=".bnk,.xml,.wwu"
               onChange={handleFileUpload}
               id="file-input"
               className="file-input-hidden"

@@ -8,23 +8,14 @@
   flex-direction: column;
   transition: all var(--transition-normal);
   animation: slideUp 0.3s ease;
-  cursor: grab;
+  /* ✅ REMOVED: cursor: grab; - now only on header */
 }
 
 .action-slot:hover {
   border-color: var(--accent-green);
 }
 
-/* ✅ Dragging state */
-.action-slot:active {
-  cursor: grabbing;
-  opacity: 0.7;
-  transform: scale(0.98);
-}
-
-.action-slot[draggable="true"]:hover {
-  box-shadow: 0 0 10px var(--accent-green-dim);
-}
+/* ✅ REMOVED: Dragging state on action-slot - moved to header */
 
 /* Empty Slot */
 .action-slot.empty {
@@ -77,6 +68,23 @@
   padding-bottom: var(--spacing-sm);
   border-bottom: var(--border-width) solid var(--border-color);
   gap: var(--spacing-sm);
+  /* ✅ NEW: Header is draggable with visual feedback */
+  cursor: grab;
+  user-select: none;
+}
+
+/* ✅ NEW: Dragging state on header */
+.action-slot-header[draggable="true"]:active {
+  cursor: grabbing;
+}
+
+.action-slot-header[draggable="true"]:hover {
+  background: var(--bg-primary);
+  padding: var(--spacing-xs);
+  margin: calc(var(--spacing-xs) * -1);
+  margin-bottom: var(--spacing-md);
+  border-radius: var(--border-radius);
+  border-bottom: var(--border-width) solid var(--accent-green);
 }
 
 /* ✅ Drag handle */
@@ -89,7 +97,7 @@
   transition: opacity var(--transition-fast);
 }
 
-.action-slot:hover .drag-handle {
+.action-slot-header:hover .drag-handle {
   opacity: 1;
 }
 
@@ -190,6 +198,8 @@
   background: var(--bg-primary);
   outline: none;
   border-radius: 2px;
+  /* ✅ Slider has its own cursor */
+  cursor: pointer;
 }
 
 .rtpc-slider::-webkit-slider-thumb {
@@ -231,6 +241,15 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* ✅ NEW: Range display */
+.rtpc-range {
+  text-align: center;
+  font-size: 10px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  opacity: 0.7;
+}
+
 /* Animations */
 @keyframes eventPulse {
   0%,
@@ -239,5 +258,16 @@
   }
   50% {
     transform: scale(1.02);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

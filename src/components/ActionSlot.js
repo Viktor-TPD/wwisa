@@ -1,3 +1,5 @@
+/* global BigInt */
+
 import React, { useState } from "react";
 import wwiseService from "../services/wwise";
 import "./ActionSlot.css";
@@ -66,7 +68,7 @@ function ActionSlot({
     if (onRemove) onRemove(id);
   };
 
-  const handleDragStart = (e) => {
+  const handleHeaderDragStart = (e) => {
     e.dataTransfer.effectAllowed = "move";
     if (onDragStart) onDragStart(index);
   };
@@ -82,12 +84,10 @@ function ActionSlot({
     if (onDrop) onDrop(index);
   };
 
-  // ✅ FIX: Prevent drag when interacting with slider
   const handleSliderMouseDown = (e) => {
     e.stopPropagation();
   };
 
-  // Empty slot - show type selector
   if (!actionType) {
     return (
       <div className="action-slot empty" draggable={false}>
@@ -113,7 +113,6 @@ function ActionSlot({
     );
   }
 
-  // Type selected but no item - show item selector
   if (actionType && !selectedItem) {
     const items = actionType === "event" ? availableEvents : availableRTPCs;
 
@@ -131,7 +130,6 @@ function ActionSlot({
             setSelectedItem(item);
 
             if (actionType === "rtpc" && item) {
-              // ✅ FIX: Use actual min/max from XML, default to min
               const initialValue =
                 item.defaultValue !== undefined
                   ? item.defaultValue
@@ -155,17 +153,18 @@ function ActionSlot({
     );
   }
 
-  // EVENT - Configured and draggable
   if (actionType === "event") {
     return (
       <div
         className={`action-slot event ${isPlaying ? "playing" : ""}`}
-        draggable={true}
-        onDragStart={handleDragStart}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
-        <div className="action-slot-header">
+        <div
+          className="action-slot-header"
+          draggable={true}
+          onDragStart={handleHeaderDragStart}
+        >
           <span className="drag-handle">⋮⋮</span>
           <span className="action-type-badge">EVENT</span>
           <button onClick={handleRemove} className="close-button">
@@ -183,25 +182,24 @@ function ActionSlot({
     );
   }
 
-  // RTPC - Configured and draggable
   if (actionType === "rtpc") {
-    // ✅ FIX: Use actual min/max from RTPC data
     const minValue = selectedItem.min !== undefined ? selectedItem.min : 0;
     const maxValue = selectedItem.max !== undefined ? selectedItem.max : 100;
 
-    // Determine appropriate step size based on range
     const range = maxValue - minValue;
     const step = range <= 10 ? 0.01 : range <= 100 ? 0.1 : 1;
 
     return (
       <div
         className="action-slot rtpc"
-        draggable={true}
-        onDragStart={handleDragStart}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
-        <div className="action-slot-header">
+        <div
+          className="action-slot-header"
+          draggable={true}
+          onDragStart={handleHeaderDragStart}
+        >
           <span className="drag-handle">⋮⋮</span>
           <span className="action-type-badge">RTPC</span>
           <button onClick={handleRemove} className="close-button">
@@ -211,7 +209,6 @@ function ActionSlot({
         <div className="action-content">
           <div className="action-name">{selectedItem.name}</div>
           <div className="rtpc-control">
-            {/* ✅ FIX: Prevent drag on slider interaction */}
             <input
               type="range"
               min={minValue}
@@ -226,7 +223,6 @@ function ActionSlot({
             <div className="rtpc-value">
               {Number(rtpcValue).toFixed(step < 0.1 ? 2 : 1)}
             </div>
-            {/* ✅ Show range info */}
             <div className="rtpc-range">
               {minValue.toFixed(step < 0.1 ? 2 : 1)} →{" "}
               {maxValue.toFixed(step < 0.1 ? 2 : 1)}

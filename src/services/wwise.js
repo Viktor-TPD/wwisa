@@ -1,4 +1,5 @@
 /* global BigInt */
+/* global BigUint64Array */
 
 class WwiseService {
   constructor() {
@@ -19,12 +20,12 @@ class WwiseService {
       }
 
       const script = document.createElement("script");
-      script.src = "/wwise/wwise.profile.js"; // ← YOUR NEW FILE!
+      script.src = "/wwise/wwise.profile.js";
       script.async = true;
 
       script.onload = async () => {
         try {
-          this.module = await window.WwiseModule(); // ← Works now!
+          this.module = await window.WwiseModule();
 
           // Call organizeNamespaces to structure the API
           if (this.module.organizeNamespaces) {
@@ -59,15 +60,12 @@ class WwiseService {
     try {
       await this.loadModule();
 
-      // Create directories
       if (this.module.FS) {
         try {
           this.module.FS.mkdir("/bnk");
           this.module.FS.mkdir("/wem");
           console.log("✓ Created /bnk and /wem directories");
-        } catch (e) {
-          // Directories might already exist
-        }
+        } catch (e) {}
       }
 
       console.log("Initializing Wwise subsystems...");
@@ -174,27 +172,18 @@ class WwiseService {
       return;
     }
 
-    // Define the render loop function
     const renderLoop = () => {
       if (this.module && this.module.SoundEngine) {
-        // OPTIONAL: Call PerformIO if it exists (for streaming audio)
-        // For embedded audio (Location="Memory"), this isn't needed
         if (
           this.module.StreamMgr &&
           typeof this.module.StreamMgr.PerformIO === "function"
         ) {
           this.module.StreamMgr.PerformIO();
         }
-
-        // Always render audio
         this.module.SoundEngine.RenderAudio();
       }
-
-      // Schedule next frame
       this.renderInterval = requestAnimationFrame(renderLoop);
     };
-
-    // Start the loop
     this.renderInterval = requestAnimationFrame(renderLoop);
     console.log("✓ Audio rendering started with requestAnimationFrame");
   }
@@ -214,7 +203,8 @@ class WwiseService {
     }
 
     try {
-      this.module.SoundEngine.StopAll();
+      const AK_INVALID_GAME_OBJECT = BigInt(-1);
+      this.module.SoundEngine.StopAll(AK_INVALID_GAME_OBJECT);
       console.log("🔇 Stopped all sounds");
     } catch (error) {
       console.error("Failed to stop all sounds:", error);

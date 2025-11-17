@@ -27,5 +27,5 @@ module.exports = {
   logLevel: process.env.LOG_LEVEL || "info",
 
   // Allowed file types
-  allowedFileTypes: [".bnk", ".wem"],
+  allowedFileTypes: [".bnk", ".wem", ".xml", ".wwu"],
 };

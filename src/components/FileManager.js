@@ -3,17 +3,20 @@ import { files } from "../services/api";
 import wwiseService from "../services/wwise";
 import xmlParser from "../services/xmlParser.js";
 import "./FileManager.css";
+import wwuParser from "../services/wwuParser";
 
 function FileManager({ onFilesLoaded }) {
   const [availableFiles, setAvailableFiles] = useState({
     init: [],
     banks: [],
     xml: [],
+    wwu: [],
   });
   const [selectedFiles, setSelectedFiles] = useState({
     init: null,
     bank: null,
     xml: null,
+    wwu: null,
   });
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState("");
@@ -28,7 +31,6 @@ function FileManager({ onFilesLoaded }) {
       const response = await files.list();
       const filesList = response.files || [];
 
-      // ✅ Only match "Init.bnk" exactly (case-insensitive)
       const init = filesList.filter(
         (f) => f.originalName.toLowerCase() === "init.bnk"
       );
@@ -36,15 +38,16 @@ function FileManager({ onFilesLoaded }) {
         (f) => f.fileType === ".bnk" && !init.includes(f)
       );
       const xml = filesList.filter((f) => f.fileType === ".xml");
+      const wwu = filesList.filter((f) => f.fileType === ".wwu");
 
-      setAvailableFiles({ init, banks, xml });
+      setAvailableFiles({ init, banks, xml, wwu });
 
-      // Auto-select if only one of each
       if (init.length === 1 && banks.length === 1 && xml.length === 1) {
         setSelectedFiles({
           init: init[0],
           bank: banks[0],
           xml: xml[0],
+          wwu: wwu.length === 1 ? wwu[0] : null,
         });
       }
     } catch (error) {
@@ -65,8 +68,24 @@ function FileManager({ onFilesLoaded }) {
       // Load XML first
       const xmlBlob = await files.download(selectedFiles.xml.id);
       const xmlText = await xmlBlob.text();
-      const parsedData = xmlParser.parseSoundBanksInfo(xmlText);
+      let parsedData = xmlParser.parseSoundBanksInfo(xmlText);
 
+      // Load and merge WWU data if available
+      if (selectedFiles.wwu) {
+        setStatus("Parsing Work Unit file for RTPC ranges...");
+        const wwuBlob = await files.download(selectedFiles.wwu.id);
+        const wwuText = await wwuBlob.text();
+        const wwuData = wwuParser.parseWorkUnit(wwuText);
+
+        // Merge RTPC data - WWU values take precedence
+        if (wwuData.rtpcs.length > 0) {
+          parsedData.rtpcs = wwuParser.mergeWithXmlRtpcs(
+            wwuData.rtpcs,
+            parsedData.rtpcs
+          );
+          console.log("✅ Merged RTPC data from WWU file");
+        }
+      }
       // Initialize Wwise if needed
       if (!wwiseService.initialized) {
         await wwiseService.initialize();
@@ -117,14 +136,12 @@ function FileManager({ onFilesLoaded }) {
     }
   };
 
-  // ✅ FIX: No confirmation - just delete
   const handleDeleteFile = async (fileId, fileType) => {
     try {
       await files.delete(fileId);
       setStatus("✓ File deleted");
       await loadAvailableFiles();
 
-      // Clear selection if deleted file was selected
       if (selectedFiles.init?.id === fileId) {
         setSelectedFiles({ ...selectedFiles, init: null });
       }
@@ -161,7 +178,6 @@ function FileManager({ onFilesLoaded }) {
       setStatus("✓ All files deleted");
       setIsLoading(false);
 
-      // Clear loaded files
       if (onFilesLoaded) {
         onFilesLoaded(null);
       }
@@ -329,6 +345,52 @@ function FileManager({ onFilesLoaded }) {
                       </button>
                     )}
                   </div>
+                </div>
+              </div>
+
+              <div className="file-selector">
+                <label className="file-selector-label">
+                  <span className="label-text">
+                    WORK UNIT (Optional - for RTPC ranges)
+                  </span>
+                  <span className="file-count">
+                    {availableFiles.wwu.length}
+                  </span>
+                </label>
+                <div className="selector-row">
+                  <select
+                    value={selectedFiles.wwu?.id || ""}
+                    onChange={(e) => {
+                      const file = availableFiles.wwu.find(
+                        (f) => f.id === parseInt(e.target.value)
+                      );
+                      setSelectedFiles({ ...selectedFiles, wwu: file });
+                    }}
+                    disabled={availableFiles.wwu.length === 0}
+                    className="file-dropdown"
+                  >
+                    <option value="">
+                      {availableFiles.wwu.length === 0
+                        ? "No WWU files"
+                        : "Select for custom RTPC ranges..."}
+                    </option>
+                    {availableFiles.wwu.map((file) => (
+                      <option key={file.id} value={file.id}>
+                        {file.originalName}
+                      </option>
+                    ))}
+                  </select>
+                  {selectedFiles.wwu && (
+                    <button
+                      onClick={() =>
+                        handleDeleteFile(selectedFiles.wwu.id, "wwu")
+                      }
+                      className="delete-file-button"
+                      title="Delete this file"
+                    >
+                      ×
+                    </button>
+                  )}
                 </div>
               </div>
 

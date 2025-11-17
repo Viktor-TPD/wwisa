@@ -1,3 +1,5 @@
+/* global BigInt */
+
 import React, { useState } from "react";
 import wwiseService from "../services/wwise";
 import "./DebugTools.css";

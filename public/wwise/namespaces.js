@@ -7,22 +7,28 @@ function organizeNamespaces() {
     MemoryMgr: { value: {}, enumerable: true },
     Monitor: { value: {}, enumerable: true },
     MusicEngine: { value: {}, enumerable: true },
-    SoundEngine: { value: {
-      DynamicDialogue: {},
-      DynamicSequence: {},
-      Query: {}
-    }, enumerable: true },
-    SpatialAudio: { value: {
-      ReverbEstimation: {},
-    }, enumerable: true },
+    SoundEngine: {
+      value: {
+        DynamicDialogue: {},
+        DynamicSequence: {},
+        Query: {},
+      },
+      enumerable: true,
+    },
+    SpatialAudio: {
+      value: {
+        ReverbEstimation: {},
+      },
+      enumerable: true,
+    },
     SpeakerVolumes: { value: {}, enumerable: true },
     StreamMgr: { value: {}, enumerable: true },
   };
   const nsKeys = Object.keys(namespaces);
-  Object.keys(Module).forEach(key => {
+  Object.keys(Module).forEach((key) => {
     for (const nsKey in nsKeys) {
       if (key.includes(nsKeys[nsKey])) {
-        const values = key.split('_');
+        const values = key.split("_");
         if (values.length == 2) {
           const namespace = values[0];
           const item = values[1];
@@ -33,11 +39,11 @@ function organizeNamespaces() {
           const item = values[2];
           namespaces[namespace1].value[namespace2][item] = Module[key];
         }
-        delete(Module[key]);
+        delete Module[key];
         break;
       }
     }
-  })
+  });
   Module = Object.defineProperties(Module, namespaces);
 }
 Module["organizeNamespaces"] = organizeNamespaces;

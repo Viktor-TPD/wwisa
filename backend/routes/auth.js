@@ -11,12 +11,10 @@ const config = require("../config");
 
 const router = express.Router();
 
-// Register new user
 router.post("/register", async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    // Validation
     if (!username || !email || !password) {
       return res.status(400).json({
         success: false,
@@ -31,7 +29,6 @@ router.post("/register", async (req, res) => {
       });
     }
 
-    // Check if user already exists
     const existingUser = await getUserByUsername(username);
     if (existingUser) {
       return res.status(409).json({
@@ -48,19 +45,13 @@ router.post("/register", async (req, res) => {
       });
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, config.bcryptSaltRounds);
-
-    // Create user
     const user = await createUser(username, email, hashedPassword);
-
-    // Generate token
     const token = generateToken(user);
 
-    // Set cookie
     res.cookie("token", token, {
       httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: 7 * 24 * 60 * 60 * 1000,
       sameSite: "strict",
     });
 
@@ -116,10 +107,8 @@ router.post("/login", async (req, res) => {
       });
     }
 
-    // Generate token
     const token = generateToken(user);
 
-    // Set cookie
     res.cookie("token", token, {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
