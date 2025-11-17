@@ -1,70 +1,99 @@
-# Getting Started with Create React App
+# Wwisa - Web-Based Wwise Audio Player
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A browser-based audio middleware interface that enables playback of Wwise sound banks (.wem files) without requiring Wwise software installation. Built with React, Node.js, and WebAssembly bindings for Wwise SDK 2022.1.3.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Load and play Wwise sound banks directly in the browser
+- Trigger Wwise events and control RTPCs (Real-Time Parameter Controls)
+- User authentication and file management system
+- Drag-and-drop action slots for organizing audio controls
+- Real-time audio rendering via Web Audio API
 
-### `npm start`
+## Demo Files
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Sample Wwise files are included in the `backend/filesForTesting` directory for testing without Wwise access:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- `Init.bnk` - Initialization bank
+- `CloudBank.bnk` - Sample sound bank
+- `defaultWorkUnit.wwu` - Work unit file with RTPC definitions
+- `SoundbanksInfo.xml` - Metadata file with event/RTPC mappings
 
-### `npm test`
+## Setup
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `npm run build`
+- Node.js 18+
+- npm
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Clone the repository
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+git clone <repository-url>
+cd wwisa
+```
 
-### `npm run eject`
+2. Install frontend dependencies
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm install
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. Install backend dependencies
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+cd backend
+npm install
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+4. Configure backend environment
 
-## Learn More
+```bash
+cd backend
+cp .env.example .env
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Running the Application
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. Start the backend server (from `backend` directory)
 
-### Code Splitting
+```bash
+npm run dev
+# Server runs on http://localhost:3001
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+2. Start the frontend (from root directory, in a new terminal)
 
-### Analyzing the Bundle Size
+```bash
+npm start
+# App opens at http://localhost:3000
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Usage
 
-### Making a Progressive Web App
+1. Register/login to create an account (email is not used, but will be in future versions)
+2. Upload the demo files from `backend` directory (or your own Wwise exports):
+   - Init.bnk (required)
+   - Your sound bank (.bnk file)
+   - SoundbanksInfo.xml (required for event/RTPC detection)
+   - Work unit file (.wwu, optional for RTPC ranges)
+3. Click "ENABLE AUDIO" to initialize the audio system
+4. Load the files and add action slots to trigger events or control RTPCs
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Technical Details
 
-### Advanced Configuration
+- **Frontend**: React with Web Audio API and WebAssembly
+- **Backend**: Express.js with SQLite database
+- **Audio Engine**: Wwise 2022.1.3 compiled to WebAssembly
+- **File Storage**: User-scoped file system with authentication
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Browser Requirements
 
-### Deployment
+- Modern browser with WebAssembly support (preferably Chrome or Chromium based)
+- SharedArrayBuffer support
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## License
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+MIT License - See LICENSE file for details
