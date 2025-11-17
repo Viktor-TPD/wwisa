@@ -8,10 +8,22 @@
   flex-direction: column;
   transition: all var(--transition-normal);
   animation: slideUp 0.3s ease;
+  cursor: grab;
 }
 
 .action-slot:hover {
   border-color: var(--accent-green);
+}
+
+/* ✅ Dragging state */
+.action-slot:active {
+  cursor: grabbing;
+  opacity: 0.7;
+  transform: scale(0.98);
+}
+
+.action-slot[draggable="true"]:hover {
+  box-shadow: 0 0 10px var(--accent-green-dim);
 }
 
 /* Empty Slot */
@@ -20,6 +32,7 @@
   border-style: dashed;
   justify-content: center;
   align-items: center;
+  cursor: default;
 }
 
 .action-type-selector {
@@ -63,9 +76,25 @@
   margin-bottom: var(--spacing-md);
   padding-bottom: var(--spacing-sm);
   border-bottom: var(--border-width) solid var(--border-color);
+  gap: var(--spacing-sm);
+}
+
+/* ✅ Drag handle */
+.drag-handle {
+  font-size: 16px;
+  color: var(--text-secondary);
+  cursor: grab;
+  user-select: none;
+  opacity: 0.5;
+  transition: opacity var(--transition-fast);
+}
+
+.action-slot:hover .drag-handle {
+  opacity: 1;
 }
 
 .action-type-badge {
+  flex: 1;
   font-size: 10px;
   letter-spacing: 1px;
   color: var(--text-secondary);
@@ -200,66 +229,6 @@
   font-weight: 600;
   color: var(--accent-green);
   font-variant-numeric: tabular-nums;
-}
-
-/* Switch Action */
-.switch-control {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
-}
-
-.switch-button {
-  width: 100%;
-  padding: var(--spacing-sm);
-  background: var(--bg-primary);
-  border: var(--border-width) solid var(--border-color);
-  color: var(--text-primary);
-  font-size: 11px;
-  text-align: left;
-  transition: all var(--transition-fast);
-}
-
-.switch-button:hover {
-  border-color: var(--accent-green);
-  background: var(--accent-green-dim);
-}
-
-.switch-button.active {
-  background: var(--accent-green);
-  border-color: var(--accent-green);
-  color: var(--bg-primary);
-  font-weight: 600;
-}
-
-/* State Action */
-.state-control {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
-}
-
-.state-button {
-  width: 100%;
-  padding: var(--spacing-sm);
-  background: var(--bg-primary);
-  border: var(--border-width) solid var(--border-color);
-  color: var(--text-primary);
-  font-size: 11px;
-  text-align: left;
-  transition: all var(--transition-fast);
-}
-
-.state-button:hover {
-  border-color: var(--accent-green);
-  background: var(--accent-green-dim);
-}
-
-.state-button.active {
-  background: var(--accent-green);
-  border-color: var(--accent-green);
-  color: var(--bg-primary);
-  font-weight: 600;
 }
 
 /* Animations */

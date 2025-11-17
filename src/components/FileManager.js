@@ -17,6 +17,7 @@ function FileManager({ onFilesLoaded }) {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState("");
+  const [isExpanded, setIsExpanded] = useState(true);
 
   useEffect(() => {
     loadAvailableFiles();
@@ -27,10 +28,9 @@ function FileManager({ onFilesLoaded }) {
       const response = await files.list();
       const filesList = response.files || [];
 
+      // ✅ Only match "Init.bnk" exactly (case-insensitive)
       const init = filesList.filter(
-        (f) =>
-          f.originalName === "Init.bnk" ||
-          f.originalName.toLowerCase().includes("init")
+        (f) => f.originalName.toLowerCase() === "init.bnk"
       );
       const banks = filesList.filter(
         (f) => f.fileType === ".bnk" && !init.includes(f)
@@ -117,9 +117,8 @@ function FileManager({ onFilesLoaded }) {
     }
   };
 
+  // ✅ FIX: No confirmation - just delete
   const handleDeleteFile = async (fileId, fileType) => {
-    if (!window.confirm("Delete this file?")) return;
-
     try {
       await files.delete(fileId);
       setStatus("✓ File deleted");
@@ -180,177 +179,198 @@ function FileManager({ onFilesLoaded }) {
 
   return (
     <div className="card file-manager-card">
-      <div className="card-header">
+      <div
+        className="card-header"
+        onClick={() => setIsExpanded(!isExpanded)}
+        style={{ cursor: "pointer" }}
+      >
         <h2>FILE MANAGEMENT</h2>
-        {isLoading && <div className="spinner"></div>}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "var(--spacing-md)",
+          }}
+        >
+          {isLoading && <div className="spinner"></div>}
+          <span className="text-muted">{isExpanded ? "▼" : "▶"}</span>
+        </div>
       </div>
 
-      {!hasFiles ? (
-        <div className="no-files-message">
-          <p className="text-muted">
-            No files uploaded yet. Upload files below.
-          </p>
-        </div>
-      ) : (
-        <>
-          <div className="file-selector-grid">
-            {/* Init Bank Selector */}
-            <div className="file-selector">
-              <label className="file-selector-label">
-                <span className="label-text">INIT BANK</span>
-                <span className="file-count">{availableFiles.init.length}</span>
-              </label>
-              <div className="selector-row">
-                <select
-                  value={selectedFiles.init?.id || ""}
-                  onChange={(e) => {
-                    const file = availableFiles.init.find(
-                      (f) => f.id === parseInt(e.target.value)
-                    );
-                    setSelectedFiles({ ...selectedFiles, init: file });
-                  }}
-                  disabled={availableFiles.init.length === 0}
-                  className="file-dropdown"
-                >
-                  <option value="">Choose...</option>
-                  {availableFiles.init.map((file) => (
-                    <option key={file.id} value={file.id}>
-                      {file.originalName}
-                    </option>
-                  ))}
-                </select>
-                {selectedFiles.init && (
-                  <button
-                    onClick={() =>
-                      handleDeleteFile(selectedFiles.init.id, "init")
-                    }
-                    className="delete-file-button"
-                    title="Delete this file"
-                  >
-                    ×
-                  </button>
-                )}
+      {isExpanded && (
+        <div className="file-manager-content">
+          {!hasFiles ? (
+            <div className="no-files-message">
+              <p className="text-muted">
+                No files uploaded yet. Upload files below.
+              </p>
+            </div>
+          ) : (
+            <>
+              <div className="file-selector-grid">
+                {/* Init Bank Selector */}
+                <div className="file-selector">
+                  <label className="file-selector-label">
+                    <span className="label-text">INIT BANK</span>
+                    <span className="file-count">
+                      {availableFiles.init.length}
+                    </span>
+                  </label>
+                  <div className="selector-row">
+                    <select
+                      value={selectedFiles.init?.id || ""}
+                      onChange={(e) => {
+                        const file = availableFiles.init.find(
+                          (f) => f.id === parseInt(e.target.value)
+                        );
+                        setSelectedFiles({ ...selectedFiles, init: file });
+                      }}
+                      disabled={availableFiles.init.length === 0}
+                      className="file-dropdown"
+                    >
+                      <option value="">Choose...</option>
+                      {availableFiles.init.map((file) => (
+                        <option key={file.id} value={file.id}>
+                          {file.originalName}
+                        </option>
+                      ))}
+                    </select>
+                    {selectedFiles.init && (
+                      <button
+                        onClick={() =>
+                          handleDeleteFile(selectedFiles.init.id, "init")
+                        }
+                        className="delete-file-button"
+                        title="Delete this file"
+                      >
+                        ×
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* Sound Bank Selector */}
+                <div className="file-selector">
+                  <label className="file-selector-label">
+                    <span className="label-text">SOUND BANK</span>
+                    <span className="file-count">
+                      {availableFiles.banks.length}
+                    </span>
+                  </label>
+                  <div className="selector-row">
+                    <select
+                      value={selectedFiles.bank?.id || ""}
+                      onChange={(e) => {
+                        const file = availableFiles.banks.find(
+                          (f) => f.id === parseInt(e.target.value)
+                        );
+                        setSelectedFiles({ ...selectedFiles, bank: file });
+                      }}
+                      disabled={availableFiles.banks.length === 0}
+                      className="file-dropdown"
+                    >
+                      <option value="">Choose...</option>
+                      {availableFiles.banks.map((file) => (
+                        <option key={file.id} value={file.id}>
+                          {file.originalName}
+                        </option>
+                      ))}
+                    </select>
+                    {selectedFiles.bank && (
+                      <button
+                        onClick={() =>
+                          handleDeleteFile(selectedFiles.bank.id, "bank")
+                        }
+                        className="delete-file-button"
+                        title="Delete this file"
+                      >
+                        ×
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* XML Selector */}
+                <div className="file-selector">
+                  <label className="file-selector-label">
+                    <span className="label-text">XML FILE</span>
+                    <span className="file-count">
+                      {availableFiles.xml.length}
+                    </span>
+                  </label>
+                  <div className="selector-row">
+                    <select
+                      value={selectedFiles.xml?.id || ""}
+                      onChange={(e) => {
+                        const file = availableFiles.xml.find(
+                          (f) => f.id === parseInt(e.target.value)
+                        );
+                        setSelectedFiles({ ...selectedFiles, xml: file });
+                      }}
+                      disabled={availableFiles.xml.length === 0}
+                      className="file-dropdown"
+                    >
+                      <option value="">Choose...</option>
+                      {availableFiles.xml.map((file) => (
+                        <option key={file.id} value={file.id}>
+                          {file.originalName}
+                        </option>
+                      ))}
+                    </select>
+                    {selectedFiles.xml && (
+                      <button
+                        onClick={() =>
+                          handleDeleteFile(selectedFiles.xml.id, "xml")
+                        }
+                        className="delete-file-button"
+                        title="Delete this file"
+                      >
+                        ×
+                      </button>
+                    )}
+                  </div>
+                </div>
               </div>
-            </div>
 
-            {/* Sound Bank Selector */}
-            <div className="file-selector">
-              <label className="file-selector-label">
-                <span className="label-text">SOUND BANK</span>
-                <span className="file-count">
-                  {availableFiles.banks.length}
-                </span>
-              </label>
-              <div className="selector-row">
-                <select
-                  value={selectedFiles.bank?.id || ""}
-                  onChange={(e) => {
-                    const file = availableFiles.banks.find(
-                      (f) => f.id === parseInt(e.target.value)
-                    );
-                    setSelectedFiles({ ...selectedFiles, bank: file });
-                  }}
-                  disabled={availableFiles.banks.length === 0}
-                  className="file-dropdown"
+              <div className="file-actions">
+                <button
+                  onClick={handleLoadSelected}
+                  disabled={
+                    !selectedFiles.init ||
+                    !selectedFiles.bank ||
+                    !selectedFiles.xml ||
+                    isLoading
+                  }
+                  className="btn-primary load-button"
                 >
-                  <option value="">Choose...</option>
-                  {availableFiles.banks.map((file) => (
-                    <option key={file.id} value={file.id}>
-                      {file.originalName}
-                    </option>
-                  ))}
-                </select>
-                {selectedFiles.bank && (
-                  <button
-                    onClick={() =>
-                      handleDeleteFile(selectedFiles.bank.id, "bank")
-                    }
-                    className="delete-file-button"
-                    title="Delete this file"
-                  >
-                    ×
-                  </button>
-                )}
-              </div>
-            </div>
+                  LOAD SELECTED FILES
+                </button>
 
-            {/* XML Selector */}
-            <div className="file-selector">
-              <label className="file-selector-label">
-                <span className="label-text">XML FILE</span>
-                <span className="file-count">{availableFiles.xml.length}</span>
-              </label>
-              <div className="selector-row">
-                <select
-                  value={selectedFiles.xml?.id || ""}
-                  onChange={(e) => {
-                    const file = availableFiles.xml.find(
-                      (f) => f.id === parseInt(e.target.value)
-                    );
-                    setSelectedFiles({ ...selectedFiles, xml: file });
-                  }}
-                  disabled={availableFiles.xml.length === 0}
-                  className="file-dropdown"
+                <button
+                  onClick={handleDeleteAll}
+                  disabled={isLoading}
+                  className="btn-danger nuclear-button"
                 >
-                  <option value="">Choose...</option>
-                  {availableFiles.xml.map((file) => (
-                    <option key={file.id} value={file.id}>
-                      {file.originalName}
-                    </option>
-                  ))}
-                </select>
-                {selectedFiles.xml && (
-                  <button
-                    onClick={() =>
-                      handleDeleteFile(selectedFiles.xml.id, "xml")
-                    }
-                    className="delete-file-button"
-                    title="Delete this file"
-                  >
-                    ×
-                  </button>
-                )}
+                  ☢ DELETE ALL FILES
+                </button>
               </div>
-            </div>
-          </div>
 
-          <div className="file-actions">
-            <button
-              onClick={handleLoadSelected}
-              disabled={
-                !selectedFiles.init ||
-                !selectedFiles.bank ||
-                !selectedFiles.xml ||
-                isLoading
-              }
-              className="btn-primary load-button"
-            >
-              LOAD SELECTED FILES
-            </button>
-
-            <button
-              onClick={handleDeleteAll}
-              disabled={isLoading}
-              className="btn-danger nuclear-button"
-            >
-              ☢ DELETE ALL FILES
-            </button>
-          </div>
-
-          {status && (
-            <div
-              className={`status-message ${
-                status.includes("✓")
-                  ? "success"
-                  : status.includes("❌")
-                  ? "error"
-                  : ""
-              }`}
-            >
-              {status}
-            </div>
+              {status && (
+                <div
+                  className={`status-message ${
+                    status.includes("✓")
+                      ? "success"
+                      : status.includes("❌")
+                      ? "error"
+                      : ""
+                  }`}
+                >
+                  {status}
+                </div>
+              )}
+            </>
           )}
-        </>
+        </div>
       )}
     </div>
   );

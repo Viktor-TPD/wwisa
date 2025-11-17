@@ -6,7 +6,6 @@ const xmlParser = {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(xmlText, "text/xml");
 
-    // Check for parsing errors
     const parserError = xmlDoc.querySelector("parsererror");
     if (parserError) {
       throw new Error("Failed to parse XML: " + parserError.textContent);
@@ -97,14 +96,24 @@ const xmlParser = {
 
   /**
    * Extract RTPCs (Game Parameters)
+   * ✅ FIX: Deduplicate by ID - Wwise sometimes exports duplicates
    */
   extractRTPCs(xmlDoc) {
-    const rtpcs = [];
     const rtpcNodes = xmlDoc.querySelectorAll("GameParameter");
+    const seenIds = new Set();
+    const rtpcs = [];
 
     rtpcNodes.forEach((node) => {
+      const id = node.getAttribute("Id");
+
+      // ✅ Skip if we've already seen this ID
+      if (seenIds.has(id)) {
+        console.log(`  ℹ️ Skipping duplicate RTPC ID: ${id}`);
+        return;
+      }
+
       const rtpc = {
-        id: node.getAttribute("Id"),
+        id: id,
         name: node.getAttribute("Name"),
         min: parseFloat(node.getAttribute("Min") || 0),
         max: parseFloat(node.getAttribute("Max") || 100),
@@ -114,6 +123,7 @@ const xmlParser = {
       // Filter out factory acoustic textures (optional)
       if (!rtpc.name.includes("Factory Acoustic Textures")) {
         rtpcs.push(rtpc);
+        seenIds.add(id);
       }
     });
 

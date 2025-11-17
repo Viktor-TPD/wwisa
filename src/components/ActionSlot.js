@@ -4,20 +4,22 @@ import "./ActionSlot.css";
 
 function ActionSlot({
   id,
+  index,
   onRemove,
+  onDragStart,
+  onDragOver,
+  onDrop,
   availableEvents,
   availableRTPCs,
-  availableSwitches,
-  availableStates,
   initialType = null,
   initialItem = null,
 }) {
-  const [actionType, setActionType] = useState(initialType); // null, 'event', 'rtpc', 'switch', 'state'
+  const [actionType, setActionType] = useState(initialType);
   const [selectedItem, setSelectedItem] = useState(initialItem);
-  const [rtpcValue, setRtpcValue] = useState(50);
+  const [rtpcValue, setRtpcValue] = useState(
+    initialItem?.defaultValue || initialItem?.min || 50
+  );
   const [isPlaying, setIsPlaying] = useState(false);
-  const [selectedSwitchValue, setSelectedSwitchValue] = useState(null);
-  const [selectedStateValue, setSelectedStateValue] = useState(null);
 
   const handleTypeSelect = (type) => {
     setActionType(type);
@@ -37,50 +39,24 @@ function ActionSlot({
   };
 
   const handleRTPCChange = (value) => {
-    setRtpcValue(value);
+    const numValue = parseFloat(value);
+    setRtpcValue(numValue);
+
     if (!selectedItem) return;
 
     try {
       const gameObjID = BigInt(wwiseService.gameObjectID);
       wwiseService.module.SoundEngine.SetRTPCValue(
         selectedItem.name,
-        parseFloat(value),
-        gameObjID
+        numValue,
+        gameObjID,
+        0,
+        0,
+        false
       );
+      console.log(`⚙ RTPC set: ${selectedItem.name} = ${numValue}`);
     } catch (error) {
       console.error("Failed to set RTPC:", error);
-    }
-  };
-
-  const handleSwitchChange = (switchValue) => {
-    setSelectedSwitchValue(switchValue);
-    if (!selectedItem) return;
-
-    try {
-      const gameObjID = BigInt(wwiseService.gameObjectID);
-      wwiseService.module.SoundEngine.SetSwitch(
-        selectedItem.name, // Switch group name
-        switchValue.name, // Switch value name
-        gameObjID
-      );
-      console.log(`🔀 Switch set: ${selectedItem.name} → ${switchValue.name}`);
-    } catch (error) {
-      console.error("Failed to set switch:", error);
-    }
-  };
-
-  const handleStateChange = (stateValue) => {
-    setSelectedStateValue(stateValue);
-    if (!selectedItem) return;
-
-    try {
-      wwiseService.module.SoundEngine.SetState(
-        selectedItem.name, // State group name
-        stateValue.name // State value name
-      );
-      console.log(`◉ State set: ${selectedItem.name} → ${stateValue.name}`);
-    } catch (error) {
-      console.error("Failed to set state:", error);
     }
   };
 
@@ -90,10 +66,31 @@ function ActionSlot({
     if (onRemove) onRemove(id);
   };
 
+  const handleDragStart = (e) => {
+    e.dataTransfer.effectAllowed = "move";
+    if (onDragStart) onDragStart(index);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    if (onDragOver) onDragOver(index);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    if (onDrop) onDrop(index);
+  };
+
+  // ✅ FIX: Prevent drag when interacting with slider
+  const handleSliderMouseDown = (e) => {
+    e.stopPropagation();
+  };
+
   // Empty slot - show type selector
   if (!actionType) {
     return (
-      <div className="action-slot empty">
+      <div className="action-slot empty" draggable={false}>
         <div className="action-type-selector">
           <button
             onClick={() => handleTypeSelect("event")}
@@ -111,22 +108,6 @@ function ActionSlot({
             <span className="type-icon">⚙</span>
             <span>RTPC</span>
           </button>
-          <button
-            onClick={() => handleTypeSelect("switch")}
-            className="type-button"
-            disabled={!availableSwitches || availableSwitches.length === 0}
-          >
-            <span className="type-icon">⇄</span>
-            <span>SWITCH</span>
-          </button>
-          <button
-            onClick={() => handleTypeSelect("state")}
-            className="type-button"
-            disabled={!availableStates || availableStates.length === 0}
-          >
-            <span className="type-icon">◉</span>
-            <span>STATE</span>
-          </button>
         </div>
       </div>
     );
@@ -134,14 +115,10 @@ function ActionSlot({
 
   // Type selected but no item - show item selector
   if (actionType && !selectedItem) {
-    let items = [];
-    if (actionType === "event") items = availableEvents;
-    else if (actionType === "rtpc") items = availableRTPCs;
-    else if (actionType === "switch") items = availableSwitches;
-    else if (actionType === "state") items = availableStates;
+    const items = actionType === "event" ? availableEvents : availableRTPCs;
 
     return (
-      <div className="action-slot selecting">
+      <div className="action-slot selecting" draggable={false}>
         <div className="action-slot-header">
           <span className="text-muted">SELECT {actionType.toUpperCase()}</span>
           <button onClick={() => setActionType(null)} className="close-button">
@@ -152,12 +129,16 @@ function ActionSlot({
           onChange={(e) => {
             const item = items.find((i) => i.name === e.target.value);
             setSelectedItem(item);
-            // Initialize switch/state with first value
-            if (actionType === "switch" && item?.values?.[0]) {
-              setSelectedSwitchValue(item.values[0]);
-            }
-            if (actionType === "state" && item?.values?.[0]) {
-              setSelectedStateValue(item.values[0]);
+
+            if (actionType === "rtpc" && item) {
+              // ✅ FIX: Use actual min/max from XML, default to min
+              const initialValue =
+                item.defaultValue !== undefined
+                  ? item.defaultValue
+                  : item.min !== undefined
+                  ? item.min
+                  : 0;
+              setRtpcValue(initialValue);
             }
           }}
           className="item-selector"
@@ -174,11 +155,18 @@ function ActionSlot({
     );
   }
 
-  // Action configured - show control
+  // EVENT - Configured and draggable
   if (actionType === "event") {
     return (
-      <div className={`action-slot event ${isPlaying ? "playing" : ""}`}>
+      <div
+        className={`action-slot event ${isPlaying ? "playing" : ""}`}
+        draggable={true}
+        onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+      >
         <div className="action-slot-header">
+          <span className="drag-handle">⋮⋮</span>
           <span className="action-type-badge">EVENT</span>
           <button onClick={handleRemove} className="close-button">
             ×
@@ -195,10 +183,26 @@ function ActionSlot({
     );
   }
 
+  // RTPC - Configured and draggable
   if (actionType === "rtpc") {
+    // ✅ FIX: Use actual min/max from RTPC data
+    const minValue = selectedItem.min !== undefined ? selectedItem.min : 0;
+    const maxValue = selectedItem.max !== undefined ? selectedItem.max : 100;
+
+    // Determine appropriate step size based on range
+    const range = maxValue - minValue;
+    const step = range <= 10 ? 0.01 : range <= 100 ? 0.1 : 1;
+
     return (
-      <div className="action-slot rtpc">
+      <div
+        className="action-slot rtpc"
+        draggable={true}
+        onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+      >
         <div className="action-slot-header">
+          <span className="drag-handle">⋮⋮</span>
           <span className="action-type-badge">RTPC</span>
           <button onClick={handleRemove} className="close-button">
             ×
@@ -207,73 +211,26 @@ function ActionSlot({
         <div className="action-content">
           <div className="action-name">{selectedItem.name}</div>
           <div className="rtpc-control">
+            {/* ✅ FIX: Prevent drag on slider interaction */}
             <input
               type="range"
-              min={selectedItem.min || 0}
-              max={selectedItem.max || 100}
+              min={minValue}
+              max={maxValue}
+              step={step}
               value={rtpcValue}
               onChange={(e) => handleRTPCChange(e.target.value)}
+              onMouseDown={handleSliderMouseDown}
+              onTouchStart={handleSliderMouseDown}
               className="rtpc-slider"
             />
-            <div className="rtpc-value">{rtpcValue.toFixed(1)}</div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (actionType === "switch") {
-    return (
-      <div className="action-slot switch">
-        <div className="action-slot-header">
-          <span className="action-type-badge">SWITCH</span>
-          <button onClick={handleRemove} className="close-button">
-            ×
-          </button>
-        </div>
-        <div className="action-content">
-          <div className="action-name">{selectedItem.name}</div>
-          <div className="switch-control">
-            {selectedItem.values?.map((value) => (
-              <button
-                key={value.name}
-                onClick={() => handleSwitchChange(value)}
-                className={`switch-button ${
-                  selectedSwitchValue?.name === value.name ? "active" : ""
-                }`}
-              >
-                {value.name}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (actionType === "state") {
-    return (
-      <div className="action-slot state">
-        <div className="action-slot-header">
-          <span className="action-type-badge">STATE</span>
-          <button onClick={handleRemove} className="close-button">
-            ×
-          </button>
-        </div>
-        <div className="action-content">
-          <div className="action-name">{selectedItem.name}</div>
-          <div className="state-control">
-            {selectedItem.values?.map((value) => (
-              <button
-                key={value.name}
-                onClick={() => handleStateChange(value)}
-                className={`state-button ${
-                  selectedStateValue?.name === value.name ? "active" : ""
-                }`}
-              >
-                {value.name}
-              </button>
-            ))}
+            <div className="rtpc-value">
+              {Number(rtpcValue).toFixed(step < 0.1 ? 2 : 1)}
+            </div>
+            {/* ✅ Show range info */}
+            <div className="rtpc-range">
+              {minValue.toFixed(step < 0.1 ? 2 : 1)} →{" "}
+              {maxValue.toFixed(step < 0.1 ? 2 : 1)}
+            </div>
           </div>
         </div>
       </div>

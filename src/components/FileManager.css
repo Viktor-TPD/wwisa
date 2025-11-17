@@ -1,7 +1,21 @@
-/* FileManager Component Styles */
-
 .file-manager-card {
   animation-delay: 0.1s;
+}
+
+/* ✅ Add animation for fold in/out */
+.file-manager-content {
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 1000px;
+  }
 }
 
 .no-files-message {
