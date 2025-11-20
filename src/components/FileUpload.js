@@ -16,10 +16,10 @@ function FileUpload({ onUploadComplete }) {
       const results = [];
 
       for (const file of uploadedFiles) {
-        const blob = await upload(file.name, file, {
+        // Don't pass filename as first param - let server control the path
+        const blob = await upload(file, {
           access: "public",
           handleUploadUrl: "/api/files/upload-url",
-          clientPayload: "",
         });
 
         results.push({
