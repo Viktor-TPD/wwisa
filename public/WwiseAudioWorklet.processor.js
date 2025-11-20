@@ -4,12 +4,12 @@ class WwiseAudioWorkletProcessor extends AudioWorkletProcessor {
     this._initialized = false;
     this._frameCount = 0;
     this.port.onmessage = this._onmessage.bind(this);
-    console.log("🎵 [WORKLET] Constructor called");
+    console.log("[WORKLET] Constructor called");
   }
 
   _onmessage(event) {
     const evtdata = event.data;
-    console.log("🔧 [WORKLET] Received init message:", evtdata);
+    console.log("[WORKLET] Received init message:", evtdata);
 
     if (!this.validate(evtdata)) {
       console.error("❌ [WORKLET] Invalid data!");
@@ -24,7 +24,7 @@ class WwiseAudioWorkletProcessor extends AudioWorkletProcessor {
     this._frameIndex = 0;
     this._initialized = true;
 
-    console.log("✅ [WORKLET] Initialized successfully!");
+    console.log("[WORKLET] Initialized successfully!");
     console.log(
       `  Buffers: ${this._numBuffers}, Length: ${this._bufferLength}, Channels: ${this._channelCount}`
     );
@@ -93,11 +93,6 @@ class WwiseAudioWorkletProcessor extends AudioWorkletProcessor {
         if (this._frameCount % 100 === 0 && c === 0) {
           const hasAudio = inputChannelData.some((v) => Math.abs(v) > 0.001);
           const maxValue = Math.max(...inputChannelData.map(Math.abs));
-          console.log(
-            `  📊 Channel ${c}: hasAudio=${hasAudio}, maxValue=${maxValue.toFixed(
-              4
-            )}`
-          );
         }
       }
 
