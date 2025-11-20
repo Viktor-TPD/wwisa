@@ -54,6 +54,8 @@ export default async function handler(req, res) {
 
         const fullPath = `users/${user.username}/files/${uniqueId}-${filename}`;
 
+        console.log("Generated pathname:", fullPath);
+
         return {
           allowedContentTypes: [
             "application/octet-stream",
@@ -61,6 +63,7 @@ export default async function handler(req, res) {
             "application/xml",
             "application/x-binary",
             "binary/octet-stream",
+            "unknown",
           ],
           tokenPayload: JSON.stringify({
             userId: user.username,
@@ -68,6 +71,7 @@ export default async function handler(req, res) {
             uniqueId,
           }),
           pathname: fullPath,
+          addRandomSuffix: false,
         };
       },
       // Remove onUploadCompleted - it causes a second authenticated request

@@ -53,9 +53,21 @@ export default async function handler(req, res) {
 
       const files = blobs.map((blob) => {
         const filename = blob.pathname.split("/").pop();
+
+        // Try to extract ID from filename (format: timestamp-randomstr-originalname.ext)
         const parts = filename.split("-");
-        const id = parseInt(parts[0]);
-        const originalName = parts.slice(1).join("-");
+        let id, originalName;
+
+        if (parts.length >= 2 && !isNaN(parts[0])) {
+          // Has timestamp prefix
+          id = parseInt(parts[0]);
+          originalName = parts.slice(2).join("-"); // Skip timestamp and random string
+        } else {
+          // Fallback: use uploadedAt timestamp as ID
+          id = new Date(blob.uploadedAt).getTime();
+          originalName = filename;
+        }
+
         const ext = originalName.substring(originalName.lastIndexOf("."));
 
         return {
