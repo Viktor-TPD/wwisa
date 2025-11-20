@@ -1,4 +1,4 @@
-import { put, list, del, head } from "@vercel/blob";
+import { put, list } from "@vercel/blob";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
