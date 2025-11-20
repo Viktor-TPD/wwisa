@@ -21,6 +21,14 @@ export default async function handler(req, res) {
     res.status(200).end();
     return;
   }
+  const cookies = {};
+  const cookieHeader = req.headers.cookie;
+  if (cookieHeader) {
+    cookieHeader.split(";").forEach((cookie) => {
+      const [name, value] = cookie.trim().split("=");
+      cookies[name] = value;
+    });
+  }
 
   // Authenticate
   const token = req.cookies?.token || req.headers.authorization?.split(" ")[1];

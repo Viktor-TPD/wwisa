@@ -171,7 +171,17 @@ async function handleLogout(req, res) {
 }
 
 async function handleGetUser(req, res) {
-  const token = req.cookies?.token || req.headers.authorization?.split(" ")[1];
+  // Manual cookie parsing for Vercel
+  const cookies = {};
+  const cookieHeader = req.headers.cookie;
+  if (cookieHeader) {
+    cookieHeader.split(";").forEach((cookie) => {
+      const [name, value] = cookie.trim().split("=");
+      cookies[name] = value;
+    });
+  }
+
+  const token = cookies.token || req.headers.authorization?.split(" ")[1];
 
   if (!token) {
     return res.status(401).json({
