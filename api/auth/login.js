@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { head } from "@vercel/blob";
 
 const JWT_SECRET = process.env.JWT_SECRET || "change-this-in-production";
 const JWT_EXPIRES_IN = "7d";
@@ -32,12 +33,11 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Get user data
-    const response = await fetch(
-      `${
-        process.env.BLOB_READ_WRITE_TOKEN ? "https" : "http"
-      }://public.blob.vercel-storage.com/users/${username}/profile.json`
-    );
+    // Get user data using Vercel Blob SDK
+    const userBlob = await head(`users/${username}/profile.json`);
+
+    // Fetch the actual content
+    const response = await fetch(userBlob.url);
 
     if (!response.ok) {
       return res.status(401).json({
