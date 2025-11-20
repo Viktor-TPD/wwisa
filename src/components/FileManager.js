@@ -83,7 +83,7 @@ function FileManager({ onFilesLoaded }) {
             wwuData.rtpcs,
             parsedData.rtpcs
           );
-          console.log("✅ Merged RTPC data from WWU file");
+          // console.log("✅ Merged RTPC data from WWU file");
         }
       }
       // Initialize Wwise if needed

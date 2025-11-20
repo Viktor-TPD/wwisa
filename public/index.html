@@ -20,17 +20,17 @@
         window.AudioContext = function (...args) {
           // Return existing context if it exists and is usable
           if (wwiseContext && wwiseContext.state !== "closed") {
-            console.log(
-              "♻️ Reusing existing AudioContext (state:",
-              wwiseContext.state + ")"
-            );
+            // console.log(
+            //   "♻️ Reusing existing AudioContext (state:",
+            //   wwiseContext.state + ")"
+            // );
             return wwiseContext;
           }
 
           // Create new context
-          console.log("🎵 Creating NEW AudioContext...");
+          // console.log("🎵 Creating NEW AudioContext...");
           wwiseContext = new OriginalAudioContext(...args);
-          console.log("🎵 AudioContext created! State:", wwiseContext.state);
+          // console.log("🎵 AudioContext created! State:", wwiseContext.state);
 
           // Store reference
           window.WwiseAudioContext = wwiseContext;
@@ -45,12 +45,12 @@
           // Auto-resume if suspended
           const checkAndResume = () => {
             if (wwiseContext.state === "suspended") {
-              console.log("⚠️ AudioContext suspended, resuming...");
+              // console.log("⚠️ AudioContext suspended, resuming...");
               wwiseContext.resume().then(() => {
-                console.log(
-                  "✓ AudioContext resumed! State:",
-                  wwiseContext.state
-                );
+                // console.log(
+                //   "✓ AudioContext resumed! State:",
+                //   wwiseContext.state
+                // );
               });
             }
           };

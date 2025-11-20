@@ -13,8 +13,8 @@ const wwuParser = {
 
     const rtpcs = this.extractGameParameters(xmlDoc);
 
-    console.log("📋 Parsed Work Unit file:");
-    console.log(`  - ${rtpcs.length} Game Parameter(s) found`);
+    // console.log("📋 Parsed Work Unit file:");
+    // console.log(`  - ${rtpcs.length} Game Parameter(s) found`);
 
     return { rtpcs };
   },
@@ -76,7 +76,7 @@ const wwuParser = {
         rtpc.defaultValue = parseFloat(node.getAttribute("Default"));
       }
 
-      console.log(`  Found RTPC: ${rtpc.name} (${rtpc.min} - ${rtpc.max})`);
+      // console.log(`  Found RTPC: ${rtpc.name} (${rtpc.min} - ${rtpc.max})`);
       rtpcs.push(rtpc);
     });
 

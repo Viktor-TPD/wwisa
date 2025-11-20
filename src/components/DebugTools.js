@@ -9,7 +9,7 @@ function DebugTools() {
 
   const checkListener = () => {
     if (!wwiseService.initialized || !wwiseService.module) {
-      console.log("❌ Wwise not initialized");
+      // console.log("❌ Wwise not initialized");
       return;
     }
 
@@ -26,7 +26,7 @@ function DebugTools() {
 
   const verifyAudioConfig = () => {
     if (!wwiseService.initialized || !wwiseService.module) {
-      console.log("❌ Wwise not initialized");
+      // console.log("❌ Wwise not initialized");
       return;
     }
 
@@ -39,7 +39,7 @@ function DebugTools() {
 
   const manualRenderCall = () => {
     if (!wwiseService.initialized || !wwiseService.module) {
-      console.log("❌ Wwise not initialized");
+      // console.log("❌ Wwise not initialized");
       return;
     }
 

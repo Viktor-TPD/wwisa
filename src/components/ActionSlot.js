@@ -56,7 +56,7 @@ function ActionSlot({
         0,
         false
       );
-      console.log(`⚙ RTPC set: ${selectedItem.name} = ${numValue}`);
+      // console.log(`⚙ RTPC set: ${selectedItem.name} = ${numValue}`);
     } catch (error) {
       console.error("Failed to set RTPC:", error);
     }

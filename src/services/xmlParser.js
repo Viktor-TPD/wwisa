@@ -18,13 +18,13 @@ const xmlParser = {
     const switches = this.extractSwitches(xmlDoc);
     const states = this.extractStates(xmlDoc);
 
-    console.log("📋 Parsed SoundbanksInfo.xml:");
-    console.log(`  - ${banks.length} bank(s)`);
-    console.log(`  - ${events.length} event(s)`);
-    console.log(`  - ${media.length} media file(s)`);
-    console.log(`  - ${rtpcs.length} RTPC(s)`);
-    console.log(`  - ${switches.length} switch(es)`);
-    console.log(`  - ${states.length} state(s)`);
+    // console.log("📋 Parsed SoundbanksInfo.xml:");
+    // console.log(`  - ${banks.length} bank(s)`);
+    // console.log(`  - ${events.length} event(s)`);
+    // console.log(`  - ${media.length} media file(s)`);
+    // console.log(`  - ${rtpcs.length} RTPC(s)`);
+    // console.log(`  - ${switches.length} switch(es)`);
+    // console.log(`  - ${states.length} state(s)`);
 
     return {
       banks,
@@ -108,7 +108,7 @@ const xmlParser = {
 
       // ✅ Skip if we've already seen this ID
       if (seenIds.has(id)) {
-        console.log(`  ℹ️ Skipping duplicate RTPC ID: ${id}`);
+        // console.log(`  ℹ️ Skipping duplicate RTPC ID: ${id}`);
         return;
       }
 

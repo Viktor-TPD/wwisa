@@ -30,7 +30,7 @@ function App() {
 
     wwiseService.startAudioRendering();
     setAudioEnabled(true);
-    console.log("♪ Audio enabled");
+    // console.log("♪ Audio enabled");
   };
 
   const handleFilesLoaded = (filesData) => {
@@ -70,7 +70,7 @@ function App() {
   const handleClearAll = () => {
     if (actionSlots.length === 0) return;
     setActionSlots([]);
-    console.log("✓ Cleared all actions");
+    // console.log("✓ Cleared all actions");
   };
   const handleStopAll = () => {
     if (!wwiseService.initialized) {
@@ -91,7 +91,7 @@ function App() {
       }
 
       wwiseService.module.SoundEngine.StopAll(AK_INVALID_GAME_OBJECT);
-      console.log("⏹ Stopped all audio");
+      // console.log("⏹ Stopped all audio");
     } catch (error) {
       console.error("Failed to stop all audio:", error);
     }
@@ -126,7 +126,7 @@ function App() {
     setActionSlots(newSlots);
     setNextSlotId(currentId);
 
-    console.log(`✓ Auto-populated ${newSlots.length} actions (Events + RTPCs)`);
+    // console.log(`✓ Auto-populated ${newSlots.length} actions (Events + RTPCs)`);
   };
 
   const handleDragStart = (index) => {

@@ -30,13 +30,13 @@ class WwiseService {
           // Call organizeNamespaces to structure the API
           if (this.module.organizeNamespaces) {
             this.module.organizeNamespaces();
-            console.log("✓ Organized Wwise API namespaces");
+            // console.log("✓ Organized Wwise API namespaces");
           }
 
           window.Module = this.module;
           window.__wwiseService = this;
 
-          console.log("✓ Wwise WASM module loaded");
+          // console.log("✓ Wwise WASM module loaded");
           resolve(this.module);
         } catch (error) {
           reject(error);
@@ -53,7 +53,7 @@ class WwiseService {
 
   async initialize() {
     if (this.initialized) {
-      console.log("Wwise already initialized");
+      // console.log("Wwise already initialized");
       return;
     }
 
@@ -64,34 +64,34 @@ class WwiseService {
         try {
           this.module.FS.mkdir("/bnk");
           this.module.FS.mkdir("/wem");
-          console.log("✓ Created /bnk and /wem directories");
+          // console.log("✓ Created /bnk and /wem directories");
         } catch (e) {}
       }
 
-      console.log("Initializing Wwise subsystems...");
+      // console.log("Initializing Wwise subsystems...");
 
       // 1. Memory Manager
       const memResult = this.module.MemoryMgr.Init();
-      console.log(
-        "  MemoryMgr:",
-        memResult.value === 1 ? "✓" : `✗ (${memResult.value})`
-      );
+      // console.log(
+      //   "  MemoryMgr:",
+      //   memResult.value === 1 ? "✓" : `✗ (${memResult.value})`
+      // );
 
       // 2. Stream Manager
       const stmResult = this.module.StreamMgr.Create();
       const stmSuccess =
         (typeof stmResult === "object" && stmResult.value === 1) ||
         stmResult === 1;
-      console.log(
-        "  StreamMgr:",
-        stmSuccess ? "✓" : `✗ (${JSON.stringify(stmResult)})`
-      );
+      // console.log(
+      //   "  StreamMgr:",
+      //   stmSuccess ? "✓" : `✗ (${JSON.stringify(stmResult)})`
+      // );
 
       // Set language
       if (this.module.StreamMgr.SetCurrentLanguage) {
         try {
           this.module.StreamMgr.SetCurrentLanguage("SFX");
-          console.log(`  ✓ Language set to: SFX`);
+          // console.log(`  ✓ Language set to: SFX`);
         } catch (e) {
           console.warn("  ⚠️ Failed to set language:", e);
         }
@@ -101,27 +101,27 @@ class WwiseService {
       if (this.module.StreamMgr.SetBasePath) {
         try {
           this.module.StreamMgr.SetBasePath("");
-          console.log(`  ✓ Base path set (embedded audio mode)`);
+          // console.log(`  ✓ Base path set (embedded audio mode)`);
         } catch (e) {
           console.warn("  ⚠️ Failed to set base path:", e);
         }
       }
 
-      console.log(`  ℹ️ Audio should be embedded in .bnk files`);
+      // console.log(`  ℹ️ Audio should be embedded in .bnk files`);
 
       // 3. Music Engine
       const musicResult = this.module.MusicEngine.Init();
-      console.log(
-        "  MusicEngine:",
-        musicResult.value === 1 ? "✓" : `✗ (${musicResult.value})`
-      );
+      // console.log(
+      //   "  MusicEngine:",
+      //   musicResult.value === 1 ? "✓" : `✗ (${musicResult.value})`
+      // );
 
       // 4. Sound Engine
       const seResult = this.module.SoundEngine.Init();
-      console.log(
-        "  SoundEngine:",
-        seResult.value === 1 ? "✅" : `✗ (${seResult.value})`
-      );
+      // console.log(
+      //   "  SoundEngine:",
+      //   seResult.value === 1 ? "✅" : `✗ (${seResult.value})`
+      // );
 
       if (seResult.value !== 1) {
         throw new Error(`SoundEngine_Init failed: ${seResult.value}`);
@@ -131,11 +131,11 @@ class WwiseService {
       try {
         const gameObjIDBigInt = BigInt(this.gameObjectID);
         this.module.SoundEngine.RegisterGameObj(gameObjIDBigInt, "Player");
-        console.log("  ✓ Game object registered (ID: 100)");
+        // console.log("  ✓ Game object registered (ID: 100)");
 
         const listenerArray = new BigUint64Array([gameObjIDBigInt]);
         this.module.SoundEngine.SetDefaultListeners(listenerArray, 1);
-        console.log("  ✓ Set as default listener");
+        // console.log("  ✓ Set as default listener");
 
         const position = {
           Position: { X: 0, Y: 0, Z: 0 },
@@ -146,13 +146,13 @@ class WwiseService {
         };
 
         this.module.SoundEngine.SetPosition(gameObjIDBigInt, position);
-        console.log("  ✓ Set game object position at origin");
+        // console.log("  ✓ Set game object position at origin");
       } catch (e) {
         console.warn("  RegisterGameObj failed:", e.message);
       }
 
       this.initialized = true;
-      console.log("🎵 WWISE INITIALIZED!");
+      // console.log("🎵 WWISE INITIALIZED!");
 
       return true;
     } catch (error) {
@@ -163,7 +163,7 @@ class WwiseService {
 
   startAudioRendering() {
     if (this.renderInterval) {
-      console.log("Audio rendering already started");
+      // console.log("Audio rendering already started");
       return;
     }
 
@@ -185,14 +185,14 @@ class WwiseService {
       this.renderInterval = requestAnimationFrame(renderLoop);
     };
     this.renderInterval = requestAnimationFrame(renderLoop);
-    console.log("✓ Audio rendering started with requestAnimationFrame");
+    // console.log("✓ Audio rendering started with requestAnimationFrame");
   }
 
   stopAudioRendering() {
     if (this.renderInterval) {
       cancelAnimationFrame(this.renderInterval);
       this.renderInterval = null;
-      console.log("✓ Audio rendering stopped");
+      // console.log("✓ Audio rendering stopped");
     }
   }
 
@@ -205,7 +205,7 @@ class WwiseService {
     try {
       const AK_INVALID_GAME_OBJECT = BigInt(-1);
       this.module.SoundEngine.StopAll(AK_INVALID_GAME_OBJECT);
-      console.log("🔇 Stopped all sounds");
+      // console.log("🔇 Stopped all sounds");
     } catch (error) {
       console.error("Failed to stop all sounds:", error);
     }
@@ -219,16 +219,16 @@ class WwiseService {
 
     try {
       const bnkFiles = this.module.FS.readdir("/bnk");
-      console.log(
-        "📁 /bnk:",
-        bnkFiles.filter((f) => f !== "." && f !== "..")
-      );
+      // console.log(
+      //   "📁 /bnk:",
+      //   bnkFiles.filter((f) => f !== "." && f !== "..")
+      // );
 
       const wemFiles = this.module.FS.readdir("/wem");
-      console.log(
-        "📁 /wem:",
-        wemFiles.filter((f) => f !== "." && f !== "..")
-      );
+      // console.log(
+      //   "📁 /wem:",
+      //   wemFiles.filter((f) => f !== "." && f !== "..")
+      // );
     } catch (e) {
       console.error("Failed to list files:", e);
     }
@@ -240,7 +240,7 @@ class WwiseService {
     }
 
     if (this.soundBanks.has(filename)) {
-      console.log(`  ℹ️ Bank "${filename}" already loaded, skipping`);
+      // console.log(`  ℹ️ Bank "${filename}" already loaded, skipping`);
       return { success: true, filename, alreadyLoaded: true };
     }
 
@@ -248,12 +248,12 @@ class WwiseService {
       const uint8Array = new Uint8Array(fileData);
       const path = `/bnk/${filename}`;
 
-      console.log(`📁 Loading bank: ${filename}`);
+      // console.log(`📁 Loading bank: ${filename}`);
 
       try {
         const exists = this.module.FS.analyzePath(path).exists;
         if (exists) {
-          console.log(`  ⚠️ File already exists at ${path}, overwriting...`);
+          // console.log(`  ⚠️ File already exists at ${path}, overwriting...`);
           this.module.FS.unlink(path);
         }
       } catch (e) {
@@ -261,14 +261,14 @@ class WwiseService {
       }
 
       this.module.FS.writeFile(path, uint8Array);
-      console.log(`  ✓ Written to ${path} (${uint8Array.length} bytes)`);
+      // console.log(`  ✓ Written to ${path} (${uint8Array.length} bytes)`);
 
       const result = this.module.SoundEngine.LoadBank(path);
-      console.log(`  LoadBank result:`, result);
+      // console.log(`  LoadBank result:`, result);
 
       const success = result === 1 || result?.value === 1;
       if (success) {
-        console.log(`  ✅ Bank loaded successfully!`);
+        // console.log(`  ✅ Bank loaded successfully!`);
         this.soundBanks.set(filename, path);
 
         // List files after loading
@@ -295,10 +295,10 @@ class WwiseService {
 
   setEvents(events) {
     this.events = events;
-    console.log(
-      `📋 ${events.length} event(s) set:`,
-      events.map((e) => e.name)
-    );
+    // console.log(
+    //   `📋 ${events.length} event(s) set:`,
+    //   events.map((e) => e.name)
+    // );
   }
 
   getEvents() {
@@ -314,14 +314,14 @@ class WwiseService {
     try {
       const gameObjID = BigInt(this.gameObjectID);
 
-      console.log(`▶ Posting event: "${eventName}"`);
+      // console.log(`▶ Posting event: "${eventName}"`);
       this.listFiles();
 
       // PostEvent accepts the string name directly
       const playingID = this.module.SoundEngine.PostEvent(eventName, gameObjID);
 
-      console.log("  Playing ID returned:", playingID);
-      console.log("🔊 Event posted successfully! Playing ID:", playingID);
+      // console.log("  Playing ID returned:", playingID);
+      // console.log("🔊 Event posted successfully! Playing ID:", playingID);
 
       return playingID;
     } catch (error) {
