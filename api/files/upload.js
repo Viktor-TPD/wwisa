@@ -1,6 +1,8 @@
 import { put } from "@vercel/blob";
 import jwt from "jsonwebtoken";
 import multiparty from "multiparty";
+import fs from "fs";
+import path from "path";
 
 const JWT_SECRET = process.env.JWT_SECRET || "change-this-in-production";
 
@@ -72,8 +74,8 @@ export default async function handler(req, res) {
 
       for (const file of uploadedFiles) {
         try {
-          const fileBuffer = require("fs").readFileSync(file.path);
-          const ext = require("path").extname(file.originalFilename);
+          const fileBuffer = fs.readFileSync(file.path);
+          const ext = path.extname(file.originalFilename);
 
           // Validate file type
           if (![".bnk", ".wem", ".xml", ".wwu"].includes(ext.toLowerCase())) {
@@ -103,7 +105,7 @@ export default async function handler(req, res) {
           });
 
           // Clean up temp file
-          require("fs").unlinkSync(file.path);
+          fs.unlinkSync(file.path);
         } catch (error) {
           console.error("Upload error:", error);
         }
