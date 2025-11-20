@@ -7,6 +7,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "change-this-in-production";
 export const config = {
   api: {
     bodyParser: false,
+    sizeLimit: "50mb",
   },
 };
 
@@ -76,16 +77,21 @@ export default async function handler(req, res) {
 
           // Validate file type
           if (![".bnk", ".wem", ".xml", ".wwu"].includes(ext.toLowerCase())) {
+            console.log(`Skipping invalid file type: ${ext}`); // ← Add logging
             continue;
           }
 
           const timestamp = Date.now();
           const blobPath = `users/${user.username}/files/${timestamp}-${file.originalFilename}`;
 
+          console.log(`Uploading to blob: ${blobPath}`); // ← Add logging
+
           const blob = await put(blobPath, fileBuffer, {
             access: "public",
             addRandomSuffix: false,
           });
+
+          console.log(`Upload successful: ${blob.url}`); // ← Add logging
 
           results.push({
             id: timestamp,

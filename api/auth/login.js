@@ -66,7 +66,7 @@ export default async function handler(req, res) {
       "Set-Cookie",
       `token=${token}; HttpOnly; Path=/; Max-Age=${
         7 * 24 * 60 * 60
-      }; SameSite=Strict`
+      }; SameSite=Strict; Secure`
     );
 
     res.json({
