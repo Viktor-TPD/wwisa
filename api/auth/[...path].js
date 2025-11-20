@@ -17,16 +17,18 @@ export default async function handler(req, res) {
     return;
   }
 
-  const path = req.url.split("/api/auth")[1] || "/";
+  // Get the path from query params
+  const { path } = req.query;
+  const route = path ? `/${path.join("/")}` : "/";
 
   try {
-    if (path === "/register" && req.method === "POST") {
+    if (route === "/register" && req.method === "POST") {
       return await handleRegister(req, res);
-    } else if (path === "/login" && req.method === "POST") {
+    } else if (route === "/login" && req.method === "POST") {
       return await handleLogin(req, res);
-    } else if (path === "/logout" && req.method === "POST") {
+    } else if (route === "/logout" && req.method === "POST") {
       return await handleLogout(req, res);
-    } else if (path === "/me" && req.method === "GET") {
+    } else if (route === "/me" && req.method === "GET") {
       return await handleGetUser(req, res);
     }
 

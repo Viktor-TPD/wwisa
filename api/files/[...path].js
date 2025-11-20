@@ -21,6 +21,8 @@ export default async function handler(req, res) {
     res.status(200).end();
     return;
   }
+
+  // Manual cookie parsing for Vercel
   const cookies = {};
   const cookieHeader = req.headers.cookie;
   if (cookieHeader) {
@@ -49,18 +51,20 @@ export default async function handler(req, res) {
     });
   }
 
-  const path = req.url.split("/api/files")[1] || "/";
+  // Get the path from query params
+  const { path } = req.query;
+  const route = path ? `/${path.join("/")}` : "/";
 
   try {
-    if (path === "/upload" && req.method === "POST") {
+    if (route === "/upload" && req.method === "POST") {
       return await handleUpload(req, res, user);
-    } else if (path === "/" && req.method === "GET") {
+    } else if (route === "/" && req.method === "GET") {
       return await handleList(req, res, user);
-    } else if (path.match(/^\/\d+$/) && req.method === "GET") {
-      return await handleDownload(req, res, user, path);
-    } else if (path.match(/^\/\d+$/) && req.method === "DELETE") {
-      return await handleDelete(req, res, user, path);
-    } else if (path === "/" && req.method === "DELETE") {
+    } else if (route.match(/^\/\d+$/) && req.method === "GET") {
+      return await handleDownload(req, res, user, route);
+    } else if (route.match(/^\/\d+$/) && req.method === "DELETE") {
+      return await handleDelete(req, res, user, route);
+    } else if (route === "/" && req.method === "DELETE") {
       return await handleDeleteAll(req, res, user);
     }
 
