@@ -1,4 +1,4 @@
-import { put } from "@vercel/blob";
+import { handleUpload } from "@vercel/blob/client";
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "change-this-in-production";
@@ -36,42 +36,44 @@ export default async function handler(req, res) {
     return res.status(403).json({ success: false, message: "Invalid token" });
   }
 
-  const { filename } = req.body;
-
-  if (!filename) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Filename required" });
-  }
-
-  const ext = filename.substring(filename.lastIndexOf(".")).toLowerCase();
-  if (![".bnk", ".wem", ".xml", ".wwu"].includes(ext)) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Invalid file type" });
-  }
-
   try {
-    const timestamp = Date.now();
-    const randomStr = Math.random().toString(36).substring(2, 8);
-    const uniqueId = `${timestamp}-${randomStr}`;
-    const path = `users/${user.username}/files/${uniqueId}-${filename}`;
+    const jsonResponse = await handleUpload({
+      body: req.body,
+      request: req,
+      onBeforeGenerateToken: async (pathname) => {
+        // pathname is the filename sent from client
+        const filename = pathname.split("/").pop();
 
-    console.log("Generating upload URL for:", path);
+        const ext = filename.substring(filename.lastIndexOf(".")).toLowerCase();
+        if (![".bnk", ".wem", ".xml", ".wwu"].includes(ext)) {
+          throw new Error("Invalid file type");
+        }
 
-    // Use put.generateSignedUrl instead
-    const { url } = await put.generateSignedUrl(path, {
-      access: "public",
-      expiresIn: 900, // 15 minutes in seconds
+        const timestamp = Date.now();
+        const randomStr = Math.random().toString(36).substring(2, 8);
+        const uniqueId = `${timestamp}-${randomStr}`;
+
+        // THIS is the key - return pathname to control where it goes
+        const filePath = `users/${user.username}/files/${uniqueId}-${filename}`;
+
+        console.log("Generated pathname:", filePath);
+
+        return {
+          allowedContentTypes: [
+            "application/octet-stream",
+            "text/xml",
+            "application/xml",
+            "audio/mpeg",
+            "audio/wav",
+          ],
+          pathname: filePath, // THE KEY - this controls the path
+        };
+      },
     });
 
-    return res.json({
-      url,
-      path,
-      uniqueId,
-    });
+    return res.json(jsonResponse);
   } catch (error) {
-    console.error("Upload URL generation error:", error);
-    return res.status(500).json({ success: false, message: error.message });
+    console.error("Upload error:", error);
+    return res.status(400).json({ success: false, message: error.message });
   }
 }
