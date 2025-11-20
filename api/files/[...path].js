@@ -53,16 +53,25 @@ export default async function handler(req, res) {
 
   // Get the path from query params
   const { path } = req.query;
-  const route = path ? `/${path.join("/")}` : "/";
+
+  // Handle different path patterns
+  let route = "";
+  if (!path || path.length === 0) {
+    route = "/";
+  } else if (path.length === 1) {
+    route = path[0]; // either "upload" or a file ID like "123"
+  } else {
+    route = path.join("/");
+  }
 
   try {
-    if (route === "/upload" && req.method === "POST") {
+    if (route === "upload" && req.method === "POST") {
       return await handleUpload(req, res, user);
     } else if (route === "/" && req.method === "GET") {
       return await handleList(req, res, user);
-    } else if (route.match(/^\/\d+$/) && req.method === "GET") {
+    } else if (route.match(/^\d+$/) && req.method === "GET") {
       return await handleDownload(req, res, user, route);
-    } else if (route.match(/^\/\d+$/) && req.method === "DELETE") {
+    } else if (route.match(/^\d+$/) && req.method === "DELETE") {
       return await handleDelete(req, res, user, route);
     } else if (route === "/" && req.method === "DELETE") {
       return await handleDeleteAll(req, res, user);
@@ -158,8 +167,8 @@ async function handleList(req, res, user) {
   res.json({ success: true, files });
 }
 
-async function handleDownload(req, res, user, path) {
-  const fileId = path.substring(1);
+async function handleDownload(req, res, user, fileId) {
+  // fileId is already just the number, no need for substring
 
   const { blobs } = await list({
     prefix: `users/${user.username}/files/${fileId}-`,
@@ -177,9 +186,7 @@ async function handleDownload(req, res, user, path) {
   res.redirect(blobs[0].url);
 }
 
-async function handleDelete(req, res, user, path) {
-  const fileId = path.substring(1);
-
+async function handleDelete(req, res, user, fileId) {
   const { blobs } = await list({
     prefix: `users/${user.username}/files/${fileId}-`,
     limit: 1,
