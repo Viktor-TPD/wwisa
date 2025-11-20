@@ -69,8 +69,11 @@ export default async function handler(req, res) {
         });
       }
 
-      // Redirect to blob URL
-      res.redirect(blobs[0].url);
+      // Return URL as JSON instead of redirecting
+      return res.json({
+        success: true,
+        url: blobs[0].url,
+      });
     } else if (req.method === "DELETE") {
       // Delete file
       const { blobs } = await list({

@@ -85,7 +85,11 @@ export const files = {
       throw new Error("Download failed");
     }
 
-    return response.blob();
+    const data = await response.json();
+
+    // Fetch the actual blob without credentials
+    const blobResponse = await fetch(data.url);
+    return blobResponse.blob();
   },
 
   delete: async (fileId) => {
