@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { upload } from "@vercel/blob/client";
+import { useAuth } from "../context/AuthContext";
 import "./FileUpload.css";
 
 function FileUpload({ onUploadComplete }) {
+  const { user } = useAuth(); // Get user from context
   const [uploadStatus, setUploadStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
@@ -21,8 +23,8 @@ function FileUpload({ onUploadComplete }) {
         const randomStr = Math.random().toString(36).substring(2, 8);
         const uniqueId = `${timestamp}-${randomStr}`;
 
-        // Pass the FULL PATH as first argument (not just filename)
-        const fullPath = `files/${uniqueId}-${file.name}`;
+        // Pass the FULL PATH including username
+        const fullPath = `users/${user.username}/files/${uniqueId}-${file.name}`;
 
         const blob = await upload(fullPath, file, {
           access: "public",

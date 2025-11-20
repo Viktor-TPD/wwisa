@@ -41,7 +41,7 @@ export default async function handler(req, res) {
       body: req.body,
       request: req,
       onBeforeGenerateToken: async (pathname) => {
-        // pathname now includes the path from client
+        // pathname is the full path from client
         const filename = pathname.split("/").pop();
 
         const ext = filename.substring(filename.lastIndexOf(".")).toLowerCase();
@@ -49,10 +49,7 @@ export default async function handler(req, res) {
           throw new Error("Invalid file type");
         }
 
-        // Prepend user directory to the path from client
-        const userPath = `users/${user.username}/${pathname}`;
-
-        console.log("Generated pathname:", userPath);
+        console.log("Upload pathname:", pathname);
 
         return {
           allowedContentTypes: [
@@ -60,7 +57,7 @@ export default async function handler(req, res) {
             "text/xml",
             "application/xml",
           ],
-          pathname: userPath,
+          // Don't return pathname - let the client's path be used as-is
         };
       },
     });
