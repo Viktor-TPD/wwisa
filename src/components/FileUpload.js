@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { files } from "../services/api";
+import { upload } from "@vercel/blob/client";
 import "./FileUpload.css";
 
 function FileUpload({ onUploadComplete }) {
@@ -13,9 +13,22 @@ function FileUpload({ onUploadComplete }) {
     setUploadStatus("Uploading files...");
 
     try {
-      await files.upload(uploadedFiles);
+      const results = [];
 
-      setUploadStatus(`✓ Uploaded ${uploadedFiles.length} file(s)`);
+      for (const file of uploadedFiles) {
+        const blob = await upload(file.name, file, {
+          access: "public",
+          handleUploadUrl: "/api/files/upload-url",
+        });
+
+        results.push({
+          originalName: file.name,
+          url: blob.url,
+          size: file.size,
+        });
+      }
+
+      setUploadStatus(`✓ Uploaded ${results.length} file(s)`);
       setIsLoading(false);
 
       if (onUploadComplete) {
@@ -63,7 +76,7 @@ function FileUpload({ onUploadComplete }) {
               <div className="upload-icon">↑</div>
               <div className="upload-text">
                 <div>DROP FILES OR CLICK TO SELECT</div>
-                <div className="text-muted">.bnk and .xml files</div>
+                <div className="text-muted">.bnk, .xml, and .wwu files</div>
               </div>
             </label>
           </div>
