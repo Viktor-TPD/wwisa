@@ -14,9 +14,17 @@ export default async function handler(req, res) {
     return;
   }
 
-  // Get token from request body (sent by client)
-  const token = req.body?.token;
+  // Authenticate with cookies
+  const cookies = {};
+  const cookieHeader = req.headers.cookie;
+  if (cookieHeader) {
+    cookieHeader.split(";").forEach((cookie) => {
+      const [name, value] = cookie.trim().split("=");
+      cookies[name] = value;
+    });
+  }
 
+  const token = cookies.token || req.headers.authorization?.split(" ")[1];
   if (!token) {
     return res.status(401).json({ success: false, message: "Access denied" });
   }
@@ -28,34 +36,39 @@ export default async function handler(req, res) {
     return res.status(403).json({ success: false, message: "Invalid token" });
   }
 
+  const { filename } = req.body;
+
+  if (!filename) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Filename required" });
+  }
+
+  // Validate file type
+  const ext = filename.substring(filename.lastIndexOf(".")).toLowerCase();
+  if (![".bnk", ".wem", ".xml", ".wwu"].includes(ext)) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Invalid file type" });
+  }
+
   try {
+    const timestamp = Date.now();
+    const pathname = `users/${user.username}/files/${timestamp}-${filename}`;
+
     const jsonResponse = await handleUpload({
       body: req.body,
       request: req,
-      onBeforeGenerateToken: async (pathname) => {
-        const ext = pathname.substring(pathname.lastIndexOf(".")).toLowerCase();
-        if (![".bnk", ".wem", ".xml", ".wwu"].includes(ext)) {
-          throw new Error("Invalid file type");
-        }
-
-        const timestamp = Date.now();
-        const filename = pathname.split("/").pop();
-
+      onBeforeGenerateToken: async () => {
         return {
           allowedContentTypes: [
             "application/octet-stream",
             "text/xml",
             "application/xml",
           ],
-          tokenPayload: JSON.stringify({
-            userId: user.username,
-            timestamp,
-          }),
-          pathname: `users/${user.username}/files/${timestamp}-${filename}`,
+          tokenPayload: JSON.stringify({ userId: user.username }),
+          pathname,
         };
-      },
-      onUploadCompleted: async ({ blob, tokenPayload }) => {
-        console.log("Upload completed:", blob.url);
       },
     });
 

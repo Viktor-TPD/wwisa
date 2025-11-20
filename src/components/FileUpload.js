@@ -13,22 +13,39 @@ function FileUpload({ onUploadComplete }) {
     setUploadStatus("Uploading files...");
 
     try {
-      // Get token from localStorage or cookies
-      const token =
-        localStorage.getItem("token") ||
-        document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("token="))
-          ?.split("=")[1];
-
       const results = [];
 
       for (const file of uploadedFiles) {
-        const blob = await upload(file.name, file, {
-          access: "public",
-          handleUploadUrl: "/api/files/upload-url",
-          clientPayload: JSON.stringify({ token }), // Send token here
+        // First, get the upload URL from our authenticated endpoint
+        const response = await fetch("/api/files/upload-url", {
+          method: "POST",
+          credentials: "include", // Send cookies
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            filename: file.name,
+            contentType: file.type || "application/octet-stream",
+          }),
         });
+
+        if (!response.ok) {
+          throw new Error("Failed to get upload URL");
+        }
+
+        const { url } = await response.json();
+
+        // Upload directly to blob storage
+        const uploadResponse = await fetch(url, {
+          method: "PUT",
+          body: file,
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error("Upload failed");
+        }
+
+        const blob = await uploadResponse.json();
 
         results.push({
           originalName: file.name,
