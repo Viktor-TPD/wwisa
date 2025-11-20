@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     return;
   }
 
-  // Authenticate with cookies
+  // Authenticate
   const cookies = {};
   const cookieHeader = req.headers.cookie;
   if (cookieHeader) {
@@ -36,30 +36,20 @@ export default async function handler(req, res) {
     return res.status(403).json({ success: false, message: "Invalid token" });
   }
 
-  const { filename } = req.body;
-
-  if (!filename) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Filename required" });
-  }
-
-  // Validate file type
-  const ext = filename.substring(filename.lastIndexOf(".")).toLowerCase();
-  if (![".bnk", ".wem", ".xml", ".wwu"].includes(ext)) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Invalid file type" });
-  }
-
   try {
-    const timestamp = Date.now();
-    const pathname = `users/${user.username}/files/${timestamp}-${filename}`;
-
     const jsonResponse = await handleUpload({
       body: req.body,
       request: req,
-      onBeforeGenerateToken: async () => {
+      onBeforeGenerateToken: async (pathname, clientPayload) => {
+        // Validate file extension
+        const ext = pathname.substring(pathname.lastIndexOf(".")).toLowerCase();
+        if (![".bnk", ".wem", ".xml", ".wwu"].includes(ext)) {
+          throw new Error("Invalid file type");
+        }
+
+        const timestamp = Date.now();
+        const filename = pathname.split("/").pop();
+
         return {
           allowedContentTypes: [
             "application/octet-stream",
@@ -67,14 +57,17 @@ export default async function handler(req, res) {
             "application/xml",
           ],
           tokenPayload: JSON.stringify({ userId: user.username }),
-          pathname,
+          pathname: `users/${user.username}/files/${timestamp}-${filename}`,
         };
+      },
+      onUploadCompleted: async ({ blob, tokenPayload }) => {
+        console.log("Upload completed:", blob.url);
       },
     });
 
     return res.json(jsonResponse);
   } catch (error) {
-    console.error("Upload URL error:", error);
+    console.error("Upload error:", error);
     return res.status(400).json({ success: false, message: error.message });
   }
 }
