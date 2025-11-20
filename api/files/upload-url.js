@@ -41,27 +41,41 @@ export default async function handler(req, res) {
       body: req.body,
       request: req,
       onBeforeGenerateToken: async (pathname, clientPayload) => {
+        // pathname is just the filename sent by client
+        const filename = pathname;
+
         // Validate file extension
-        const ext = pathname.substring(pathname.lastIndexOf(".")).toLowerCase();
+        const ext = filename.substring(filename.lastIndexOf(".")).toLowerCase();
         if (![".bnk", ".wem", ".xml", ".wwu"].includes(ext)) {
           throw new Error("Invalid file type");
         }
 
+        // Generate unique ID (timestamp + random string)
         const timestamp = Date.now();
-        const filename = pathname.split("/").pop();
+        const randomStr = Math.random().toString(36).substring(2, 8);
+        const uniqueId = `${timestamp}-${randomStr}`;
+
+        // Construct full path
+        const fullPath = `users/${user.username}/files/${uniqueId}-${filename}`;
 
         return {
           allowedContentTypes: [
             "application/octet-stream",
             "text/xml",
             "application/xml",
+            "application/x-binary",
+            "binary/octet-stream",
           ],
-          tokenPayload: JSON.stringify({ userId: user.username }),
-          pathname: `users/${user.username}/files/${timestamp}-${filename}`,
+          tokenPayload: JSON.stringify({
+            userId: user.username,
+            timestamp,
+            uniqueId,
+          }),
+          pathname: fullPath, // Return the full path here
         };
       },
       onUploadCompleted: async ({ blob, tokenPayload }) => {
-        console.log("Upload completed:", blob.url);
+        console.log("Upload completed:", blob.url, "payload:", tokenPayload);
       },
     });
 
