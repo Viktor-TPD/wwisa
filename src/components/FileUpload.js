@@ -22,7 +22,7 @@ function FileUpload({ onUploadComplete }) {
         const uniqueId = `${timestamp}-${randomStr}`;
 
         // Pass the FULL PATH as first argument (not just filename)
-        const fullPath = `content/files/${uniqueId}-${file.name}`;
+        const fullPath = `files/${uniqueId}-${file.name}`;
 
         const blob = await upload(fullPath, file, {
           access: "public",
