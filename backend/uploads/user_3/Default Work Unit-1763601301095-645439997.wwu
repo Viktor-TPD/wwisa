@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{74A330E1-670C-4504-BBDF-5C1D92EB6185}" SchemaVersion="110">
+	<GameParameters>
+		<WorkUnit Name="Default Work Unit" ID="{74A330E1-670C-4504-BBDF-5C1D92EB6185}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="SETTINGS" ID="{B86379FD-9952-4E9E-AF75-C5565DC78B00}" ShortID="314479264">
+					<ChildrenList>
+						<GameParameter Name="SFX_VOLUME" ID="{1F32B547-28BC-4DFF-ACF1-2C6F67A5359F}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="100"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="MUSIC_VOLUME" ID="{2E5D8345-D7A0-408F-8681-0F4B27D92FA0}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="100"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="VOX_VOLUME" ID="{0668D6F2-16CD-4279-8900-9C31A14E33A6}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="100"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="MASTER_VOLUME" ID="{833D2760-839E-4184-A865-152ECB9CAE6C}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="100"/>
+							</PropertyList>
+						</GameParameter>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="SLOWMO" ID="{0B70CAE5-DB70-4E3E-A089-C369DA47C760}" ShortID="1051392955">
+					<ChildrenList>
+						<GameParameter Name="slowmo" ID="{EE070EC3-6654-4529-9D50-C3CDDC656260}">
+							<PropertyList>
+								<Property Name="FilterTimeDown" Type="Real64" Value="1"/>
+								<Property Name="FilterTimeUp" Type="Real64" Value="1"/>
+								<Property Name="InitialValue" Type="Real64" Value="1"/>
+								<Property Name="Max" Type="Real64" Value="1"/>
+								<Property Name="RTPCRamping" Type="int16" Value="1"/>
+								<Property Name="SlewRateDown" Type="Real64" Value="5"/>
+								<Property Name="SlewRateUp" Type="Real64" Value="2"/>
+							</PropertyList>
+						</GameParameter>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="PAUSE HELPER" ID="{63E1F391-0CCD-4FC4-A020-F4E745F91949}" ShortID="933982017">
+					<ChildrenList>
+						<GameParameter Name="PAUSING" ID="{F63CD768-10FE-4C8D-A454-B6B3285C7F51}">
+							<PropertyList>
+								<Property Name="FilterTimeDown" Type="Real64" Value="0.1"/>
+								<Property Name="FilterTimeUp" Type="Real64" Value="0.1"/>
+								<Property Name="InitialValue" Type="Real64" Value="100"/>
+								<Property Name="RTPCRamping" Type="int16" Value="1"/>
+								<Property Name="SlewRateDown" Type="Real64" Value="1000"/>
+								<Property Name="SlewRateUp" Type="Real64" Value="1000"/>
+							</PropertyList>
+						</GameParameter>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="BOMBERMAN" ID="{EF5C8AEF-2375-4B56-A4AF-30CD7C6D7AF8}" ShortID="1008829657">
+					<ChildrenList>
+						<GameParameter Name="sudden_death" ID="{9F435095-623E-4323-86D1-84CD81090014}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="1"/>
+								<Property Name="Max" Type="Real64" Value="2"/>
+								<Property Name="Min" Type="Real64" Value="0.25"/>
+							</PropertyList>
+						</GameParameter>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="testing" ID="{81A107E6-1AD4-48ED-BA49-F89E6D55B52A}" ShortID="585746472">
+					<ChildrenList>
+						<GameParameter Name="test" ID="{96FCBF1C-D3AB-4660-AAEE-347DDFFD7B74}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="100"/>
+							</PropertyList>
+						</GameParameter>
+					</ChildrenList>
+				</Folder>
+				<GameParameter Name="demo" ID="{91BE8A78-AFD6-4E14-A254-208C6AA50EBE}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
+			</ChildrenList>
+		</WorkUnit>
+	</GameParameters>
+</WwiseDocument>

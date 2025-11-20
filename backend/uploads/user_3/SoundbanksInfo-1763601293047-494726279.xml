@@ -1,0 +1,2456 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Web" BasePlatform="Web" SchemaVersion="16" SoundBankVersion="145">
+	<RootPaths>
+		<ProjectRoot>../..</ProjectRoot>
+		<SourceFilesRoot>../../.cache/Web</SourceFilesRoot>
+		<SoundBanksRoot>.</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>.</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<DialogueEvents/>
+	<SoundBanks>
+		<SoundBank Id="1355168291" Type="User" GUID="{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}" Language="SFX" Hash="{39090336-82EF-DFFD-534D-E4C42A54CC1B}">
+			<ObjectPath>Init</ObjectPath>
+			<ShortName>Init</ShortName>
+			<Path>Init.bnk</Path>
+			<Plugins>
+				<ShareSets>
+					<Plugin Id="418265525" Name="Gentle_Program_Compressor_Minus_14dB_RMS" ObjectPath="\Effects\Factory Effects\Wwise Compressor\Gentle_Program_Compressor_Minus_14dB_RMS" GUID="{1595E6B0-DD58-4363-A3F0-DF0C96EC7C17}" LibName="Wwise Compressor" LibId="7077891"/>
+					<Plugin Id="1008402193" Name="Low_Pass_20KHz" ObjectPath="\Effects\Factory Effects\Wwise Parametric EQ\Low Pass Filters\Low_Pass_20KHz" GUID="{830124FB-B9D5-4AE8-846E-E94A74652666}" LibName="Wwise Parametric EQ" LibId="6881283"/>
+					<Plugin Id="1459522457" Name="Brick_Wall_Minus_1dB_Peak_Fast_Release" ObjectPath="\Effects\Factory Effects\Wwise Peak Limiter\Brick_Wall_Minus_1dB_Peak_Fast_Release" GUID="{2144284E-7ADD-4341-86A4-4E468BEC9A2D}" LibName="Wwise Peak Limiter" LibId="7208963"/>
+					<Plugin Id="1588715066" Name="Echoes_Linear" ObjectPath="\Effects\Factory Effects\Wwise Delay\Echoes_Linear" GUID="{D20F3717-EBA2-4E3A-84F8-C8BD431563FB}" LibName="Wwise Delay" LibId="6946819"/>
+					<Plugin Id="1706684651" Name="Plate_Medium" ObjectPath="\Effects\Factory Effects\Wwise RoomVerb\Plates\Plate_Medium" GUID="{33384D0C-6ACB-4E3D-AC82-73AAB3AE1CA5}" LibName="Wwise RoomVerb" LibId="7733251"/>
+					<Plugin Id="3851006675" Name="Secret_message_Distant" ObjectPath="\Effects\Factory Effects\Harmonizer\Secret_message_Distant" GUID="{54C3F2D2-6B8D-4873-A383-2F6F7189C076}" LibName="Wwise Harmonizer" LibId="9043971"/>
+				</ShareSets>
+				<AudioDevices>
+					<Plugin Id="2317455096" Name="No_Output" ObjectPath="\Audio Devices\Default Work Unit\No_Output" GUID="{C6D2DA77-7CE3-4554-B99F-9253E26E9590}" LibName="No Output" LibId="11862023"/>
+					<Plugin Id="3859886410" Name="System" ObjectPath="\Audio Devices\Default Work Unit\System" GUID="{BFA4913E-84A5-43ED-8A91-8497C8264403}" LibName="System" LibId="11403271"/>
+				</AudioDevices>
+			</Plugins>
+			<Busses>
+				<Bus Id="69160692" Name="SFXnoslowmo" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\SFXnoslowmo" GUID="{50A25213-1626-4382-95D1-9E50AF9901C6}"/>
+				<Bus Id="292676037" Name="VOXann" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\VOXann" GUID="{D5DA71B4-55B2-43BD-BEC5-D12B85A6EF1C}"/>
+				<Bus Id="393239870" Name="SFX" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\SFX" GUID="{86A5B7B4-4A00-40F0-896C-25BE97DE2877}">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="1588715066"/>
+							<PluginRef Id="1706684651"/>
+						</ShareSets>
+					</PluginRefs>
+				</Bus>
+				<Bus Id="543694036" Name="VOX" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\VOX" GUID="{CC8E69DC-0D5B-4AFF-AFF5-B7DF462FDDC1}"/>
+				<Bus Id="763522274" Name="VOXnolimit" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\VOXnolimit" GUID="{4474DCAA-1D56-4182-AD9A-3D103D13D7BB}"/>
+				<Bus Id="3225442022" Name="SFXalwaysslowmo" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\SFXalwaysslowmo" GUID="{F6943918-F88E-4AC2-9434-0BBADB0A3937}">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="1588715066"/>
+							<PluginRef Id="1706684651"/>
+						</ShareSets>
+					</PluginRefs>
+				</Bus>
+				<Bus Id="3803692087" Name="Master Audio Bus" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus" GUID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="1008402193"/>
+							<PluginRef Id="1459522457"/>
+						</ShareSets>
+					</PluginRefs>
+				</Bus>
+				<Bus Id="3991942870" Name="MUSIC" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\MUSIC" GUID="{2B701A46-F7C0-457E-9683-E6742CAEFFB4}">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="418265525"/>
+							<PluginRef Id="1706684651"/>
+							<PluginRef Id="3851006675"/>
+						</ShareSets>
+					</PluginRefs>
+				</Bus>
+			</Busses>
+			<GameParameters>
+				<GameParameter Id="563208321" Name="VOX_VOLUME" ObjectPath="\Game Parameters\Default Work Unit\SETTINGS\VOX_VOLUME" GUID="{0668D6F2-16CD-4279-8900-9C31A14E33A6}"/>
+				<GameParameter Id="1006694123" Name="MUSIC_VOLUME" ObjectPath="\Game Parameters\Default Work Unit\SETTINGS\MUSIC_VOLUME" GUID="{2E5D8345-D7A0-408F-8681-0F4B27D92FA0}"/>
+				<GameParameter Id="1564184899" Name="SFX_VOLUME" ObjectPath="\Game Parameters\Default Work Unit\SETTINGS\SFX_VOLUME" GUID="{1F32B547-28BC-4DFF-ACF1-2C6F67A5359F}"/>
+				<GameParameter Id="1842718300" Name="demo" ObjectPath="\Game Parameters\Default Work Unit\demo" GUID="{91BE8A78-AFD6-4E14-A254-208C6AA50EBE}"/>
+				<GameParameter Id="2894977347" Name="sudden_death" ObjectPath="\Game Parameters\Default Work Unit\BOMBERMAN\sudden_death" GUID="{9F435095-623E-4323-86D1-84CD81090014}"/>
+				<GameParameter Id="3157003241" Name="test" ObjectPath="\Game Parameters\Default Work Unit\testing\test" GUID="{96FCBF1C-D3AB-4660-AAEE-347DDFFD7B74}"/>
+				<GameParameter Id="3236148094" Name="slowmo" ObjectPath="\Game Parameters\Default Work Unit\SLOWMO\slowmo" GUID="{EE070EC3-6654-4529-9D50-C3CDDC656260}"/>
+				<GameParameter Id="3856304344" Name="PAUSING" ObjectPath="\Game Parameters\Default Work Unit\PAUSE HELPER\PAUSING" GUID="{F63CD768-10FE-4C8D-A454-B6B3285C7F51}"/>
+				<GameParameter Id="4179668880" Name="MASTER_VOLUME" ObjectPath="\Game Parameters\Default Work Unit\SETTINGS\MASTER_VOLUME" GUID="{833D2760-839E-4184-A865-152ECB9CAE6C}"/>
+			</GameParameters>
+			<StateGroups>
+				<StateGroup Id="436743010" Name="character" ObjectPath="\States\Default Work Unit\character" GUID="{064EDF57-074B-4200-8B1B-0CCAF195284D}">
+					<States>
+						<State Id="37566205" Name="grant" ObjectPath="\States\Default Work Unit\character\grant" GUID="{1A0D835B-23AB-4E8F-9DC5-E6162612714F}"/>
+						<State Id="102803677" Name="lily" ObjectPath="\States\Default Work Unit\character\lily" GUID="{51FB5322-1280-4AA8-BBA0-07F98F05E2BA}"/>
+						<State Id="748895195" Name="None" ObjectPath="\States\Default Work Unit\character\None" GUID="{2F4FBC42-4AF9-4E4D-BB9F-143BEA7D9BD0}"/>
+						<State Id="784127654" Name="null" ObjectPath="\States\Default Work Unit\character\null" GUID="{CC367C20-82B7-428D-ACDC-7FA68A30F7AA}"/>
+						<State Id="1291433344" Name="bass" ObjectPath="\States\Default Work Unit\character\bass" GUID="{BF6FEC27-68E9-4928-A423-08C4FE5BCB5B}"/>
+						<State Id="1568083739" Name="tj" ObjectPath="\States\Default Work Unit\character\tj" GUID="{3BEA5A55-4ED8-49D1-8EDE-9327C2D2119D}"/>
+					</States>
+				</StateGroup>
+				<StateGroup Id="1641045285" Name="rockTests" ObjectPath="\States\Default Work Unit\rockTests" GUID="{81569B73-E8D4-440E-A52B-C0B0BF95F09E}">
+					<States>
+						<State Id="576110584" Name="test3" ObjectPath="\States\Default Work Unit\rockTests\test3" GUID="{EAD74845-5BE1-4F1E-BCED-A0C7CA530A96}"/>
+						<State Id="576110585" Name="test2" ObjectPath="\States\Default Work Unit\rockTests\test2" GUID="{138E9728-0D79-4D1D-84B5-BD0ED3805FA9}"/>
+						<State Id="576110586" Name="test1" ObjectPath="\States\Default Work Unit\rockTests\test1" GUID="{4DBBA9A9-8482-4F8A-AA15-0FC9F2EB61FD}"/>
+						<State Id="576110591" Name="test4" ObjectPath="\States\Default Work Unit\rockTests\test4" GUID="{C72944B4-5C17-4BEB-82CD-5D574B3D26B1}"/>
+						<State Id="748895195" Name="None" ObjectPath="\States\Default Work Unit\rockTests\None" GUID="{13A75ABF-E8EB-47DC-939E-A69B28A2DB37}"/>
+					</States>
+				</StateGroup>
+				<StateGroup Id="3061676040" Name="is_it_sudden_death" ObjectPath="\States\Default Work Unit\is_it_sudden_death" GUID="{6CBCF140-A37D-4B4D-8BC8-7720B0187B51}">
+					<States>
+						<State Id="748895195" Name="None" ObjectPath="\States\Default Work Unit\is_it_sudden_death\None" GUID="{4D7CF054-314D-4F22-B522-5FC21CB2918E}"/>
+						<State Id="3979664774" Name="not_sudden" ObjectPath="\States\Default Work Unit\is_it_sudden_death\not_sudden" GUID="{99B78517-2684-4B41-8193-24886C384C07}"/>
+						<State Id="4139920145" Name="it_is_sudden" ObjectPath="\States\Default Work Unit\is_it_sudden_death\it_is_sudden" GUID="{AE5ED507-B92C-4A5E-86C7-09F103A03D3D}"/>
+					</States>
+				</StateGroup>
+			</StateGroups>
+		</SoundBank>
+		<SoundBank Id="2130403990" Type="User" GUID="{EC999F5B-79A0-4F5C-BB66-CDED291BCC1D}" Language="SFX" Hash="{C1EE14A0-F0F5-D4C5-4DC4-911D4FF2E0A5}">
+			<ObjectPath>\SoundBanks\Default Work Unit\cloudBank</ObjectPath>
+			<ShortName>cloudBank</ShortName>
+			<Path>cloudBank.bnk</Path>
+			<Media>
+				<File Id="9911899" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantP-M4QN_23-28.wav</ShortName>
+					<CachePath>SFX/grantP-M4QN_23-28_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="12304173" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ann_countdown_04.wav</ShortName>
+					<CachePath>SFX/ann_countdown_04_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="12493495" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EL_BASS_01.wav</ShortName>
+					<CachePath>SFX/B_LILY_EL_BASS_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="13383813" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_CS_04.wav</ShortName>
+					<CachePath>SFX/C_TJ_CS_04_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="17256624" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ann_countdown_06.wav</ShortName>
+					<CachePath>SFX/ann_countdown_06_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="23826282" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantELtj_01.wav</ShortName>
+					<CachePath>SFX/grantELtj_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="27371180" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Prototyping\Grant\CharacterSelect5g.wav</ShortName>
+					<CachePath>SFX/Prototyping/Grant/CharacterSelect5g_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="31231879" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EL_DK_01.wav</ShortName>
+					<CachePath>SFX/B_LILY_EL_DK_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="44645439" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Prototyping\Grant\CharacterSelect4g.wav</ShortName>
+					<CachePath>SFX/Prototyping/Grant/CharacterSelect4g_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="50688634" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EV_GRANT_02.wav</ShortName>
+					<CachePath>SFX/B_LILY_EV_GRANT_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="51019127" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TJspawn.wav</ShortName>
+					<CachePath>SFX/TJspawn_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="52207026" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EL_RW_01.wav</ShortName>
+					<CachePath>SFX/B_LILY_EL_RW_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="52763360" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>tjdash_02.wav</ShortName>
+					<CachePath>SFX/tjdash_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="56061528" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Prototyping\Grant\CharacterSelect3g.wav</ShortName>
+					<CachePath>SFX/Prototyping/Grant/CharacterSelect3g_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="60341316" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ann_countdown_02.wav</ShortName>
+					<CachePath>SFX/ann_countdown_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="60647296" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantELlily_02.wav</ShortName>
+					<CachePath>SFX/grantELlily_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="64292652" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mainThemeLoop.wav</ShortName>
+					<CachePath>SFX/mainThemeLoop_9EDFC787.wem</CachePath>
+				</File>
+				<File Id="65726952" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>elim2.wav</ShortName>
+					<CachePath>SFX/elim2_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="67014162" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>P1_01.wav</ShortName>
+					<CachePath>SFX/P1_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="70522460" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EL_MW_01.wav</ShortName>
+					<CachePath>SFX/B_LILY_EL_MW_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="78979581" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>VICTORY.wav</ShortName>
+					<CachePath>SFX/VICTORY_9EDFC787.wem</CachePath>
+				</File>
+				<File Id="85745370" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EL_BASS_02.wav</ShortName>
+					<CachePath>SFX/B_LILY_EL_BASS_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="86144102" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>P2_01.wav</ShortName>
+					<CachePath>SFX/P2_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="88217279" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantEVlily_02.wav</ShortName>
+					<CachePath>SFX/grantEVlily_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="92846812" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantDK_02.wav</ShortName>
+					<CachePath>SFX/grantDK_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="96281609" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ann_countdown_go_02.wav</ShortName>
+					<CachePath>SFX/ann_countdown_go_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="98982736" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantRW_04.wav</ShortName>
+					<CachePath>SFX/grantRW_04_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="105090397" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>close2.wav</ShortName>
+					<CachePath>SFX/close2_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="105526360" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>P1_03.wav</ShortName>
+					<CachePath>SFX/P1_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="107859034" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ann_countdown_10.wav</ShortName>
+					<CachePath>SFX/ann_countdown_10_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="117463219" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantRW_03.wav</ShortName>
+					<CachePath>SFX/grantRW_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="118828892" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASStjEL_02.wav</ShortName>
+					<CachePath>SFX/BASStjEL_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="124865046" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>breakablestonies_02.wav</ShortName>
+					<CachePath>SFX/breakablestonies_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="131024836" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSlilyEL_02.wav</ShortName>
+					<CachePath>SFX/BASSlilyEL_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="136563129" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_EL_BASS_01.wav</ShortName>
+					<CachePath>SFX/C_TJ_EL_BASS_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="136833008" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantMW_07.wav</ShortName>
+					<CachePath>SFX/grantMW_07_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="139385963" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_mw_05.wav</ShortName>
+					<CachePath>SFX/BASS_mw_05_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="139666773" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantP-M4QN_28-39.wav</ShortName>
+					<CachePath>SFX/grantP-M4QN_28-39_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="141990689" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bassdash2.wav</ShortName>
+					<CachePath>SFX/bassdash2_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="152423928" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSgenEV_05.wav</ShortName>
+					<CachePath>SFX/BASSgenEV_05_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="155102973" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantenter2.wav</ShortName>
+					<CachePath>SFX/grantenter2_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="156398546" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ann_countdown_go_03.wav</ShortName>
+					<CachePath>SFX/ann_countdown_go_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="158155562" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSlilyEV_02.wav</ShortName>
+					<CachePath>SFX/BASSlilyEV_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="163577163" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bass_potato_transfer-M4HT_09-19.wav</ShortName>
+					<CachePath>SFX/bass_potato_transfer-M4HT_09-19_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="172887114" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_rw_02.wav</ShortName>
+					<CachePath>SFX/BASS_rw_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="176458239" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_TK_01.wav</ShortName>
+					<CachePath>SFX/C_TJ_TK_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="179870496" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bassenter_1.wav</ShortName>
+					<CachePath>SFX/bassenter_1_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="182061036" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_FB_02.wav</ShortName>
+					<CachePath>SFX/BASS_FB_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="186676646" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BM2_1.wav</ShortName>
+					<CachePath>SFX/BM2_1_9EDFC787.wem</CachePath>
+				</File>
+				<File Id="191080910" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantRW_05.wav</ShortName>
+					<CachePath>SFX/grantRW_05_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="191731022" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>MAIN MENU.wav</ShortName>
+					<CachePath>SFX/MAIN MENU_9EDFC787.wem</CachePath>
+				</File>
+				<File Id="192960872" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantMW_06.wav</ShortName>
+					<CachePath>SFX/grantMW_06_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="193245209" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grant_02dash.wav</ShortName>
+					<CachePath>SFX/grant_02dash_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="197670450" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EV_BASS_01.wav</ShortName>
+					<CachePath>SFX/B_LILY_EV_BASS_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="198825971" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>breakablestonies_04.wav</ShortName>
+					<CachePath>SFX/breakablestonies_04_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="200136259" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ann_countdown_01.wav</ShortName>
+					<CachePath>SFX/ann_countdown_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="201968353" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_select_03.wav</ShortName>
+					<CachePath>SFX/BASS_select_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="206076682" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>impact03.wav</ShortName>
+					<CachePath>SFX/impact03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="207622761" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>EQtest2.wav</ShortName>
+					<CachePath>SFX/EQtest2_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="214803672" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_RW_02.wav</ShortName>
+					<CachePath>SFX/C_TJ_RW_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="218569778" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EL_RW_03.wav</ShortName>
+					<CachePath>SFX/B_LILY_EL_RW_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="219789835" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EL_MW_02.wav</ShortName>
+					<CachePath>SFX/B_LILY_EL_MW_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="221083776" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bass_potato_transfer-M4HT_02-04.wav</ShortName>
+					<CachePath>SFX/bass_potato_transfer-M4HT_02-04_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="224299959" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>reDASH1.wav</ShortName>
+					<CachePath>SFX/reDASH1_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="224506812" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bass_potato_transfer-M4HT_01-01.wav</ShortName>
+					<CachePath>SFX/bass_potato_transfer-M4HT_01-01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="224883300" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bass_potato_transfer-M4HT_10-22.wav</ShortName>
+					<CachePath>SFX/bass_potato_transfer-M4HT_10-22_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="229813101" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>lilpact11-M2DT_01-01.wav</ShortName>
+					<CachePath>SFX/lilpact11-M2DT_01-01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="234603966" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_DK_02.wav</ShortName>
+					<CachePath>SFX/BASS_DK_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="235329042" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantDK_01.wav</ShortName>
+					<CachePath>SFX/grantDK_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="244581282" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>lilySpawn.wav</ShortName>
+					<CachePath>SFX/lilySpawn_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="248242734" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ann_matchmaking.wav</ShortName>
+					<CachePath>SFX/ann_matchmaking_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="255263474" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EL_RW_02.wav</ShortName>
+					<CachePath>SFX/B_LILY_EL_RW_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="258200561" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ann_countdown_03.wav</ShortName>
+					<CachePath>SFX/ann_countdown_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="263829121" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bass_potato_transfer-M4HT_11-25.wav</ShortName>
+					<CachePath>SFX/bass_potato_transfer-M4HT_11-25_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="266001477" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>CHARASELECT_1.wav</ShortName>
+					<CachePath>SFX/CHARASELECT_1_9EDFC787.wem</CachePath>
+				</File>
+				<File Id="273053632" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>tjdash_01.wav</ShortName>
+					<CachePath>SFX/tjdash_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="276660783" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EV_GEN_02.wav</ShortName>
+					<CachePath>SFX/B_LILY_EV_GEN_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="283014021" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Pw_04.wav</ShortName>
+					<CachePath>SFX/Pw_04_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="286948404" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>death_timer_02.wav</ShortName>
+					<CachePath>SFX/death_timer_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="301424260" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EL_GEN_01.wav</ShortName>
+					<CachePath>SFX/B_LILY_EL_GEN_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="312735398" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ghostpact22.wav</ShortName>
+					<CachePath>SFX/ghostpact22_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="322989819" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ann_sudden_01.wav</ShortName>
+					<CachePath>SFX/ann_sudden_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="328878979" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>playerImpact3.wav</ShortName>
+					<CachePath>SFX/playerImpact3_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="329640560" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantRW_01.wav</ShortName>
+					<CachePath>SFX/grantRW_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="329878777" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>impact07.wav</ShortName>
+					<CachePath>SFX/impact07_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="332969765" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_FB_01.wav</ShortName>
+					<CachePath>SFX/BASS_FB_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="337656879" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Prototyping\Grant\CharacterSelect2g.wav</ShortName>
+					<CachePath>SFX/Prototyping/Grant/CharacterSelect2g_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="341834989" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantELlily_01.wav</ShortName>
+					<CachePath>SFX/grantELlily_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="348647814" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>magnet latch off 1.wav</ShortName>
+					<CachePath>SFX/magnet latch off 1_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="352140657" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_select_04.wav</ShortName>
+					<CachePath>SFX/BASS_select_04_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="359304369" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>breakablestonies_03.wav</ShortName>
+					<CachePath>SFX/breakablestonies_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="363445027" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_MW_01.wav</ShortName>
+					<CachePath>SFX/C_TJ_MW_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="368604648" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_EV_GEN_02.wav</ShortName>
+					<CachePath>SFX/C_TJ_EV_GEN_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="370856669" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_mw_01.wav</ShortName>
+					<CachePath>SFX/BASS_mw_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="377519218" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>announcer_pick_character_01.wav</ShortName>
+					<CachePath>SFX/announcer_pick_character_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="384487728" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_RW_03.wav</ShortName>
+					<CachePath>SFX/C_TJ_RW_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="389926778" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ann_countdown_07.wav</ShortName>
+					<CachePath>SFX/ann_countdown_07_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="392137559" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_mw_02.wav</ShortName>
+					<CachePath>SFX/BASS_mw_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="392173412" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>open rework.wav</ShortName>
+					<CachePath>SFX/open rework_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="392620349" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Prototyping\Grant\CharacterSelect6g.wav</ShortName>
+					<CachePath>SFX/Prototyping/Grant/CharacterSelect6g_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="402343741" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantELlily_03.wav</ShortName>
+					<CachePath>SFX/grantELlily_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="403552606" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EV_GEN_01.wav</ShortName>
+					<CachePath>SFX/B_LILY_EV_GEN_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="405176397" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EV_TJ_01.wav</ShortName>
+					<CachePath>SFX/B_LILY_EV_TJ_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="407382823" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantFB_02.wav</ShortName>
+					<CachePath>SFX/grantFB_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="408125765" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bass_potato_transfer-M4HT_03-07.wav</ShortName>
+					<CachePath>SFX/bass_potato_transfer-M4HT_03-07_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="413337882" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EV_GEN_04.wav</ShortName>
+					<CachePath>SFX/B_LILY_EV_GEN_04_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="415340434" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_select_02.wav</ShortName>
+					<CachePath>SFX/BASS_select_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="415968867" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSgrantEV_01.wav</ShortName>
+					<CachePath>SFX/BASSgrantEV_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="419682354" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantTK_01.wav</ShortName>
+					<CachePath>SFX/grantTK_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="420007990" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantRW_06.wav</ShortName>
+					<CachePath>SFX/grantRW_06_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="422420775" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EL_MW_03.wav</ShortName>
+					<CachePath>SFX/B_LILY_EL_MW_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="423705169" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASStjEL_01.wav</ShortName>
+					<CachePath>SFX/BASStjEL_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="429839597" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>announcer_deathmatch.wav</ShortName>
+					<CachePath>SFX/announcer_deathmatch_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="433995443" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>magnetlatch2.wav</ShortName>
+					<CachePath>SFX/magnetlatch2_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="436026230" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_rw_04.wav</ShortName>
+					<CachePath>SFX/BASS_rw_04_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="437930262" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bass_potato_transfer-M4HT_13-28.wav</ShortName>
+					<CachePath>SFX/bass_potato_transfer-M4HT_13-28_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="438568164" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantELgen_04.wav</ShortName>
+					<CachePath>SFX/grantELgen_04_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="439727759" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantELgen_05.wav</ShortName>
+					<CachePath>SFX/grantELgen_05_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="440317915" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Pw_03.wav</ShortName>
+					<CachePath>SFX/Pw_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="443178592" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_EL_LILY_01.wav</ShortName>
+					<CachePath>SFX/C_TJ_EL_LILY_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="444573713" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSgenEL_05.wav</ShortName>
+					<CachePath>SFX/BASSgenEL_05_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="453909753" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSlilyEV_01.wav</ShortName>
+					<CachePath>SFX/BASSlilyEV_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="454091635" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bass_potato_transfer-M4HT_05-11.wav</ShortName>
+					<CachePath>SFX/bass_potato_transfer-M4HT_05-11_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="459125786" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantELbass_02.wav</ShortName>
+					<CachePath>SFX/grantELbass_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="463679612" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantELgen_03.wav</ShortName>
+					<CachePath>SFX/grantELgen_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="465566032" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Prototyping\Grant\CharacterSelect1g.wav</ShortName>
+					<CachePath>SFX/Prototyping/Grant/CharacterSelect1g_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="465691522" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_EL_GEN_01.wav</ShortName>
+					<CachePath>SFX/C_TJ_EL_GEN_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="468644501" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ann_countdown_09.wav</ShortName>
+					<CachePath>SFX/ann_countdown_09_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="470027140" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>lilyDash3.wav</ShortName>
+					<CachePath>SFX/lilyDash3_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="472161951" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ui selection.wav</ShortName>
+					<CachePath>SFX/ui selection_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="472880457" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantEVgen_05.wav</ShortName>
+					<CachePath>SFX/grantEVgen_05_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="474239945" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSgenEV_03.wav</ShortName>
+					<CachePath>SFX/BASSgenEV_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="485557418" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EL_FB_01.wav</ShortName>
+					<CachePath>SFX/B_LILY_EL_FB_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="487920312" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Open CS door_03.wav</ShortName>
+					<CachePath>SFX/Open CS door_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="490735813" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bass_potato_transfer-M4HT_08-17.wav</ShortName>
+					<CachePath>SFX/bass_potato_transfer-M4HT_08-17_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="493054462" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>lilyDash.wav</ShortName>
+					<CachePath>SFX/lilyDash_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="505934382" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantELgen_01.wav</ShortName>
+					<CachePath>SFX/grantELgen_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="510105275" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ann_countdown_08.wav</ShortName>
+					<CachePath>SFX/ann_countdown_08_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="512397169" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Prototyping\Grant\CharacterSelect8g.wav</ShortName>
+					<CachePath>SFX/Prototyping/Grant/CharacterSelect8g_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="518846051" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_rw_01.wav</ShortName>
+					<CachePath>SFX/BASS_rw_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="519224729" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSgrantEV_02.wav</ShortName>
+					<CachePath>SFX/BASSgrantEV_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="522271626" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bass_potato_transfer-M4HT_04-09.wav</ShortName>
+					<CachePath>SFX/bass_potato_transfer-M4HT_04-09_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="526271447" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>magnetlatch1.wav</ShortName>
+					<CachePath>SFX/magnetlatch1_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="527490927" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EL_CS_03.wav</ShortName>
+					<CachePath>SFX/B_LILY_EL_CS_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="530018065" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSgenEV_04.wav</ShortName>
+					<CachePath>SFX/BASSgenEV_04_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="531103388" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantEVlily_01.wav</ShortName>
+					<CachePath>SFX/grantEVlily_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="536849198" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EL_CS_04.wav</ShortName>
+					<CachePath>SFX/B_LILY_EL_CS_04_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="546516827" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_EV_LILY_01.wav</ShortName>
+					<CachePath>SFX/C_TJ_EV_LILY_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="554641203" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Explosion_042.wav</ShortName>
+					<CachePath>SFX/Explosion_042_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="565797093" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantP-M4QN_16-05.wav</ShortName>
+					<CachePath>SFX/grantP-M4QN_16-05_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="570267645" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_EL_GEN_02.wav</ShortName>
+					<CachePath>SFX/C_TJ_EL_GEN_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="574825440" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSgenEL_07.wav</ShortName>
+					<CachePath>SFX/BASSgenEL_07_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="575607501" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASStjEL_03.wav</ShortName>
+					<CachePath>SFX/BASStjEL_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="579850828" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantP-M4QN_20-20.wav</ShortName>
+					<CachePath>SFX/grantP-M4QN_20-20_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="592884359" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSgrantEL_01.wav</ShortName>
+					<CachePath>SFX/BASSgrantEL_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="601152955" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>close no end.wav</ShortName>
+					<CachePath>SFX/close no end_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="601207010" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>golempact3.wav</ShortName>
+					<CachePath>SFX/golempact3_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="614939013" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_mw_04.wav</ShortName>
+					<CachePath>SFX/BASS_mw_04_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="622120624" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSgenEL_06.wav</ShortName>
+					<CachePath>SFX/BASSgenEL_06_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="623499775" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_rw_03.wav</ShortName>
+					<CachePath>SFX/BASS_rw_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="623827091" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantEVbass_01.wav</ShortName>
+					<CachePath>SFX/grantEVbass_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="625199691" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_MW_02.wav</ShortName>
+					<CachePath>SFX/C_TJ_MW_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="626099649" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>playerImpact2.wav</ShortName>
+					<CachePath>SFX/playerImpact2_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="632668198" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>start_3.wav</ShortName>
+					<CachePath>SFX/start_3_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="632808153" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_select_01.wav</ShortName>
+					<CachePath>SFX/BASS_select_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="635543574" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EL_TK_01.wav</ShortName>
+					<CachePath>SFX/B_LILY_EL_TK_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="641671530" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantFB_01.wav</ShortName>
+					<CachePath>SFX/grantFB_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="641811969" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ann_chess_,ode.wav</ShortName>
+					<CachePath>SFX/ann_chess_,ode_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="652315422" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_mw_03.wav</ShortName>
+					<CachePath>SFX/BASS_mw_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="652734982" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>death_timer_01.wav</ShortName>
+					<CachePath>SFX/death_timer_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="662317979" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>magnet latch off 2.wav</ShortName>
+					<CachePath>SFX/magnet latch off 2_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="662637074" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantP-M4QN_15-11.wav</ShortName>
+					<CachePath>SFX/grantP-M4QN_15-11_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="666661978" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSlilyEL_01.wav</ShortName>
+					<CachePath>SFX/BASSlilyEL_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="667310620" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EL_CS_02.wav</ShortName>
+					<CachePath>SFX/B_LILY_EL_CS_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="667447494" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantP-M4QN_26-35.wav</ShortName>
+					<CachePath>SFX/grantP-M4QN_26-35_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="667955187" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_TK_01.wav</ShortName>
+					<CachePath>SFX/BASS_TK_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="669578093" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>magnetlatch3.wav</ShortName>
+					<CachePath>SFX/magnetlatch3_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="671405843" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantP-M4QN_18-14.wav</ShortName>
+					<CachePath>SFX/grantP-M4QN_18-14_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="674120193" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_DK_01.wav</ShortName>
+					<CachePath>SFX/C_TJ_DK_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="682929968" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantEVgen_02.wav</ShortName>
+					<CachePath>SFX/grantEVgen_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="684153272" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantP-M4QN_22-25.wav</ShortName>
+					<CachePath>SFX/grantP-M4QN_22-25_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="684980709" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_TK_02.wav</ShortName>
+					<CachePath>SFX/BASS_TK_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="685457054" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A_TJ_CS_02.wav</ShortName>
+					<CachePath>SFX/A_TJ_CS_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="686679368" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantP-M4QN_19-17.wav</ShortName>
+					<CachePath>SFX/grantP-M4QN_19-17_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="687957171" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASStjEV_02.wav</ShortName>
+					<CachePath>SFX/BASStjEV_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="690027780" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_rw_05.wav</ShortName>
+					<CachePath>SFX/BASS_rw_05_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="696065166" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Prototyping\Grant\CharacterSelect7g.wav</ShortName>
+					<CachePath>SFX/Prototyping/Grant/CharacterSelect7g_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="696781042" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>EXPLO.wav</ShortName>
+					<CachePath>SFX/EXPLO_F17A3808.wem</CachePath>
+				</File>
+				<File Id="709373640" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSgrantEL_03.wav</ShortName>
+					<CachePath>SFX/BASSgrantEL_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="709881688" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantP-M4QN_27-37.wav</ShortName>
+					<CachePath>SFX/grantP-M4QN_27-37_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="710435498" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ui out.wav</ShortName>
+					<CachePath>SFX/ui out_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="711135128" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSgenEL_01.wav</ShortName>
+					<CachePath>SFX/BASSgenEL_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="712906847" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantTK_02.wav</ShortName>
+					<CachePath>SFX/grantTK_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="713807746" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>transSweep.wav</ShortName>
+					<CachePath>SFX/transSweep_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="715435463" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>P3_02.wav</ShortName>
+					<CachePath>SFX/P3_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="716666507" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_select_08.wav</ShortName>
+					<CachePath>SFX/BASS_select_08_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="724778727" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>elim1.wav</ShortName>
+					<CachePath>SFX/elim1_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="737256089" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantELgen_07.wav</ShortName>
+					<CachePath>SFX/grantELgen_07_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="738380018" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantP-M4QN_25-33.wav</ShortName>
+					<CachePath>SFX/grantP-M4QN_25-33_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="740057398" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ui in.wav</ShortName>
+					<CachePath>SFX/ui in_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="743916201" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>magnet latch off 3.wav</ShortName>
+					<CachePath>SFX/magnet latch off 3_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="747643009" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_EL_GRANT_01.wav</ShortName>
+					<CachePath>SFX/C_TJ_EL_GRANT_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="748690173" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSgenEV_01.wav</ShortName>
+					<CachePath>SFX/BASSgenEV_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="749785962" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bass_potato_transfer-M4HT_06-13.wav</ShortName>
+					<CachePath>SFX/bass_potato_transfer-M4HT_06-13_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="750363317" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSgenEL_02.wav</ShortName>
+					<CachePath>SFX/BASSgenEL_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="757294636" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ann_how to play_01.wav</ShortName>
+					<CachePath>SFX/ann_how to play_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="757667753" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantELgen_02.wav</ShortName>
+					<CachePath>SFX/grantELgen_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="761270980" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>blip1.wav</ShortName>
+					<CachePath>SFX/blip1_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="766018425" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantELgen_06.wav</ShortName>
+					<CachePath>SFX/grantELgen_06_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="767107949" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>rolliiin_1.wav</ShortName>
+					<CachePath>SFX/rolliiin_1_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="767256753" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantELtj_02.wav</ShortName>
+					<CachePath>SFX/grantELtj_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="770165558" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_CS_01.wav</ShortName>
+					<CachePath>SFX/C_TJ_CS_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="771511154" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>lilpact12-M2DT_02-01.wav</ShortName>
+					<CachePath>SFX/lilpact12-M2DT_02-01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="773620773" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantMW_05.wav</ShortName>
+					<CachePath>SFX/grantMW_05_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="774787065" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantEVgen_03.wav</ShortName>
+					<CachePath>SFX/grantEVgen_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="774952333" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ui neut.wav</ShortName>
+					<CachePath>SFX/ui neut_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="776224506" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASStjEV_01.wav</ShortName>
+					<CachePath>SFX/BASStjEV_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="778593517" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>reDASH2.wav</ShortName>
+					<CachePath>SFX/reDASH2_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="781527568" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantEVgen_04.wav</ShortName>
+					<CachePath>SFX/grantEVgen_04_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="785338174" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EL_RW_04.wav</ShortName>
+					<CachePath>SFX/B_LILY_EL_RW_04_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="786983024" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>transition hit.wav</ShortName>
+					<CachePath>SFX/transition hit_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="788768374" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantELbass_01.wav</ShortName>
+					<CachePath>SFX/grantELbass_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="796355553" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>P1_02.wav</ShortName>
+					<CachePath>SFX/P1_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="796464985" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantEVtj_01.wav</ShortName>
+					<CachePath>SFX/grantEVtj_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="796624904" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantP-M4QN_24-31.wav</ShortName>
+					<CachePath>SFX/grantP-M4QN_24-31_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="797730934" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_EV_GEN_03.wav</ShortName>
+					<CachePath>SFX/C_TJ_EV_GEN_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="806703189" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ann_crazy.wav</ShortName>
+					<CachePath>SFX/ann_crazy_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="807440264" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSgenEL_03.wav</ShortName>
+					<CachePath>SFX/BASSgenEL_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="816398965" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>impact05.wav</ShortName>
+					<CachePath>SFX/impact05_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="820733481" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantEVbass_02.wav</ShortName>
+					<CachePath>SFX/grantEVbass_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="822320909" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_EV_GEN_01.wav</ShortName>
+					<CachePath>SFX/C_TJ_EV_GEN_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="822711239" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_EV_BASS_01.wav</ShortName>
+					<CachePath>SFX/C_TJ_EV_BASS_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="823290738" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSgenEV_02.wav</ShortName>
+					<CachePath>SFX/BASSgenEV_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="824013608" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantMW_03.wav</ShortName>
+					<CachePath>SFX/grantMW_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="829358216" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantELtj_03.wav</ShortName>
+					<CachePath>SFX/grantELtj_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="829750660" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantP-M4QN_17-08.wav</ShortName>
+					<CachePath>SFX/grantP-M4QN_17-08_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="831734662" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_DK_01.wav</ShortName>
+					<CachePath>SFX/BASS_DK_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="833066082" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>P2_02.wav</ShortName>
+					<CachePath>SFX/P2_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="838114965" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_MW_03.wav</ShortName>
+					<CachePath>SFX/C_TJ_MW_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="843910808" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>elim3.wav</ShortName>
+					<CachePath>SFX/elim3_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="850377424" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_rw_06.wav</ShortName>
+					<CachePath>SFX/BASS_rw_06_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="850460786" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_RW_01.wav</ShortName>
+					<CachePath>SFX/C_TJ_RW_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="851695984" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantEVgen_01.wav</ShortName>
+					<CachePath>SFX/grantEVgen_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="859174773" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ghostpact21.wav</ShortName>
+					<CachePath>SFX/ghostpact21_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="859266556" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantP-M4QN_21-23.wav</ShortName>
+					<CachePath>SFX/grantP-M4QN_21-23_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="869759254" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EV_GEN_03.wav</ShortName>
+					<CachePath>SFX/B_LILY_EV_GEN_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="870235904" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantMW_04.wav</ShortName>
+					<CachePath>SFX/grantMW_04_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="870733660" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ann_countdown_go_04.wav</ShortName>
+					<CachePath>SFX/ann_countdown_go_04_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="871387108" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bass_potato_transfer-M4HT_07-15.wav</ShortName>
+					<CachePath>SFX/bass_potato_transfer-M4HT_07-15_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="871433305" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>golempact2.wav</ShortName>
+					<CachePath>SFX/golempact2_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="882201777" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bassdash3.wav</ShortName>
+					<CachePath>SFX/bassdash3_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="915424920" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantELlily_04.wav</ShortName>
+					<CachePath>SFX/grantELlily_04_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="918697708" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>A_TJ_FB_01.wav</ShortName>
+					<CachePath>SFX/A_TJ_FB_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="919813697" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EL_GEN_02.wav</ShortName>
+					<CachePath>SFX/B_LILY_EL_GEN_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="930572535" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EL_TJ_01.wav</ShortName>
+					<CachePath>SFX/B_LILY_EL_TJ_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="931070680" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>reDASH3.wav</ShortName>
+					<CachePath>SFX/reDASH3_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="932953327" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>golempact1.wav</ShortName>
+					<CachePath>SFX/golempact1_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="938907072" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>lilpact14-M2DT_03-01.wav</ShortName>
+					<CachePath>SFX/lilpact14-M2DT_03-01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="939493321" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_select_09.wav</ShortName>
+					<CachePath>SFX/BASS_select_09_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="946771586" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>charaSelect.wav</ShortName>
+					<CachePath>SFX/charaSelect_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="948691270" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_FB_03.wav</ShortName>
+					<CachePath>SFX/BASS_FB_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="954736139" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>P3_01.wav</ShortName>
+					<CachePath>SFX/P3_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="958043630" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>blip2.wav</ShortName>
+					<CachePath>SFX/blip2_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="959497360" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_select_07.wav</ShortName>
+					<CachePath>SFX/BASS_select_07_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="967189197" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Pw_02.wav</ShortName>
+					<CachePath>SFX/Pw_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="973660903" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ghostpact33.wav</ShortName>
+					<CachePath>SFX/ghostpact33_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="984075683" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>death_timer_03.wav</ShortName>
+					<CachePath>SFX/death_timer_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="984795022" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>P2_03.wav</ShortName>
+					<CachePath>SFX/P2_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="986376438" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>lilyDash1.wav</ShortName>
+					<CachePath>SFX/lilyDash1_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="998138414" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bassdash1.wav</ShortName>
+					<CachePath>SFX/bassdash1_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1008336940" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EL_CS_01.wav</ShortName>
+					<CachePath>SFX/B_LILY_EL_CS_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1011383335" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Pw_01.wav</ShortName>
+					<CachePath>SFX/Pw_01_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1015683499" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSgrantEL_02.wav</ShortName>
+					<CachePath>SFX/BASSgrantEL_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1016390311" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantEVtj_02.wav</ShortName>
+					<CachePath>SFX/grantEVtj_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1025602894" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sten better 1_10.wav</ShortName>
+					<CachePath>SFX/sten better 1_10_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1033153870" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bass_potato_transfer-M4HT_12-27.wav</ShortName>
+					<CachePath>SFX/bass_potato_transfer-M4HT_12-27_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1036226781" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSlilyEL_04.wav</ShortName>
+					<CachePath>SFX/BASSlilyEL_04_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1038008585" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>P3_03.wav</ShortName>
+					<CachePath>SFX/P3_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1039265107" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_EL_GEN_03.wav</ShortName>
+					<CachePath>SFX/C_TJ_EL_GEN_03_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1039619439" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>MAIN theme.wav</ShortName>
+					<CachePath>SFX/MAIN theme_9EDFC787.wem</CachePath>
+				</File>
+				<File Id="1048593287" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ann_countdown_05.wav</ShortName>
+					<CachePath>SFX/ann_countdown_05_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1050178459" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>getCrown.wav</ShortName>
+					<CachePath>SFX/getCrown_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1050219166" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grant_01dash.wav</ShortName>
+					<CachePath>SFX/grant_01dash_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1050393069" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASSgenEL_04.wav</ShortName>
+					<CachePath>SFX/BASSgenEL_04_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1053406150" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ann_hot_potato.wav</ShortName>
+					<CachePath>SFX/ann_hot_potato_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1055389858" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>playerImpact1.wav</ShortName>
+					<CachePath>SFX/playerImpact1_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1057029096" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_CS_02.wav</ShortName>
+					<CachePath>SFX/C_TJ_CS_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1060024748" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ann_sudden_02.wav</ShortName>
+					<CachePath>SFX/ann_sudden_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1060169997" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>blip3.wav</ShortName>
+					<CachePath>SFX/blip3_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1061202087" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>grantRW_02.wav</ShortName>
+					<CachePath>SFX/grantRW_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1062108807" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Prototyping\Grant\CharacterSelect9g.wav</ShortName>
+					<CachePath>SFX/Prototyping/Grant/CharacterSelect9g_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1063602001" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>C_TJ_EL_GRANT_02.wav</ShortName>
+					<CachePath>SFX/C_TJ_EL_GRANT_02_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1064356777" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>BASS_select_05.wav</ShortName>
+					<CachePath>SFX/BASS_select_05_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="1071705761" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>B_LILY_EL_GEN_03.wav</ShortName>
+					<CachePath>SFX/B_LILY_EL_GEN_03_3F75BDB9.wem</CachePath>
+				</File>
+			</Media>
+			<Plugins>
+				<ShareSets>
+					<Plugin Id="2180422931" Name="One_Tap_Quarter_Second" ObjectPath="\Effects\Factory Effects\Wwise Delay\One_Tap_Quarter_Second" GUID="{6BD2D67D-601A-45A6-AD4C-2C089078EBED}" LibName="Wwise Delay" LibId="6946819"/>
+					<Plugin Id="2568359573" Name="Secret_message" ObjectPath="\Effects\Factory Effects\Harmonizer\Secret_message" GUID="{2F5DE612-1AAD-4A84-8FB4-3E66521C920E}" LibName="Wwise Harmonizer" LibId="9043971"/>
+				</ShareSets>
+			</Plugins>
+			<Events>
+				<Event Id="868346802" Name="announcer_1" ObjectPath="\Events\Default Work Unit\VOX\ANNOUNCER\announcer_1" GUID="{F8D64CB7-D286-4D76-876C-09521143890F}" DurationType="OneShot" DurationMin="1.7797732" DurationMax="2.0059412">
+					<MediaRefs>
+						<MediaRef Id="107859034"/>
+						<MediaRef Id="389926778"/>
+						<MediaRef Id="468644501"/>
+						<MediaRef Id="510105275"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="868346801" Name="announcer_2" ObjectPath="\Events\Default Work Unit\VOX\ANNOUNCER\announcer_2" GUID="{E6783B1D-A20C-42F1-8909-0127BF8F7718}" DurationType="OneShot" DurationMin="1.7446939" DurationMax="1.7971655">
+					<MediaRefs>
+						<MediaRef Id="12304173"/>
+						<MediaRef Id="17256624"/>
+						<MediaRef Id="1048593287"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="868346800" Name="announcer_3" ObjectPath="\Events\Default Work Unit\VOX\ANNOUNCER\announcer_3" GUID="{A138283E-F014-4BFE-AD24-F16C6116DFF3}" DurationType="OneShot" DurationMin="1.7331293" DurationMax="1.9366666">
+					<MediaRefs>
+						<MediaRef Id="60341316"/>
+						<MediaRef Id="200136259"/>
+						<MediaRef Id="258200561"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4063662191" Name="announcer_chess" ObjectPath="\Events\Default Work Unit\VOX\ANNOUNCER\announcer_chess" GUID="{9F4D0124-5FA9-487F-9C1A-932B86688186}" DurationType="OneShot" DurationMin="2.0419047" DurationMax="2.0419047">
+					<MediaRefs>
+						<MediaRef Id="641811969"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1030484996" Name="announcer_crazy" ObjectPath="\Events\Default Work Unit\VOX\ANNOUNCER\announcer_crazy" GUID="{D2D81D34-495B-4FC7-8AD8-CDAFCD64D50E}" DurationType="OneShot" DurationMin="2.2831745" DurationMax="2.2831745">
+					<MediaRefs>
+						<MediaRef Id="806703189"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3827726803" Name="announcer_death_match" ObjectPath="\Events\Default Work Unit\VOX\ANNOUNCER\announcer_death_match" GUID="{4A23DE4C-0D17-4EE9-B881-75718008B988}" DurationType="OneShot" DurationMin="2.2135034" DurationMax="2.2135034">
+					<MediaRefs>
+						<MediaRef Id="429839597"/>
+						<MediaRef Id="740057398"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="2180422931"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="1581668227" Name="announcer_go" ObjectPath="\Events\Default Work Unit\VOX\ANNOUNCER\announcer_go" GUID="{5153DF5B-FB1A-474B-B0E0-1407762DD729}" DurationType="OneShot" DurationMin="1.7443991" DurationMax="1.9471883">
+					<MediaRefs>
+						<MediaRef Id="96281609"/>
+						<MediaRef Id="156398546"/>
+						<MediaRef Id="870733660"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="850407196" Name="announcer_hot_potato" ObjectPath="\Events\Default Work Unit\VOX\ANNOUNCER\announcer_hot_potato" GUID="{4BFDB6BD-4F9F-4F81-BF1B-108D3612EE9F}" DurationType="OneShot" DurationMin="2.8520634" DurationMax="2.8520634">
+					<MediaRefs>
+						<MediaRef Id="1053406150"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2007869148" Name="announcer_how_to_play" ObjectPath="\Events\Default Work Unit\VOX\ANNOUNCER\announcer_how_to_play" GUID="{34A7044B-A20F-47B3-8C34-E310A2CAB625}" DurationType="OneShot" DurationMin="2.2737641" DurationMax="2.2737641">
+					<MediaRefs>
+						<MediaRef Id="757294636"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1415391161" Name="announcer_online_matchmaking" ObjectPath="\Events\Default Work Unit\VOX\ANNOUNCER\announcer_online_matchmaking" GUID="{8CB8D9C7-5FE3-4D7B-B3EE-98A5C3881BE8}" DurationType="OneShot" DurationMin="2.5092063" DurationMax="2.5092063">
+					<MediaRefs>
+						<MediaRef Id="248242734"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2148973742" Name="announcer_pick_character" ObjectPath="\Events\Default Work Unit\VOX\ANNOUNCER\announcer_pick_character" GUID="{C2C6B4F3-753D-43A0-9EBA-C60E9AD8CF0F}" DurationType="OneShot" DurationMin="2.902381" DurationMax="2.902381">
+					<MediaRefs>
+						<MediaRef Id="377519218"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4092853271" Name="announcer_sudden_death" ObjectPath="\Events\Default Work Unit\VOX\ANNOUNCER\announcer_sudden_death" GUID="{9D92E0F0-2561-4689-9DEA-44C92C217465}" DurationType="OneShot" DurationMin="1.8363945" DurationMax="1.966848">
+					<MediaRefs>
+						<MediaRef Id="322989819"/>
+						<MediaRef Id="1060024748"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1291433344" Name="bass" ObjectPath="\Events\Default Work Unit\META\STATEHELPER\bass" GUID="{29B66E4D-4EA8-470C-B791-C2A78053CF15}" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionSetState>
+						<ActionSetStateEntry GroupId="436743010" Id="1291433344" Name="bass" ObjectPath="\States\Default Work Unit\character\bass" GUID="{BF6FEC27-68E9-4928-A423-08C4FE5BCB5B}"/>
+					</ActionSetState>
+				</Event>
+				<Event Id="235817983" Name="bass_dash" ObjectPath="\Events\Default Work Unit\SFX\Abilities\bass\bass_dash" GUID="{67AB498D-547A-416B-93BF-0C724B6BCD5D}" DurationType="OneShot" DurationMin="0.8930612" DurationMax="1.1269388">
+					<MediaRefs>
+						<MediaRef Id="141990689"/>
+						<MediaRef Id="882201777"/>
+						<MediaRef Id="998138414"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1936601003" Name="bass_double_kill" ObjectPath="\Events\Default Work Unit\VOX\DOUBLEKILL\bass_double_kill" GUID="{6285E92C-B3E1-4C8A-AC17-ECCE9346E139}" DurationType="OneShot" DurationMin="1.0807029" DurationMax="2.2509525">
+					<MediaRefs>
+						<MediaRef Id="234603966"/>
+						<MediaRef Id="831734662"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="60488631" Name="bass_enter" ObjectPath="\Events\Default Work Unit\SFX\playerEnter\bass_enter" GUID="{459F3DD3-ADA0-48D8-9630-4E3380B2C35D}" DurationType="OneShot" DurationMin="2.7685714" DurationMax="2.7685714">
+					<MediaRefs>
+						<MediaRef Id="179870496"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="946035934" Name="bass_first_blood" ObjectPath="\Events\Default Work Unit\VOX\FIRST BLOOD\bass_first_blood" GUID="{B93B5CBE-A64D-46EA-8D20-8D03969CE504}" DurationType="OneShot" DurationMin="1.8581859" DurationMax="2.2945805">
+					<MediaRefs>
+						<MediaRef Id="182061036"/>
+						<MediaRef Id="332969765"/>
+						<MediaRef Id="948691270"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2701288498" Name="bass_kills" ObjectPath="\Events\Default Work Unit\VOX\KILLING\bass_kills" GUID="{0E46A4C0-F702-4B30-B054-7BD41F0AB2EA}" DurationType="OneShot" DurationMin="1.1003855" DurationMax="2.1826303">
+					<MediaRefs>
+						<MediaRef Id="444573713"/>
+						<MediaRef Id="574825440"/>
+						<MediaRef Id="622120624"/>
+						<MediaRef Id="711135128"/>
+						<MediaRef Id="750363317"/>
+						<MediaRef Id="807440264"/>
+						<MediaRef Id="1050393069"/>
+					</MediaRefs>
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="784127654" GUID="{CC367C20-82B7-428D-ACDC-7FA68A30F7AA}"/>
+							<MediaRefs>
+								<MediaRef Id="444573713"/>
+								<MediaRef Id="574825440"/>
+								<MediaRef Id="622120624"/>
+								<MediaRef Id="711135128"/>
+								<MediaRef Id="750363317"/>
+								<MediaRef Id="807440264"/>
+								<MediaRef Id="1050393069"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="102803677" GUID="{51FB5322-1280-4AA8-BBA0-07F98F05E2BA}"/>
+							<MediaRefs>
+								<MediaRef Id="131024836"/>
+								<MediaRef Id="666661978"/>
+								<MediaRef Id="1036226781"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="748895195" GUID="{2F4FBC42-4AF9-4E4D-BB9F-143BEA7D9BD0}" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="444573713"/>
+								<MediaRef Id="574825440"/>
+								<MediaRef Id="622120624"/>
+								<MediaRef Id="711135128"/>
+								<MediaRef Id="750363317"/>
+								<MediaRef Id="807440264"/>
+								<MediaRef Id="1050393069"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="1568083739" GUID="{3BEA5A55-4ED8-49D1-8EDE-9327C2D2119D}"/>
+							<MediaRefs>
+								<MediaRef Id="118828892"/>
+								<MediaRef Id="423705169"/>
+								<MediaRef Id="575607501"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="37566205" GUID="{1A0D835B-23AB-4E8F-9DC5-E6162612714F}"/>
+							<MediaRefs>
+								<MediaRef Id="592884359"/>
+								<MediaRef Id="709373640"/>
+								<MediaRef Id="1015683499"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="3638197793" Name="bass_match_win" ObjectPath="\Events\Default Work Unit\VOX\MATCHWIN\bass_match_win" GUID="{7C9C2B51-F07C-4040-A686-5AD27709265E}" DurationType="OneShot" DurationMin="2.3865533" DurationMax="3.7968254">
+					<MediaRefs>
+						<MediaRef Id="139385963"/>
+						<MediaRef Id="370856669"/>
+						<MediaRef Id="392137559"/>
+						<MediaRef Id="614939013"/>
+						<MediaRef Id="652315422"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="849895739" Name="bass_miss" ObjectPath="\Events\Default Work Unit\VOX\MISSING\bass_miss" GUID="{57491277-D64D-4B23-9BFB-87169AF0FC0C}" DurationType="OneShot" DurationMin="1.040771" DurationMax="2.287959">
+					<MediaRefs>
+						<MediaRef Id="152423928"/>
+						<MediaRef Id="474239945"/>
+						<MediaRef Id="530018065"/>
+						<MediaRef Id="748690173"/>
+						<MediaRef Id="823290738"/>
+					</MediaRefs>
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="784127654" GUID="{CC367C20-82B7-428D-ACDC-7FA68A30F7AA}"/>
+							<MediaRefs>
+								<MediaRef Id="152423928"/>
+								<MediaRef Id="474239945"/>
+								<MediaRef Id="530018065"/>
+								<MediaRef Id="748690173"/>
+								<MediaRef Id="823290738"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="102803677" GUID="{51FB5322-1280-4AA8-BBA0-07F98F05E2BA}"/>
+							<MediaRefs>
+								<MediaRef Id="158155562"/>
+								<MediaRef Id="453909753"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="748895195" GUID="{2F4FBC42-4AF9-4E4D-BB9F-143BEA7D9BD0}" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="152423928"/>
+								<MediaRef Id="474239945"/>
+								<MediaRef Id="530018065"/>
+								<MediaRef Id="748690173"/>
+								<MediaRef Id="823290738"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="1568083739" GUID="{3BEA5A55-4ED8-49D1-8EDE-9327C2D2119D}"/>
+							<MediaRefs>
+								<MediaRef Id="687957171"/>
+								<MediaRef Id="776224506"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="37566205" GUID="{1A0D835B-23AB-4E8F-9DC5-E6162612714F}"/>
+							<MediaRefs>
+								<MediaRef Id="415968867"/>
+								<MediaRef Id="519224729"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="4072124236" Name="bass_potato_transfer" ObjectPath="\Events\Default Work Unit\VOX\POTATO_TRANSFER\bass_potato_transfer" GUID="{C7E3D7D5-DBFD-47C3-9CC1-4EF03E45ADB7}" DurationType="OneShot" DurationMin="0.7009524" DurationMax="2.5092063">
+					<MediaRefs>
+						<MediaRef Id="163577163"/>
+						<MediaRef Id="221083776"/>
+						<MediaRef Id="224506812"/>
+						<MediaRef Id="224883300"/>
+						<MediaRef Id="263829121"/>
+						<MediaRef Id="408125765"/>
+						<MediaRef Id="437930262"/>
+						<MediaRef Id="454091635"/>
+						<MediaRef Id="490735813"/>
+						<MediaRef Id="522271626"/>
+						<MediaRef Id="749785962"/>
+						<MediaRef Id="871387108"/>
+						<MediaRef Id="1033153870"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3094401617" Name="bass_roundwin" ObjectPath="\Events\Default Work Unit\VOX\ROUNDWIN\bass_roundwin" GUID="{B30998AE-D293-4CCD-9AEC-DCD379DA2C09}" DurationType="OneShot" DurationMin="1.4899774" DurationMax="3.0093424">
+					<MediaRefs>
+						<MediaRef Id="172887114"/>
+						<MediaRef Id="436026230"/>
+						<MediaRef Id="518846051"/>
+						<MediaRef Id="623499775"/>
+						<MediaRef Id="690027780"/>
+						<MediaRef Id="850377424"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3546331591" Name="bass_select" ObjectPath="\Events\Default Work Unit\VOX\SELECT\bass_select" GUID="{F3DD2D78-ECC5-48D1-977A-72DD9B6F4612}" DurationType="OneShot" DurationMin="0.7134694" DurationMax="3.4796598">
+					<MediaRefs>
+						<MediaRef Id="201968353"/>
+						<MediaRef Id="352140657"/>
+						<MediaRef Id="415340434"/>
+						<MediaRef Id="632808153"/>
+						<MediaRef Id="716666507"/>
+						<MediaRef Id="939493321"/>
+						<MediaRef Id="959497360"/>
+						<MediaRef Id="1064356777"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3389467758" Name="bass_triple_kill" ObjectPath="\Events\Default Work Unit\VOX\TRIPLE KILL\bass_triple_kill" GUID="{1F14C22A-0F51-4822-A030-4BCCECB4AB85}" DurationType="OneShot" DurationMin="1.127755" DurationMax="2.1756463">
+					<MediaRefs>
+						<MediaRef Id="667955187"/>
+						<MediaRef Id="684980709"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3819523012" Name="bgm_battle_01" ObjectPath="\Events\Default Work Unit\MUSIC\bgm_battle_01" GUID="{13734D23-4454-4B86-821A-E8B81E3373E6}" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="1039619439"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3819523015" Name="bgm_battle_02" ObjectPath="\Events\Default Work Unit\MUSIC\bgm_battle_02" GUID="{FFE7C30C-2484-437E-AA91-26B46AD4B799}" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="186676646"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3819523014" Name="bgm_battle_03" ObjectPath="\Events\Default Work Unit\MUSIC\bgm_battle_03" GUID="{67838DD4-3E9B-4C65-8B5A-EB8230E06500}" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="64292652"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2093582040" Name="bgm_chara_select" ObjectPath="\Events\Default Work Unit\MUSIC\bgm_chara_select" GUID="{CDC164B9-33C6-4F5D-82EF-43A5A97355C2}" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="266001477"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4038578923" Name="bgm_main_menu" ObjectPath="\Events\Default Work Unit\MUSIC\bgm_main_menu" GUID="{B53010B4-56EC-427B-B699-EAD273714495}" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="191731022"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3264517589" Name="bgm_victory_screen" ObjectPath="\Events\Default Work Unit\MUSIC\bgm_victory_screen" GUID="{1E6A7EB3-0B54-4FBF-A447-101D0EC10FAC}" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="78979581"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1219016524" Name="bomberman_rocks_impact" ObjectPath="\Events\Default Work Unit\TESTS\bomberman_rocks_impact" GUID="{A7A4C90E-F769-4E4B-A064-28198E1302FF}" DurationType="OneShot" DurationMin="0.25324264" DurationMax="0.25324264">
+					<MediaRefs>
+						<MediaRef Id="1025602894"/>
+					</MediaRefs>
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="1641045285" Id="576110591" GUID="{C72944B4-5C17-4BEB-82CD-5D574B3D26B1}"/>
+							<MediaRefs>
+								<MediaRef Id="1025602894"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="4052040634" Name="breakable_break" ObjectPath="\Events\Default Work Unit\SFX\blocks\breakable blocks\breakable_break" GUID="{7B532959-732F-468D-937F-F451B2AFCE89}" DurationType="OneShot" DurationMin="1.0911338" DurationMax="1.0911338">
+					<MediaRefs>
+						<MediaRef Id="124865046"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="300468396" Name="breakable_medium" ObjectPath="\Events\Default Work Unit\SFX\blocks\breakable blocks\breakable_medium" GUID="{F4612BB1-B23F-47E0-A9FA-54D9470689C8}" DurationType="OneShot" DurationMin="0.534263" DurationMax="0.534263">
+					<MediaRefs>
+						<MediaRef Id="359304369"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2098760318" Name="breakable_small" ObjectPath="\Events\Default Work Unit\SFX\blocks\breakable blocks\breakable_small" GUID="{CE5A2405-69FD-477D-A694-E0F68030FE21}" DurationType="OneShot" DurationMin="0.29108843" DurationMax="0.29108843">
+					<MediaRefs>
+						<MediaRef Id="198825971"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="318736167" Name="death_timer" ObjectPath="\Events\Default Work Unit\SFX\death timer\death_timer" GUID="{E6F1CB34-00C4-4134-BEA3-9A9E2E7E8123}" DurationType="OneShot" DurationMin="1.808254" DurationMax="2.2117007">
+					<MediaRefs>
+						<MediaRef Id="286948404"/>
+						<MediaRef Id="652734982"/>
+						<MediaRef Id="984075683"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2772308904" Name="game_pause" ObjectPath="\Events\Default Work Unit\META\pause\game_pause" GUID="{57CD9980-E4DD-4AE7-93D1-85921E8AEFAB}" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="1359982855" Name="game_unPause" ObjectPath="\Events\Default Work Unit\META\pause\game_unPause" GUID="{D6CD47D3-7CB0-40D1-BF8F-7518F73FAEA3}" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="3643254439" Name="get_crown" ObjectPath="\Events\Default Work Unit\SFX\UI\get_crown" GUID="{51AE65D5-6097-423D-AB08-6CE481DD3BAC}" DurationType="OneShot" DurationMin="1.8858503" DurationMax="1.8858503">
+					<MediaRefs>
+						<MediaRef Id="1050178459"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="37566205" Name="grant" ObjectPath="\Events\Default Work Unit\META\STATEHELPER\grant" GUID="{DB191B1A-2542-4C2E-937F-95A57803A56E}" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionSetState>
+						<ActionSetStateEntry GroupId="436743010" Id="37566205" Name="grant" ObjectPath="\States\Default Work Unit\character\grant" GUID="{1A0D835B-23AB-4E8F-9DC5-E6162612714F}"/>
+					</ActionSetState>
+				</Event>
+				<Event Id="2504269644" Name="grant_dash" ObjectPath="\Events\Default Work Unit\SFX\Abilities\grant\grant_dash" GUID="{F8289D2D-13DB-4B8E-AA5B-D1F61F6A5AF5}" DurationType="OneShot" DurationMin="1.0175056" DurationMax="1.0631293">
+					<MediaRefs>
+						<MediaRef Id="193245209"/>
+						<MediaRef Id="224299959"/>
+						<MediaRef Id="778593517"/>
+						<MediaRef Id="931070680"/>
+						<MediaRef Id="1050219166"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="2568359573"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="3319269398" Name="grant_double_kill" ObjectPath="\Events\Default Work Unit\VOX\DOUBLEKILL\grant_double_kill" GUID="{D506E141-C418-4940-BBB4-54F4282D260E}" DurationType="OneShot" DurationMin="0.92029476" DurationMax="1.732653">
+					<MediaRefs>
+						<MediaRef Id="92846812"/>
+						<MediaRef Id="235329042"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2455836378" Name="grant_enter" ObjectPath="\Events\Default Work Unit\SFX\playerEnter\grant_enter" GUID="{E013491B-A3A3-460D-918D-C184AC45E0B7}" DurationType="OneShot" DurationMin="1.3808616" DurationMax="1.3808616">
+					<MediaRefs>
+						<MediaRef Id="155102973"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2507208871" Name="grant_first_blood" ObjectPath="\Events\Default Work Unit\VOX\FIRST BLOOD\grant_first_blood" GUID="{F6260E12-8A49-4417-9822-6D78E2332C68}" DurationType="OneShot" DurationMin="2.1110885" DurationMax="2.455873">
+					<MediaRefs>
+						<MediaRef Id="407382823"/>
+						<MediaRef Id="641671530"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="145955387" Name="grant_kills" ObjectPath="\Events\Default Work Unit\VOX\KILLING\grant_kills" GUID="{3865BCEB-3E83-45FA-A63E-BA93FEE8FF89}" DurationType="OneShot" DurationMin="0.75995463" DurationMax="3.4205897">
+					<MediaRefs>
+						<MediaRef Id="438568164"/>
+						<MediaRef Id="439727759"/>
+						<MediaRef Id="463679612"/>
+						<MediaRef Id="505934382"/>
+						<MediaRef Id="737256089"/>
+						<MediaRef Id="757667753"/>
+						<MediaRef Id="766018425"/>
+					</MediaRefs>
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="784127654" GUID="{CC367C20-82B7-428D-ACDC-7FA68A30F7AA}"/>
+							<MediaRefs>
+								<MediaRef Id="438568164"/>
+								<MediaRef Id="439727759"/>
+								<MediaRef Id="463679612"/>
+								<MediaRef Id="505934382"/>
+								<MediaRef Id="737256089"/>
+								<MediaRef Id="757667753"/>
+								<MediaRef Id="766018425"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="102803677" GUID="{51FB5322-1280-4AA8-BBA0-07F98F05E2BA}"/>
+							<MediaRefs>
+								<MediaRef Id="60647296"/>
+								<MediaRef Id="341834989"/>
+								<MediaRef Id="402343741"/>
+								<MediaRef Id="915424920"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="1291433344" GUID="{BF6FEC27-68E9-4928-A423-08C4FE5BCB5B}"/>
+							<MediaRefs>
+								<MediaRef Id="459125786"/>
+								<MediaRef Id="788768374"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="748895195" GUID="{2F4FBC42-4AF9-4E4D-BB9F-143BEA7D9BD0}" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="438568164"/>
+								<MediaRef Id="439727759"/>
+								<MediaRef Id="463679612"/>
+								<MediaRef Id="505934382"/>
+								<MediaRef Id="737256089"/>
+								<MediaRef Id="757667753"/>
+								<MediaRef Id="766018425"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="1568083739" GUID="{3BEA5A55-4ED8-49D1-8EDE-9327C2D2119D}"/>
+							<MediaRefs>
+								<MediaRef Id="23826282"/>
+								<MediaRef Id="767256753"/>
+								<MediaRef Id="796464985"/>
+								<MediaRef Id="829358216"/>
+								<MediaRef Id="1016390311"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="2202686508" Name="grant_match_win" ObjectPath="\Events\Default Work Unit\VOX\MATCHWIN\grant_match_win" GUID="{9838A726-5092-4E00-9057-C9842B41AF1F}" DurationType="OneShot" DurationMin="2.4163718" DurationMax="6.134467">
+					<MediaRefs>
+						<MediaRef Id="136833008"/>
+						<MediaRef Id="192960872"/>
+						<MediaRef Id="773620773"/>
+						<MediaRef Id="824013608"/>
+						<MediaRef Id="870235904"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2205840944" Name="grant_miss" ObjectPath="\Events\Default Work Unit\VOX\MISSING\grant_miss" GUID="{6E7EBBA9-2BA6-4730-A536-8B95271D38C2}" DurationType="OneShot" DurationMin="1.0033107" DurationMax="2.306644">
+					<MediaRefs>
+						<MediaRef Id="472880457"/>
+						<MediaRef Id="682929968"/>
+						<MediaRef Id="774787065"/>
+						<MediaRef Id="781527568"/>
+						<MediaRef Id="851695984"/>
+					</MediaRefs>
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="784127654" GUID="{CC367C20-82B7-428D-ACDC-7FA68A30F7AA}"/>
+							<MediaRefs>
+								<MediaRef Id="472880457"/>
+								<MediaRef Id="682929968"/>
+								<MediaRef Id="774787065"/>
+								<MediaRef Id="781527568"/>
+								<MediaRef Id="851695984"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="102803677" GUID="{51FB5322-1280-4AA8-BBA0-07F98F05E2BA}"/>
+							<MediaRefs>
+								<MediaRef Id="88217279"/>
+								<MediaRef Id="531103388"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="1291433344" GUID="{BF6FEC27-68E9-4928-A423-08C4FE5BCB5B}"/>
+							<MediaRefs>
+								<MediaRef Id="623827091"/>
+								<MediaRef Id="820733481"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="748895195" GUID="{2F4FBC42-4AF9-4E4D-BB9F-143BEA7D9BD0}" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="472880457"/>
+								<MediaRef Id="682929968"/>
+								<MediaRef Id="774787065"/>
+								<MediaRef Id="781527568"/>
+								<MediaRef Id="851695984"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="1568083739" GUID="{3BEA5A55-4ED8-49D1-8EDE-9327C2D2119D}"/>
+							<MediaRefs>
+								<MediaRef Id="796464985"/>
+								<MediaRef Id="1016390311"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="37566205" GUID="{1A0D835B-23AB-4E8F-9DC5-E6162612714F}"/>
+							<MediaRefs>
+								<MediaRef Id="472880457"/>
+								<MediaRef Id="682929968"/>
+								<MediaRef Id="774787065"/>
+								<MediaRef Id="781527568"/>
+								<MediaRef Id="851695984"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="4255348533" Name="grant_potato_transfer" ObjectPath="\Events\Default Work Unit\VOX\POTATO_TRANSFER\grant_potato_transfer" GUID="{62A55AAD-7CF2-437E-979F-54081D3EC3AF}" DurationType="OneShot" DurationMin="0.8902041" DurationMax="2.063492">
+					<MediaRefs>
+						<MediaRef Id="9911899"/>
+						<MediaRef Id="139666773"/>
+						<MediaRef Id="565797093"/>
+						<MediaRef Id="579850828"/>
+						<MediaRef Id="662637074"/>
+						<MediaRef Id="667447494"/>
+						<MediaRef Id="671405843"/>
+						<MediaRef Id="684153272"/>
+						<MediaRef Id="686679368"/>
+						<MediaRef Id="709881688"/>
+						<MediaRef Id="738380018"/>
+						<MediaRef Id="796624904"/>
+						<MediaRef Id="829750660"/>
+						<MediaRef Id="859266556"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3896793226" Name="grant_roundwin" ObjectPath="\Events\Default Work Unit\VOX\ROUNDWIN\grant_roundwin" GUID="{0909FD9E-34D3-4C21-9E7B-B5FCB15F1F19}" DurationType="OneShot" DurationMin="1.8773016" DurationMax="3.8983674">
+					<MediaRefs>
+						<MediaRef Id="98982736"/>
+						<MediaRef Id="117463219"/>
+						<MediaRef Id="191080910"/>
+						<MediaRef Id="329640560"/>
+						<MediaRef Id="420007990"/>
+						<MediaRef Id="1061202087"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1474704768" Name="grant_select" ObjectPath="\Events\Default Work Unit\VOX\SELECT\grant_select" GUID="{21D7E31E-FBF1-43DE-A7DF-39021DA675C1}" DurationType="OneShot" DurationMin="0.78933334" DurationMax="2.1333334">
+					<MediaRefs>
+						<MediaRef Id="27371180"/>
+						<MediaRef Id="44645439"/>
+						<MediaRef Id="56061528"/>
+						<MediaRef Id="337656879"/>
+						<MediaRef Id="392620349"/>
+						<MediaRef Id="465566032"/>
+						<MediaRef Id="512397169"/>
+						<MediaRef Id="696065166"/>
+						<MediaRef Id="1062108807"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="21960787" Name="grant_triple_kill" ObjectPath="\Events\Default Work Unit\VOX\TRIPLE KILL\grant_triple_kill" GUID="{2F92B64A-D23D-46F9-A977-4D99C5BF9404}" DurationType="OneShot" DurationMin="2.6915872" DurationMax="4.6867347">
+					<MediaRefs>
+						<MediaRef Id="419682354"/>
+						<MediaRef Id="712906847"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="102803677" Name="lily" ObjectPath="\Events\Default Work Unit\META\STATEHELPER\lily" GUID="{DABD1741-ED5C-452F-A437-6CBD6058D1C6}" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionSetState>
+						<ActionSetStateEntry GroupId="436743010" Id="102803677" Name="lily" ObjectPath="\States\Default Work Unit\character\lily" GUID="{51FB5322-1280-4AA8-BBA0-07F98F05E2BA}"/>
+					</ActionSetState>
+				</Event>
+				<Event Id="2743389932" Name="lily_dash" ObjectPath="\Events\Default Work Unit\SFX\Abilities\lily\lily_dash" GUID="{82CBFEBA-4BC1-4DF8-8A82-E8E23D746F48}" DurationType="OneShot" DurationMin="0.7805273" DurationMax="1">
+					<MediaRefs>
+						<MediaRef Id="224299959"/>
+						<MediaRef Id="470027140"/>
+						<MediaRef Id="493054462"/>
+						<MediaRef Id="778593517"/>
+						<MediaRef Id="931070680"/>
+						<MediaRef Id="986376438"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="2568359573"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="3190349046" Name="lily_double_kill" ObjectPath="\Events\Default Work Unit\VOX\DOUBLEKILL\lily_double_kill" GUID="{AF891703-DEB0-4945-8AFC-FE7B266CAB69}" DurationType="OneShot" DurationMin="3.378821" DurationMax="3.378821">
+					<MediaRefs>
+						<MediaRef Id="31231879"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2721419258" Name="lily_enter" ObjectPath="\Events\Default Work Unit\SFX\playerEnter\lily_enter" GUID="{23DD353B-3FEF-4DF2-B230-DEDD183AB227}" DurationType="OneShot" DurationMin="1.2781179" DurationMax="1.2781179">
+					<MediaRefs>
+						<MediaRef Id="244581282"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3638667911" Name="lily_first_blood" ObjectPath="\Events\Default Work Unit\VOX\FIRST BLOOD\lily_first_blood" GUID="{12977689-5FB6-449F-8084-9E21F792C3CA}" DurationType="OneShot" DurationMin="5.0006123" DurationMax="5.0006123">
+					<MediaRefs>
+						<MediaRef Id="485557418"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="835995739" Name="lily_kills" ObjectPath="\Events\Default Work Unit\VOX\KILLING\lily_kills" GUID="{3021D67A-46BC-48F5-8ADF-91674C4EE043}" DurationType="OneShot" DurationMin="2.6631746" DurationMax="3.7539456">
+					<MediaRefs>
+						<MediaRef Id="301424260"/>
+						<MediaRef Id="919813697"/>
+						<MediaRef Id="1071705761"/>
+					</MediaRefs>
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="784127654" GUID="{CC367C20-82B7-428D-ACDC-7FA68A30F7AA}"/>
+							<MediaRefs>
+								<MediaRef Id="301424260"/>
+								<MediaRef Id="919813697"/>
+								<MediaRef Id="1071705761"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="102803677" GUID="{51FB5322-1280-4AA8-BBA0-07F98F05E2BA}"/>
+							<MediaRefs>
+								<MediaRef Id="301424260"/>
+								<MediaRef Id="919813697"/>
+								<MediaRef Id="1071705761"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="1291433344" GUID="{BF6FEC27-68E9-4928-A423-08C4FE5BCB5B}"/>
+							<MediaRefs>
+								<MediaRef Id="12493495"/>
+								<MediaRef Id="85745370"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="748895195" GUID="{2F4FBC42-4AF9-4E4D-BB9F-143BEA7D9BD0}" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="301424260"/>
+								<MediaRef Id="919813697"/>
+								<MediaRef Id="1071705761"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="1568083739" GUID="{3BEA5A55-4ED8-49D1-8EDE-9327C2D2119D}"/>
+							<MediaRefs>
+								<MediaRef Id="930572535"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="37566205" GUID="{1A0D835B-23AB-4E8F-9DC5-E6162612714F}"/>
+							<MediaRefs>
+								<MediaRef Id="301424260"/>
+								<MediaRef Id="919813697"/>
+								<MediaRef Id="1071705761"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="3497318284" Name="lily_match_win" ObjectPath="\Events\Default Work Unit\VOX\MATCHWIN\lily_match_win" GUID="{1214BB40-8930-4BD2-9410-8B991994D9AB}" DurationType="OneShot" DurationMin="4.7859635" DurationMax="6.535714">
+					<MediaRefs>
+						<MediaRef Id="70522460"/>
+						<MediaRef Id="219789835"/>
+						<MediaRef Id="422420775"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2444961232" Name="lily_miss" ObjectPath="\Events\Default Work Unit\VOX\MISSING\lily_miss" GUID="{5ABF6950-7E78-40FA-9B71-CBFDB9EEB6DC}" DurationType="OneShot" DurationMin="2.3839228" DurationMax="4.442608">
+					<MediaRefs>
+						<MediaRef Id="276660783"/>
+						<MediaRef Id="403552606"/>
+						<MediaRef Id="413337882"/>
+						<MediaRef Id="869759254"/>
+					</MediaRefs>
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="784127654" GUID="{CC367C20-82B7-428D-ACDC-7FA68A30F7AA}"/>
+							<MediaRefs>
+								<MediaRef Id="276660783"/>
+								<MediaRef Id="403552606"/>
+								<MediaRef Id="413337882"/>
+								<MediaRef Id="869759254"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="102803677" GUID="{51FB5322-1280-4AA8-BBA0-07F98F05E2BA}"/>
+							<MediaRefs>
+								<MediaRef Id="276660783"/>
+								<MediaRef Id="403552606"/>
+								<MediaRef Id="413337882"/>
+								<MediaRef Id="869759254"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="1291433344" GUID="{BF6FEC27-68E9-4928-A423-08C4FE5BCB5B}"/>
+							<MediaRefs>
+								<MediaRef Id="197670450"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="748895195" GUID="{2F4FBC42-4AF9-4E4D-BB9F-143BEA7D9BD0}" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="276660783"/>
+								<MediaRef Id="403552606"/>
+								<MediaRef Id="413337882"/>
+								<MediaRef Id="869759254"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="1568083739" GUID="{3BEA5A55-4ED8-49D1-8EDE-9327C2D2119D}"/>
+							<MediaRefs>
+								<MediaRef Id="405176397"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="37566205" GUID="{1A0D835B-23AB-4E8F-9DC5-E6162612714F}"/>
+							<MediaRefs>
+								<MediaRef Id="50688634"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="2296441130" Name="lily_roundwin" ObjectPath="\Events\Default Work Unit\VOX\ROUNDWIN\lily_roundwin" GUID="{654A87A3-DA0D-46D2-8BA3-0A00B3B94F22}" DurationType="OneShot" DurationMin="3.2226985" DurationMax="4.605034">
+					<MediaRefs>
+						<MediaRef Id="52207026"/>
+						<MediaRef Id="218569778"/>
+						<MediaRef Id="255263474"/>
+						<MediaRef Id="785338174"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1667293984" Name="lily_select" ObjectPath="\Events\Default Work Unit\VOX\SELECT\lily_select" GUID="{1ECCC820-D473-4F8C-93E4-ED605254F7BB}" DurationType="OneShot" DurationMin="2.9816327" DurationMax="3.861338">
+					<MediaRefs>
+						<MediaRef Id="527490927"/>
+						<MediaRef Id="536849198"/>
+						<MediaRef Id="667310620"/>
+						<MediaRef Id="1008336940"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1381509427" Name="lily_triple_kill" ObjectPath="\Events\Default Work Unit\VOX\TRIPLE KILL\lily_triple_kill" GUID="{37843C8C-B3AC-45E3-8502-941B6A6D8C3E}" DurationType="OneShot" DurationMin="3.6438096" DurationMax="3.6438096">
+					<MediaRefs>
+						<MediaRef Id="635543574"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="842244482" Name="magnet_latch_off" ObjectPath="\Events\Default Work Unit\SFX\blocks\magnet blocks\magnet_latch_off" GUID="{7722CCCE-4E2B-48B2-9E09-50357C1E415F}" DurationType="OneShot" DurationMin="0.89103574" DurationMax="0.99037385">
+					<MediaRefs>
+						<MediaRef Id="348647814"/>
+						<MediaRef Id="662317979"/>
+						<MediaRef Id="743916201"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4147352836" Name="magnet_latch_on" ObjectPath="\Events\Default Work Unit\SFX\blocks\magnet blocks\magnet_latch_on" GUID="{A71F7A82-F033-4CCB-83B5-3D164852E5BE}" DurationType="OneShot" DurationMin="1.2679592" DurationMax="1.4031973">
+					<MediaRefs>
+						<MediaRef Id="433995443"/>
+						<MediaRef Id="526271447"/>
+						<MediaRef Id="669578093"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2394582229" Name="player_dash" ObjectPath="\Events\Default Work Unit\SFX\PLAYER-INTERACTION\player_dash" GUID="{DB0080E4-2BC8-444E-9F09-977ACB37B2D2}" DurationType="OneShot" DurationMin="0.7805273" DurationMax="0.8137818">
+					<MediaRefs>
+						<MediaRef Id="224299959"/>
+						<MediaRef Id="778593517"/>
+						<MediaRef Id="931070680"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="2568359573"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="284194557" Name="player_eliminated" ObjectPath="\Events\Default Work Unit\SFX\PLAYER-INTERACTION\player_eliminated" GUID="{39ACE537-C6AF-4827-A361-6FA3FBEB86DF}" DurationType="OneShot" DurationMin="1.6718367" DurationMax="1.6718367">
+					<MediaRefs>
+						<MediaRef Id="65726952"/>
+						<MediaRef Id="554641203"/>
+						<MediaRef Id="696781042"/>
+						<MediaRef Id="724778727"/>
+						<MediaRef Id="843910808"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="577665977" Name="player_impact_player" ObjectPath="\Events\Default Work Unit\SFX\PLAYER-INTERACTION\player_impact_player" GUID="{BFAF8D0A-9735-42B6-B24B-34D57B002125}" DurationType="OneShot" DurationMin="0.4173886" DurationMax="0.8214843">
+					<MediaRefs>
+						<MediaRef Id="328878979"/>
+						<MediaRef Id="626099649"/>
+						<MediaRef Id="1055389858"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="327144606" Name="player_impact_wall" ObjectPath="\Events\Default Work Unit\SFX\PLAYER-INTERACTION\player_impact_wall" GUID="{9BE2D8D1-7276-40EC-ACF5-F5593F1161B2}" DurationType="OneShot" DurationMin="0.026903216" DurationMax="0.81933606">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="784127654" GUID="{CC367C20-82B7-428D-ACDC-7FA68A30F7AA}" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="206076682"/>
+								<MediaRef Id="329878777"/>
+								<MediaRef Id="816398965"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="102803677" GUID="{51FB5322-1280-4AA8-BBA0-07F98F05E2BA}"/>
+							<MediaRefs>
+								<MediaRef Id="229813101"/>
+								<MediaRef Id="771511154"/>
+								<MediaRef Id="938907072"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="1291433344" GUID="{BF6FEC27-68E9-4928-A423-08C4FE5BCB5B}"/>
+							<MediaRefs>
+								<MediaRef Id="206076682"/>
+								<MediaRef Id="329878777"/>
+								<MediaRef Id="816398965"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="1568083739" GUID="{3BEA5A55-4ED8-49D1-8EDE-9327C2D2119D}"/>
+							<MediaRefs>
+								<MediaRef Id="312735398"/>
+								<MediaRef Id="859174773"/>
+								<MediaRef Id="973660903"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="37566205" GUID="{1A0D835B-23AB-4E8F-9DC5-E6162612714F}"/>
+							<MediaRefs>
+								<MediaRef Id="601207010"/>
+								<MediaRef Id="871433305"/>
+								<MediaRef Id="932953327"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="1532879241" Name="potato_expression_01" ObjectPath="\Events\Default Work Unit\VOX\POTATO\potato_expression_01" GUID="{ACECB288-C6B6-42CC-885D-B0DB510867E5}" DurationType="OneShot" DurationMin="1.1678232" DurationMax="1.305732">
+					<MediaRefs>
+						<MediaRef Id="67014162"/>
+						<MediaRef Id="105526360"/>
+						<MediaRef Id="796355553"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1532879242" Name="potato_expression_02" ObjectPath="\Events\Default Work Unit\VOX\POTATO\potato_expression_02" GUID="{367829F0-B52C-4EA0-A4C8-AE54E64E22B5}" DurationType="OneShot" DurationMin="1.7752086" DurationMax="2.2143211">
+					<MediaRefs>
+						<MediaRef Id="86144102"/>
+						<MediaRef Id="833066082"/>
+						<MediaRef Id="984795022"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1532879243" Name="potato_expression_03" ObjectPath="\Events\Default Work Unit\VOX\POTATO\potato_expression_03" GUID="{DA8A8A6F-1DDF-4C52-956D-16D3AA0DF52D}" DurationType="OneShot" DurationMin="1.3211367" DurationMax="1.9762033">
+					<MediaRefs>
+						<MediaRef Id="715435463"/>
+						<MediaRef Id="954736139"/>
+						<MediaRef Id="1038008585"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="635824769" Name="potato_warning" ObjectPath="\Events\Default Work Unit\VOX\POTATO\potato_warning" GUID="{9BEA46F7-EF47-4515-9284-04BCE29B9785}" DurationType="OneShot" DurationMin="1.0761285" DurationMax="1.4377723">
+					<MediaRefs>
+						<MediaRef Id="283014021"/>
+						<MediaRef Id="440317915"/>
+						<MediaRef Id="967189197"/>
+						<MediaRef Id="1011383335"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3389948260" Name="start_sudden_death" ObjectPath="\Events\Default Work Unit\META\STATEHELPER\start_sudden_death" GUID="{AFB685AC-06CB-4EAB-A5CA-0C236DBFC8D3}" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionSetState>
+						<ActionSetStateEntry GroupId="3061676040" Id="4139920145" Name="it_is_sudden" ObjectPath="\States\Default Work Unit\is_it_sudden_death\it_is_sudden" GUID="{AE5ED507-B92C-4A5E-86C7-09F103A03D3D}"/>
+					</ActionSetState>
+				</Event>
+				<Event Id="452547817" Name="stop_all" ObjectPath="\Events\Default Work Unit\META\functionality\stop_all" GUID="{9FDFA838-D3A1-4520-8DD5-54F4F2F177C7}" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="2517012889" Name="stop_all_victory_screen" ObjectPath="\Events\Default Work Unit\META\functionality\stop_all_victory_screen" GUID="{CA5492F4-8AFC-499C-879D-4C1B954BB7DD}" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="819404461" Name="stop_all_with_fade" ObjectPath="\Events\Default Work Unit\META\functionality\stop_all_with_fade" GUID="{25FA8D7E-3A1F-4118-AAFC-561055E3FD9F}" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="2837384057" Name="stop_music" ObjectPath="\Events\Default Work Unit\META\functionality\stop_music" GUID="{9A073044-9616-4EE8-B7BF-818E19AD1CB5}" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="287728669" Name="stop_sfx" ObjectPath="\Events\Default Work Unit\META\functionality\stop_sfx" GUID="{11031517-38CB-497B-98CB-935AD9B8A1CB}" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="4045075502" Name="stop_sudden_death" ObjectPath="\Events\Default Work Unit\META\STATEHELPER\stop_sudden_death" GUID="{37C95924-9DF5-4C14-9292-F6EF04D72FBE}" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionSetState>
+						<ActionSetStateEntry GroupId="3061676040" Id="3979664774" Name="not_sudden" ObjectPath="\States\Default Work Unit\is_it_sudden_death\not_sudden" GUID="{99B78517-2684-4B41-8193-24886C384C07}"/>
+					</ActionSetState>
+				</Event>
+				<Event Id="3894916230" Name="stop_voice" ObjectPath="\Events\Default Work Unit\META\functionality\stop_voice" GUID="{32BD25A7-2EC0-4CF0-868C-D53F223EAB39}" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="3157003241" Name="test" ObjectPath="\Events\Default Work Unit\SFX\TEST\test" GUID="{8BBEFFF2-9441-46DD-91AA-DA798DA716B4}" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="946771586"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="576110586" Name="test1" ObjectPath="\Events\Default Work Unit\TESTS\test1" GUID="{5F7586C1-5CFD-4CE7-9D10-B08D8FFCED84}" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="576110585" Name="test2" ObjectPath="\Events\Default Work Unit\TESTS\test2" GUID="{F6BC771E-9819-453F-A1BC-49A1111174DA}" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="576110584" Name="test3" ObjectPath="\Events\Default Work Unit\TESTS\test3" GUID="{94AC758B-1F3A-4FFB-8899-658B9F57E501}" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="576110591" Name="test4" ObjectPath="\Events\Default Work Unit\TESTS\test4" GUID="{57E6498B-FBAC-4FBD-8504-C0CE3EAAB6BB}" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="576110590" Name="test5" ObjectPath="\Events\Default Work Unit\TESTS\test5" GUID="{22874756-9E74-413B-9EF7-2F8854F1F8D4}" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="207622761"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1568083739" Name="tj" ObjectPath="\Events\Default Work Unit\META\STATEHELPER\tj" GUID="{915CB305-9EFB-4206-82B2-D823A6506BAA}" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionSetState>
+						<ActionSetStateEntry GroupId="436743010" Id="1568083739" Name="tj" ObjectPath="\States\Default Work Unit\character\tj" GUID="{3BEA5A55-4ED8-49D1-8EDE-9327C2D2119D}"/>
+					</ActionSetState>
+				</Event>
+				<Event Id="3489278174" Name="tj_dash" ObjectPath="\Events\Default Work Unit\SFX\Abilities\tj\tj_dash" GUID="{C59121FC-3283-43FE-8012-05939017672F}" DurationType="OneShot" DurationMin="2.5904763" DurationMax="2.8621316">
+					<MediaRefs>
+						<MediaRef Id="52763360"/>
+						<MediaRef Id="224299959"/>
+						<MediaRef Id="273053632"/>
+						<MediaRef Id="778593517"/>
+						<MediaRef Id="931070680"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="2568359573"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="1314409080" Name="tj_double_kill" ObjectPath="\Events\Default Work Unit\VOX\DOUBLEKILL\tj_double_kill" GUID="{AC659622-1D90-491A-9540-3DD4ED1C1856}" DurationType="OneShot" DurationMin="3.3186622" DurationMax="3.3186622">
+					<MediaRefs>
+						<MediaRef Id="674120193"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="223982596" Name="tj_enter" ObjectPath="\Events\Default Work Unit\SFX\playerEnter\tj_enter" GUID="{4D284132-DA65-46DE-B9F3-9B9088B4769F}" DurationType="OneShot" DurationMin="3.0450795" DurationMax="3.0450795">
+					<MediaRefs>
+						<MediaRef Id="51019127"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4196375733" Name="tj_first_blood" ObjectPath="\Events\Default Work Unit\VOX\FIRST BLOOD\tj_first_blood" GUID="{90C6E11F-A7C8-4351-8B5F-93DE88EF99EC}" DurationType="OneShot" DurationMin="2.4871428" DurationMax="2.4871428">
+					<MediaRefs>
+						<MediaRef Id="918697708"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="557779229" Name="tj_kills" ObjectPath="\Events\Default Work Unit\VOX\KILLING\tj_kills" GUID="{87B55DAC-8250-49C6-A471-B10371541353}" DurationType="OneShot" DurationMin="3.3895464" DurationMax="4.295079">
+					<MediaRefs>
+						<MediaRef Id="465691522"/>
+						<MediaRef Id="570267645"/>
+						<MediaRef Id="1039265107"/>
+					</MediaRefs>
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="784127654" GUID="{CC367C20-82B7-428D-ACDC-7FA68A30F7AA}"/>
+							<MediaRefs>
+								<MediaRef Id="465691522"/>
+								<MediaRef Id="570267645"/>
+								<MediaRef Id="1039265107"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="102803677" GUID="{51FB5322-1280-4AA8-BBA0-07F98F05E2BA}"/>
+							<MediaRefs>
+								<MediaRef Id="443178592"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="1291433344" GUID="{BF6FEC27-68E9-4928-A423-08C4FE5BCB5B}"/>
+							<MediaRefs>
+								<MediaRef Id="136563129"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="748895195" GUID="{2F4FBC42-4AF9-4E4D-BB9F-143BEA7D9BD0}" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="465691522"/>
+								<MediaRef Id="570267645"/>
+								<MediaRef Id="1039265107"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="1568083739" GUID="{3BEA5A55-4ED8-49D1-8EDE-9327C2D2119D}"/>
+							<MediaRefs>
+								<MediaRef Id="465691522"/>
+								<MediaRef Id="570267645"/>
+								<MediaRef Id="1039265107"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="37566205" GUID="{1A0D835B-23AB-4E8F-9DC5-E6162612714F}"/>
+							<MediaRefs>
+								<MediaRef Id="747643009"/>
+								<MediaRef Id="1063602001"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="2276580262" Name="tj_match_win" ObjectPath="\Events\Default Work Unit\VOX\MATCHWIN\tj_match_win" GUID="{F924B445-B353-4170-8250-2B3A74C2ECAB}" DurationType="OneShot" DurationMin="6.372993" DurationMax="8.096939">
+					<MediaRefs>
+						<MediaRef Id="363445027"/>
+						<MediaRef Id="625199691"/>
+						<MediaRef Id="838114965"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3719950486" Name="tj_miss" ObjectPath="\Events\Default Work Unit\VOX\MISSING\tj_miss" GUID="{90951E78-82AC-42C5-8974-178F4CDE28D0}" DurationType="OneShot" DurationMin="2.513832" DurationMax="4.226372">
+					<MediaRefs>
+						<MediaRef Id="368604648"/>
+						<MediaRef Id="797730934"/>
+						<MediaRef Id="822320909"/>
+					</MediaRefs>
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="784127654" GUID="{CC367C20-82B7-428D-ACDC-7FA68A30F7AA}"/>
+							<MediaRefs>
+								<MediaRef Id="368604648"/>
+								<MediaRef Id="797730934"/>
+								<MediaRef Id="822320909"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="102803677" GUID="{51FB5322-1280-4AA8-BBA0-07F98F05E2BA}"/>
+							<MediaRefs>
+								<MediaRef Id="546516827"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="1291433344" GUID="{BF6FEC27-68E9-4928-A423-08C4FE5BCB5B}"/>
+							<MediaRefs>
+								<MediaRef Id="822711239"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="748895195" GUID="{2F4FBC42-4AF9-4E4D-BB9F-143BEA7D9BD0}" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="368604648"/>
+								<MediaRef Id="797730934"/>
+								<MediaRef Id="822320909"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="1568083739" GUID="{3BEA5A55-4ED8-49D1-8EDE-9327C2D2119D}"/>
+							<MediaRefs>
+								<MediaRef Id="368604648"/>
+								<MediaRef Id="797730934"/>
+								<MediaRef Id="822320909"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="436743010" Id="37566205" GUID="{1A0D835B-23AB-4E8F-9DC5-E6162612714F}"/>
+							<MediaRefs>
+								<MediaRef Id="368604648"/>
+								<MediaRef Id="797730934"/>
+								<MediaRef Id="822320909"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="2097190116" Name="tj_roundwin" ObjectPath="\Events\Default Work Unit\VOX\ROUNDWIN\tj_roundwin" GUID="{4A610ED6-644B-4939-AF93-DF8B56E7C7B7}" DurationType="OneShot" DurationMin="4.2751927" DurationMax="5.554218">
+					<MediaRefs>
+						<MediaRef Id="214803672"/>
+						<MediaRef Id="384487728"/>
+						<MediaRef Id="850460786"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3839755318" Name="tj_select" ObjectPath="\Events\Default Work Unit\VOX\SELECT\tj_select" GUID="{19EBEE1C-B203-4ECD-B5EA-33FA5D6AC5ED}" DurationType="OneShot" DurationMin="1.9052382" DurationMax="3.0692518">
+					<MediaRefs>
+						<MediaRef Id="13383813"/>
+						<MediaRef Id="685457054"/>
+						<MediaRef Id="770165558"/>
+						<MediaRef Id="1057029096"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="488307809" Name="tj_triple_kill" ObjectPath="\Events\Default Work Unit\VOX\TRIPLE KILL\tj_triple_kill" GUID="{143EE8E0-03CD-4471-A568-AA0C0912AB26}" DurationType="OneShot" DurationMin="4.493492" DurationMax="4.493492">
+					<MediaRefs>
+						<MediaRef Id="176458239"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3306860282" Name="UI_gate_close_1" ObjectPath="\Events\Default Work Unit\SFX\UI\UI_gate_close_1" GUID="{0F543F21-703A-43B6-A9B1-3B799FECB058}" DurationType="OneShot" DurationMin="0.44843537" DurationMax="0.44843537">
+					<MediaRefs>
+						<MediaRef Id="487920312"/>
+						<MediaRef Id="601152955"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3306860281" Name="UI_gate_close_2" ObjectPath="\Events\Default Work Unit\SFX\UI\UI_gate_close_2" GUID="{7436AA96-A401-426F-997B-B31BB8DFDCEC}" DurationType="OneShot" DurationMin="0.68695897" DurationMax="0.85507876">
+					<MediaRefs>
+						<MediaRef Id="105090397"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2719597414" Name="UI_gate_open" ObjectPath="\Events\Default Work Unit\SFX\UI\UI_gate_open" GUID="{45DE06CB-D40D-4CDD-9E46-633632E526D8}" DurationType="OneShot" DurationMin="2.3161905" DurationMax="2.3161905">
+					<MediaRefs>
+						<MediaRef Id="392173412"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1902423899" Name="UI_in" ObjectPath="\Events\Default Work Unit\SFX\UI\UI_in" GUID="{08269CCB-BAB7-4101-8300-BF890E789889}" DurationType="OneShot" DurationMin="1.0419583" DurationMax="1.0419583">
+					<MediaRefs>
+						<MediaRef Id="740057398"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1572620659" Name="UI_main_menu_transition_hit" ObjectPath="\Events\Default Work Unit\SFX\UI\UI_main_menu_transition_hit" GUID="{A66BD00B-9B42-4E20-A470-B74316DC55BA}" DurationType="OneShot" DurationMin="1.3231491" DurationMax="1.9916658">
+					<MediaRefs>
+						<MediaRef Id="786983024"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2723610580" Name="UI_main_menu_transition_sweep" ObjectPath="\Events\Default Work Unit\SFX\UI\UI_main_menu_transition_sweep" GUID="{B51D1734-8533-4FCF-8A9E-6D0AAC533A32}" DurationType="OneShot" DurationMin="1.55525" DurationMax="1.55525">
+					<MediaRefs>
+						<MediaRef Id="713807746"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3705364707" Name="UI_neutral" ObjectPath="\Events\Default Work Unit\SFX\UI\UI_neutral" GUID="{32348652-F356-4167-9BA7-DDEF7B462D09}" DurationType="OneShot" DurationMin="0.439375" DurationMax="0.439375">
+					<MediaRefs>
+						<MediaRef Id="774952333"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="725122606" Name="UI_neutral_down" ObjectPath="\Events\Default Work Unit\SFX\UI\UI_neutral_down" GUID="{56A5D282-4242-41DB-ACD0-A283894D2FC2}" DurationType="OneShot" DurationMin="0.5165064" DurationMax="0.5165064">
+					<MediaRefs>
+						<MediaRef Id="774952333"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3312508406" Name="UI_out" ObjectPath="\Events\Default Work Unit\SFX\UI\UI_out" GUID="{B01F7969-E50B-44A8-A4A5-6799359601B2}" DurationType="OneShot" DurationMin="0.74325" DurationMax="0.74325">
+					<MediaRefs>
+						<MediaRef Id="710435498"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3144596715" Name="UI_roll" ObjectPath="\Events\Default Work Unit\SFX\UI\UI_roll" GUID="{484650C4-88AB-40A4-8D02-BF5067F67B84}" DurationType="OneShot" DurationMin="1.3542204" DurationMax="1.6614726">
+					<MediaRefs>
+						<MediaRef Id="767107949"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="520517886" Name="UI_select_character" ObjectPath="\Events\Default Work Unit\SFX\UI\UI_select_character" GUID="{3CA187E2-694B-403B-9805-2900C7F70A0A}" DurationType="OneShot" DurationMin="1.0184166" DurationMax="1.0184166">
+					<MediaRefs>
+						<MediaRef Id="472161951"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1219048826" Name="UI_start" ObjectPath="\Events\Default Work Unit\SFX\UI\UI_start" GUID="{B849D433-F7DA-4512-AD92-2541F4AC7CA2}" DurationType="OneShot" DurationMin="2.1225398" DurationMax="2.1225398">
+					<MediaRefs>
+						<MediaRef Id="632668198"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3730899723" Name="UI_start_game" ObjectPath="\Events\Default Work Unit\SFX\UI\UI_start_game" GUID="{80B842A7-6BF1-4375-9351-04DAC5F89E9B}" DurationType="OneShot" DurationMin="1.1232126" DurationMax="1.1232126">
+					<MediaRefs>
+						<MediaRef Id="740057398"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="2180422931"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="3419192923" Name="UI_text_print" ObjectPath="\Events\Default Work Unit\SFX\UI\UI_text_print" GUID="{48DE6CDF-5653-49F4-AA7A-99200FFD6196}" DurationType="OneShot" DurationMin="0.1255" DurationMax="0.12891667">
+					<MediaRefs>
+						<MediaRef Id="761270980"/>
+						<MediaRef Id="958043630"/>
+						<MediaRef Id="1060169997"/>
+					</MediaRefs>
+				</Event>
+			</Events>
+			<GameParameters>
+				<GameParameter Id="3236148094" Name="slowmo" ObjectPath="\Game Parameters\Default Work Unit\SLOWMO\slowmo" GUID="{EE070EC3-6654-4529-9D50-C3CDDC656260}"/>
+			</GameParameters>
+			<StateGroups>
+				<StateGroup Id="436743010" Name="character" ObjectPath="\States\Default Work Unit\character" GUID="{064EDF57-074B-4200-8B1B-0CCAF195284D}">
+					<States>
+						<State Id="37566205" Name="grant" ObjectPath="\States\Default Work Unit\character\grant" GUID="{1A0D835B-23AB-4E8F-9DC5-E6162612714F}"/>
+						<State Id="102803677" Name="lily" ObjectPath="\States\Default Work Unit\character\lily" GUID="{51FB5322-1280-4AA8-BBA0-07F98F05E2BA}"/>
+						<State Id="748895195" Name="None" ObjectPath="\States\Default Work Unit\character\None" GUID="{2F4FBC42-4AF9-4E4D-BB9F-143BEA7D9BD0}"/>
+						<State Id="784127654" Name="null" ObjectPath="\States\Default Work Unit\character\null" GUID="{CC367C20-82B7-428D-ACDC-7FA68A30F7AA}"/>
+						<State Id="1291433344" Name="bass" ObjectPath="\States\Default Work Unit\character\bass" GUID="{BF6FEC27-68E9-4928-A423-08C4FE5BCB5B}"/>
+						<State Id="1568083739" Name="tj" ObjectPath="\States\Default Work Unit\character\tj" GUID="{3BEA5A55-4ED8-49D1-8EDE-9327C2D2119D}"/>
+					</States>
+				</StateGroup>
+				<StateGroup Id="1641045285" Name="rockTests" ObjectPath="\States\Default Work Unit\rockTests" GUID="{81569B73-E8D4-440E-A52B-C0B0BF95F09E}">
+					<States>
+						<State Id="576110584" Name="test3" ObjectPath="\States\Default Work Unit\rockTests\test3" GUID="{EAD74845-5BE1-4F1E-BCED-A0C7CA530A96}"/>
+						<State Id="576110585" Name="test2" ObjectPath="\States\Default Work Unit\rockTests\test2" GUID="{138E9728-0D79-4D1D-84B5-BD0ED3805FA9}"/>
+						<State Id="576110586" Name="test1" ObjectPath="\States\Default Work Unit\rockTests\test1" GUID="{4DBBA9A9-8482-4F8A-AA15-0FC9F2EB61FD}"/>
+						<State Id="576110591" Name="test4" ObjectPath="\States\Default Work Unit\rockTests\test4" GUID="{C72944B4-5C17-4BEB-82CD-5D574B3D26B1}"/>
+						<State Id="748895195" Name="None" ObjectPath="\States\Default Work Unit\rockTests\None" GUID="{13A75ABF-E8EB-47DC-939E-A69B28A2DB37}"/>
+					</States>
+				</StateGroup>
+				<StateGroup Id="3061676040" Name="is_it_sudden_death" ObjectPath="\States\Default Work Unit\is_it_sudden_death" GUID="{6CBCF140-A37D-4B4D-8BC8-7720B0187B51}">
+					<States>
+						<State Id="748895195" Name="None" ObjectPath="\States\Default Work Unit\is_it_sudden_death\None" GUID="{4D7CF054-314D-4F22-B522-5FC21CB2918E}"/>
+						<State Id="3979664774" Name="not_sudden" ObjectPath="\States\Default Work Unit\is_it_sudden_death\not_sudden" GUID="{99B78517-2684-4B41-8193-24886C384C07}"/>
+						<State Id="4139920145" Name="it_is_sudden" ObjectPath="\States\Default Work Unit\is_it_sudden_death\it_is_sudden" GUID="{AE5ED507-B92C-4A5E-86C7-09F103A03D3D}"/>
+					</States>
+				</StateGroup>
+			</StateGroups>
+		</SoundBank>
+	</SoundBanks>
+	<FileHash>{1D2C2CAA-9B10-144F-2A76-E326B084604F}</FileHash>
+</SoundBanksInfo>

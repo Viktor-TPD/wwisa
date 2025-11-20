@@ -14,12 +14,10 @@ const {
 
 const router = express.Router();
 
-// Create uploads directory
 if (!fs.existsSync(config.uploadDir)) {
   fs.mkdirSync(config.uploadDir, { recursive: true });
 }
 
-// Configure multer
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const userDir = path.join(config.uploadDir, `user_${req.user.id}`);
@@ -50,10 +48,8 @@ const upload = multer({
   },
 });
 
-// All routes require authentication
 router.use(authenticateToken);
 
-// Upload files
 router.post(
   "/upload",
   upload.array("files", config.maxFilesPerUpload),
@@ -106,7 +102,6 @@ router.post(
   }
 );
 
-// List user's files
 router.get("/", async (req, res) => {
   try {
     const files = await getFilesByUserId(req.user.id);
@@ -132,7 +127,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Download specific file
 // Download specific file
 router.get("/:fileId", async (req, res) => {
   try {

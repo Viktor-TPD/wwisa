@@ -1,10 +1,9 @@
-const API_BASE_URL = "http://localhost:3001/api";
+const API_BASE_URL = process.env.REACT_APP_API_URL || "/api";
 
-// Helper function for API calls
 const apiCall = async (endpoint, options = {}) => {
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     ...options,
-    credentials: "include", // Include cookies for auth
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
       ...options.headers,
@@ -52,7 +51,6 @@ export const files = {
   upload: async (fileList) => {
     const formData = new FormData();
 
-    // Support both FileList and File[]
     if (fileList instanceof FileList) {
       for (let i = 0; i < fileList.length; i++) {
         formData.append("files", fileList[i]);
@@ -63,8 +61,8 @@ export const files = {
 
     const response = await fetch(`${API_BASE_URL}/files/upload`, {
       method: "POST",
-      credentials: "include", // Include auth cookie
-      body: formData, // Don't set Content-Type, browser will set it with boundary
+      credentials: "include",
+      body: formData,
     });
 
     const data = await response.json();
@@ -103,6 +101,5 @@ export const files = {
   },
 };
 
-// Keep old export for backward compatibility
 const filesAPI = files;
 export default filesAPI;
