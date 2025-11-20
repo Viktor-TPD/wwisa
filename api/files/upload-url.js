@@ -41,21 +41,17 @@ export default async function handler(req, res) {
       body: req.body,
       request: req,
       onBeforeGenerateToken: async (pathname, clientPayload) => {
-        // pathname is just the filename sent by client
         const filename = pathname;
 
-        // Validate file extension
         const ext = filename.substring(filename.lastIndexOf(".")).toLowerCase();
         if (![".bnk", ".wem", ".xml", ".wwu"].includes(ext)) {
           throw new Error("Invalid file type");
         }
 
-        // Generate unique ID (timestamp + random string)
         const timestamp = Date.now();
         const randomStr = Math.random().toString(36).substring(2, 8);
         const uniqueId = `${timestamp}-${randomStr}`;
 
-        // Construct full path
         const fullPath = `users/${user.username}/files/${uniqueId}-${filename}`;
 
         return {
@@ -71,12 +67,10 @@ export default async function handler(req, res) {
             timestamp,
             uniqueId,
           }),
-          pathname: fullPath, // Return the full path here
+          pathname: fullPath,
         };
       },
-      onUploadCompleted: async ({ blob, tokenPayload }) => {
-        console.log("Upload completed:", blob.url, "payload:", tokenPayload);
-      },
+      // Remove onUploadCompleted - it causes a second authenticated request
     });
 
     return res.json(jsonResponse);
