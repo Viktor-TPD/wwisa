@@ -1,4 +1,4 @@
-import { generateUploadUrl } from "@vercel/blob/client";
+import { createUploadUrl } from "@vercel/blob";
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "change-this-in-production";
@@ -56,20 +56,20 @@ export default async function handler(req, res) {
     const randomStr = Math.random().toString(36).substring(2, 8);
     const uniqueId = `${timestamp}-${randomStr}`;
 
-    // THIS is the key - the pathname in generateUploadUrl controls where it goes
-    const pathname = `users/${user.username}/files/${uniqueId}-${filename}`;
+    // THIS controls where the file goes
+    const path = `users/${user.username}/files/${uniqueId}-${filename}`;
 
-    console.log("Generating upload URL for:", pathname);
+    console.log("Generating upload URL for:", path);
 
-    const { url } = await generateUploadUrl({
-      pathname,
+    const { url } = await createUploadUrl({
       expires: "15m",
       contentType: "application/octet-stream",
+      path,
     });
 
     return res.json({
       url,
-      pathname,
+      path,
       uniqueId,
     });
   } catch (error) {
