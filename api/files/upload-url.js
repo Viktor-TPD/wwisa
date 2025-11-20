@@ -41,7 +41,7 @@ export default async function handler(req, res) {
       body: req.body,
       request: req,
       onBeforeGenerateToken: async (pathname) => {
-        // pathname is the filename sent from client
+        // pathname now includes the path from client
         const filename = pathname.split("/").pop();
 
         const ext = filename.substring(filename.lastIndexOf(".")).toLowerCase();
@@ -49,24 +49,18 @@ export default async function handler(req, res) {
           throw new Error("Invalid file type");
         }
 
-        const timestamp = Date.now();
-        const randomStr = Math.random().toString(36).substring(2, 8);
-        const uniqueId = `${timestamp}-${randomStr}`;
+        // Prepend user directory to the path from client
+        const userPath = `users/${user.username}/${pathname}`;
 
-        // THIS is the key - return pathname to control where it goes
-        const filePath = `users/${user.username}/files/${uniqueId}-${filename}`;
-
-        console.log("Generated pathname:", filePath);
+        console.log("Generated pathname:", userPath);
 
         return {
           allowedContentTypes: [
             "application/octet-stream",
             "text/xml",
             "application/xml",
-            "audio/mpeg",
-            "audio/wav",
           ],
-          pathname: filePath, // THE KEY - this controls the path
+          pathname: userPath,
         };
       },
     });

@@ -16,7 +16,15 @@ function FileUpload({ onUploadComplete }) {
       const results = [];
 
       for (const file of uploadedFiles) {
-        const blob = await upload(file.name, file, {
+        // Generate unique filename
+        const timestamp = Date.now();
+        const randomStr = Math.random().toString(36).substring(2, 8);
+        const uniqueId = `${timestamp}-${randomStr}`;
+
+        // Pass the FULL PATH as first argument (not just filename)
+        const fullPath = `content/files/${uniqueId}-${file.name}`;
+
+        const blob = await upload(fullPath, file, {
           access: "public",
           handleUploadUrl: "/api/files/upload-url",
         });
