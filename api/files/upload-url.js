@@ -41,7 +41,20 @@ export default async function handler(req, res) {
       body: req.body,
       request: req,
       onBeforeGenerateToken: async (pathname, clientPayload) => {
-        const filename = pathname;
+        // pathname is what client sent, clientPayload has our data
+        let filename = pathname;
+
+        // Try to get original filename from clientPayload if available
+        if (clientPayload) {
+          try {
+            const payload = JSON.parse(clientPayload);
+            if (payload.originalFilename) {
+              filename = payload.originalFilename;
+            }
+          } catch (e) {
+            // Use pathname as fallback
+          }
+        }
 
         const ext = filename.substring(filename.lastIndexOf(".")).toLowerCase();
         if (![".bnk", ".wem", ".xml", ".wwu"].includes(ext)) {
