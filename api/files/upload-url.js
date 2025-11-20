@@ -1,4 +1,4 @@
-import { handleUpload } from "@vercel/blob/client";
+import { generateUploadUrl } from "@vercel/blob/client";
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "change-this-in-production";
@@ -36,63 +36,44 @@ export default async function handler(req, res) {
     return res.status(403).json({ success: false, message: "Invalid token" });
   }
 
+  const { filename } = req.body;
+
+  if (!filename) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Filename required" });
+  }
+
+  const ext = filename.substring(filename.lastIndexOf(".")).toLowerCase();
+  if (![".bnk", ".wem", ".xml", ".wwu"].includes(ext)) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Invalid file type" });
+  }
+
   try {
-    const jsonResponse = await handleUpload({
-      body: req.body,
-      request: req,
-      onBeforeGenerateToken: async (pathname, clientPayload) => {
-        // pathname is what client sent, clientPayload has our data
-        let filename = pathname;
+    const timestamp = Date.now();
+    const randomStr = Math.random().toString(36).substring(2, 8);
+    const uniqueId = `${timestamp}-${randomStr}`;
 
-        // Try to get original filename from clientPayload if available
-        if (clientPayload) {
-          try {
-            const payload = JSON.parse(clientPayload);
-            if (payload.originalFilename) {
-              filename = payload.originalFilename;
-            }
-          } catch (e) {
-            // Use pathname as fallback
-          }
-        }
+    // THIS is the key - the pathname in generateUploadUrl controls where it goes
+    const pathname = `users/${user.username}/files/${uniqueId}-${filename}`;
 
-        const ext = filename.substring(filename.lastIndexOf(".")).toLowerCase();
-        if (![".bnk", ".wem", ".xml", ".wwu"].includes(ext)) {
-          throw new Error("Invalid file type");
-        }
+    console.log("Generating upload URL for:", pathname);
 
-        const timestamp = Date.now();
-        const randomStr = Math.random().toString(36).substring(2, 8);
-        const uniqueId = `${timestamp}-${randomStr}`;
-
-        const fullPath = `users/${user.username}/files/${uniqueId}-${filename}`;
-
-        console.log("Generated pathname:", fullPath);
-
-        return {
-          allowedContentTypes: [
-            "application/octet-stream",
-            "text/xml",
-            "application/xml",
-            "application/x-binary",
-            "binary/octet-stream",
-            "unknown",
-          ],
-          tokenPayload: JSON.stringify({
-            userId: user.username,
-            timestamp,
-            uniqueId,
-          }),
-          pathname: fullPath,
-          addRandomSuffix: false,
-        };
-      },
-      // Remove onUploadCompleted - it causes a second authenticated request
+    const { url } = await generateUploadUrl({
+      pathname,
+      expires: "15m",
+      contentType: "application/octet-stream",
     });
 
-    return res.json(jsonResponse);
+    return res.json({
+      url,
+      pathname,
+      uniqueId,
+    });
   } catch (error) {
-    console.error("Upload error:", error);
-    return res.status(400).json({ success: false, message: error.message });
+    console.error("Upload URL generation error:", error);
+    return res.status(500).json({ success: false, message: error.message });
   }
 }

@@ -16,11 +16,33 @@ function FileUpload({ onUploadComplete }) {
       const results = [];
 
       for (const file of uploadedFiles) {
-        const blob = await upload(file.name, file, {
-          access: "public",
-          handleUploadUrl: "/api/files/upload-url",
-          clientPayload: JSON.stringify({ originalFilename: file.name }),
+        // Get signed upload URL from our backend
+        const urlResponse = await fetch("/api/files/upload-url", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ filename: file.name }),
         });
+
+        if (!urlResponse.ok) {
+          throw new Error(`Failed to get upload URL for ${file.name}`);
+        }
+
+        const { url, pathname } = await urlResponse.json();
+
+        // Upload directly to Blob Storage using the signed URL
+        const uploadResponse = await fetch(url, {
+          method: "PUT",
+          body: file,
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error(`Upload failed for ${file.name}`);
+        }
+
+        const blob = await uploadResponse.json();
 
         results.push({
           originalName: file.name,
