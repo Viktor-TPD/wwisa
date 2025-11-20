@@ -14,7 +14,7 @@ function DebugTools() {
     }
 
     try {
-      const gameObjID = BigInt(wwiseService.gameObjectID);
+      // const gameObjID = BigInt(wwiseService.gameObjectID);
       console.log("🔍 Checking game object ID:", wwiseService.gameObjectID);
       console.log("📍 Game object position:", { x: 0, y: 0, z: 0 });
       console.log("✅ Game object is registered");

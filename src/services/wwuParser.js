@@ -59,6 +59,8 @@ const wwuParser = {
             case "InitialValue":
               rtpc.defaultValue = parseFloat(value);
               break;
+            default:
+              break;
           }
         });
       }
