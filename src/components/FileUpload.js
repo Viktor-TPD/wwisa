@@ -13,12 +13,21 @@ function FileUpload({ onUploadComplete }) {
     setUploadStatus("Uploading files...");
 
     try {
+      // Get token from localStorage or cookies
+      const token =
+        localStorage.getItem("token") ||
+        document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("token="))
+          ?.split("=")[1];
+
       const results = [];
 
       for (const file of uploadedFiles) {
         const blob = await upload(file.name, file, {
           access: "public",
           handleUploadUrl: "/api/files/upload-url",
+          clientPayload: JSON.stringify({ token }), // Send token here
         });
 
         results.push({

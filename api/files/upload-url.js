@@ -14,17 +14,9 @@ export default async function handler(req, res) {
     return;
   }
 
-  // Authenticate
-  const cookies = {};
-  const cookieHeader = req.headers.cookie;
-  if (cookieHeader) {
-    cookieHeader.split(";").forEach((cookie) => {
-      const [name, value] = cookie.trim().split("=");
-      cookies[name] = value;
-    });
-  }
+  // Get token from request body (sent by client)
+  const token = req.body?.token;
 
-  const token = cookies.token || req.headers.authorization?.split(" ")[1];
   if (!token) {
     return res.status(401).json({ success: false, message: "Access denied" });
   }
@@ -41,13 +33,11 @@ export default async function handler(req, res) {
       body: req.body,
       request: req,
       onBeforeGenerateToken: async (pathname) => {
-        // Validate file type
         const ext = pathname.substring(pathname.lastIndexOf(".")).toLowerCase();
         if (![".bnk", ".wem", ".xml", ".wwu"].includes(ext)) {
           throw new Error("Invalid file type");
         }
 
-        // Generate path with timestamp
         const timestamp = Date.now();
         const filename = pathname.split("/").pop();
 
