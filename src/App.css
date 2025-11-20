@@ -553,3 +553,14 @@ input[type="file"] {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent-green);
 }
+
+@media (max-width: 768px) {
+  .action-controls {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .action-controls button {
+    width: 100%;
+  }
+}

@@ -65,11 +65,11 @@ class WwiseAudioWorkletProcessor extends AudioWorkletProcessor {
     var buffersReady = ringBufferState[this._options.fields.BUFFERS_READY];
 
     // Log every 100 frames (~2 seconds at 48kHz)
-    if (this._frameCount % 100 === 0) {
-      console.log(
-        `🔊 [WORKLET] Frame ${this._frameCount}: BuffersReady=${buffersReady}`
-      );
-    }
+    // if (this._frameCount % 100 === 0) {
+    //   console.log(
+    //     `🔊 [WORKLET] Frame ${this._frameCount}: BuffersReady=${buffersReady}`
+    //   );
+    // }
 
     if (buffersReady > 0) {
       const inlen = this._bufferLength;
