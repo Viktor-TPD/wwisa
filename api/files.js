@@ -31,7 +31,7 @@ export default async function handler(req, res) {
   }
 
   // Authenticate
-  const token = req.cookies?.token || req.headers.authorization?.split(" ")[1];
+  const token = cookies.token || req.headers.authorization?.split(" ")[1];
   if (!token) {
     return res.status(401).json({
       success: false,
